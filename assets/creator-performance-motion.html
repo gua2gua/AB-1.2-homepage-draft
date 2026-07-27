@@ -1,0 +1,712 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>Actionbook — Creator performance report</title>
+<style>
+  :root {
+    color-scheme:light;
+    --canvas:#fafafa;
+    --surface:#ffffff;
+    --muted-surface:#f4f4f5;
+    --ink:#18181b;
+    --secondary:#52525b;
+    --muted:#71717a;
+    --line:rgba(24,24,27,.09);
+    --violet:#7c3aed;
+    --violet-soft:#f5f3ff;
+    --violet-line:rgba(124,58,237,.20);
+    --success:#16845b;
+    --warning:#9a6700;
+  }
+  * { box-sizing:border-box; }
+  html,body { width:100%; height:100%; margin:0; overflow:hidden; }
+  body {
+    display:grid;
+    place-items:center;
+    background:var(--canvas);
+    color:var(--ink);
+    font-family:Geist,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  button { font:inherit; }
+  .mono { font-family:"Geist Mono","SFMono-Regular",Consolas,monospace; }
+  .viewport { width:100vw; height:100vh; display:grid; place-items:center; overflow:hidden; }
+  .stage {
+    position:relative;
+    width:760px;
+    height:440px;
+    overflow:hidden;
+    border:1px solid rgba(24,24,27,.10);
+    border-radius:22px;
+    background:#f5f5f4;
+    box-shadow:0 32px 80px rgba(15,23,42,.15),0 4px 14px rgba(15,23,42,.07);
+    transform-origin:center;
+  }
+  .work-area {
+    position:absolute;
+    inset:0 0 44px;
+    display:grid;
+    grid-template-columns:456px 304px;
+  }
+
+  /* Persistent browser: the same signed-in workspace stays on screen. */
+  .browser {
+    position:relative;
+    overflow:hidden;
+    background:#f7f7f5;
+    border-right:1px solid rgba(24,24,27,.12);
+  }
+  .working-banner {
+    height:24px;
+    display:flex;
+    align-items:center;
+    gap:7px;
+    padding:0 10px;
+    background:#f1edff;
+    border-bottom:1px solid #e5defd;
+    color:#504268;
+    font-size:8px;
+  }
+  .working-mark {
+    width:12px;
+    height:12px;
+    display:grid;
+    place-items:center;
+    border:1px solid #8b7ca5;
+    border-radius:50%;
+    font-size:7px;
+    font-weight:700;
+  }
+  .working-banner b { color:#342943; font-weight:650; }
+  .stop-run {
+    margin-left:auto;
+    padding:2px 7px;
+    border:1px solid rgba(80,66,104,.24);
+    border-radius:5px;
+    background:#fff;
+    color:#504268;
+    font-size:7px;
+  }
+  .browser-chrome {
+    height:40px;
+    display:grid;
+    grid-template-columns:50px 1fr 16px;
+    align-items:center;
+    gap:7px;
+    padding:0 9px;
+    background:#fff;
+    border-bottom:1px solid var(--line);
+  }
+  .nav-icons { display:flex; gap:8px; color:#8a8d92; font-size:11px; }
+  .address {
+    height:25px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    padding:0 10px;
+    border:1px solid rgba(24,24,27,.07);
+    border-radius:999px;
+    background:#f4f4f5;
+    color:#76797e;
+    font-size:7.5px;
+  }
+  .lock {
+    width:6px;
+    height:6px;
+    border:1px solid #777b80;
+    border-radius:2px;
+    position:relative;
+  }
+  .lock::before {
+    content:"";
+    position:absolute;
+    left:1px;
+    top:-5px;
+    width:2px;
+    height:4px;
+    border:1px solid #777b80;
+    border-bottom:0;
+    border-radius:3px 3px 0 0;
+  }
+  .page-stack { position:absolute; inset:64px 0 0; overflow:hidden; }
+  .page {
+    position:absolute;
+    inset:0;
+    padding:14px 18px;
+    opacity:0;
+    transform:translateY(7px);
+    filter:blur(1px);
+    will-change:opacity,transform,filter;
+  }
+  .page-head { display:flex; align-items:flex-end; justify-content:space-between; }
+  .eyebrow { color:#82858a; font-size:7px; letter-spacing:.12em; text-transform:uppercase; }
+  .page-title { margin-top:3px; font-size:14px; font-weight:650; letter-spacing:-.025em; }
+  .private-chip {
+    display:flex;
+    align-items:center;
+    gap:4px;
+    padding:4px 7px;
+    border:1px solid var(--violet-line);
+    border-radius:999px;
+    background:var(--violet-soft);
+    color:#6d28d9;
+    font-size:6.3px;
+  }
+  .surface {
+    border:1px solid rgba(24,24,27,.08);
+    border-radius:10px;
+    background:#fff;
+    box-shadow:0 1px 2px rgba(15,23,42,.025);
+  }
+
+  /* Three source-faithful creator dashboards: video, newsletter, acquisition. */
+  .dashboard-shell {
+    display:grid;
+    grid-template-columns:68px 1fr;
+    height:100%;
+    margin:-14px -18px;
+    background:#fff;
+  }
+  .dash-rail {
+    padding:13px 8px;
+    border-right:1px solid var(--line);
+    color:#74777c;
+    font-size:6px;
+  }
+  .dash-rail b { display:block; margin-bottom:13px; color:#2f3236; font-size:7.5px; }
+  .dash-rail span { display:block; padding:5px 4px; border-radius:4px; }
+  .dash-rail .selected { background:#f0f0f1; color:#272a2e; font-weight:650; }
+  .dash-main { padding:13px 15px; overflow:hidden; }
+  .dash-tabs { display:flex; gap:14px; margin-top:9px; border-bottom:1px solid var(--line); color:#777a7f; font-size:6px; }
+  .dash-tabs span { padding-bottom:6px; }
+  .dash-tabs .selected { color:#24272b; border-bottom:2px solid #24272b; font-weight:650; }
+  .metric-grid { display:grid; grid-template-columns:repeat(3,1fr); margin-top:10px; border:1px solid var(--line); border-radius:8px; }
+  .metric { min-height:53px; padding:9px; border-right:1px solid var(--line); }
+  .metric:last-child { border-right:0; }
+  .metric-label { color:#777a7f; font-size:6.2px; }
+  .metric-value { margin-top:5px; font-size:14px; font-weight:675; letter-spacing:-.035em; }
+  .metric-note { margin-top:2px; color:#16845b; font-size:5.6px; }
+  .studio-lower { display:grid; grid-template-columns:1.4fr .8fr; gap:8px; margin-top:8px; }
+  .line-card,.top-content { padding:8px; height:105px; }
+  .chart-head { display:flex; align-items:center; justify-content:space-between; }
+  .chart-head b { font-size:7px; font-weight:640; }
+  .chart-head span { color:#85888d; font-size:5.5px; }
+  .line-chart { width:100%; height:65px; margin-top:5px; }
+  .line-chart .grid { stroke:#ececef; stroke-width:1; }
+  .line-chart .series { fill:none; stroke:#8b5cf6; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; stroke-dasharray:220; stroke-dashoffset:220; }
+  .top-content h4 { margin:0 0 7px; font-size:6.5px; }
+  .content-row { display:grid; grid-template-columns:1fr auto; gap:5px; padding:5px 0; border-top:1px solid var(--line); font-size:5.7px; }
+  .content-row span { color:#73767b; }
+  .content-row b { font-weight:650; }
+
+  .source-view {
+    position:absolute;
+    inset:0;
+    padding:12px 14px;
+    background:#fff;
+    opacity:0;
+    transform:translateY(6px);
+    filter:blur(1px);
+  }
+  .source-view-head { display:flex; align-items:flex-start; justify-content:space-between; }
+  .source-name { color:#73767b; font-size:6px; letter-spacing:.08em; text-transform:uppercase; }
+  .source-view h3 { margin:3px 0 0; font-size:12px; letter-spacing:-.025em; }
+  .source-state { display:flex; align-items:center; gap:4px; color:#6d28d9; font-size:5.8px; }
+  .source-state::before { content:""; width:5px; height:5px; border-radius:50%; background:var(--violet); }
+  .mini-tabs { display:flex; gap:13px; margin-top:8px; border-bottom:1px solid var(--line); color:#777a7f; font-size:5.8px; }
+  .mini-tabs span { padding-bottom:5px; }
+  .mini-tabs .selected { color:#26292d; border-bottom:2px solid #26292d; font-weight:650; }
+  .source-summary { display:grid; grid-template-columns:repeat(3,1fr); margin-top:9px; border:1px solid var(--line); border-radius:7px; }
+  .summary-cell { padding:7px 8px; border-right:1px solid var(--line); }
+  .summary-cell:last-child { border-right:0; }
+  .summary-cell span { display:block; color:#777a7f; font-size:5.5px; }
+  .summary-cell b { display:block; margin-top:4px; font-size:10px; letter-spacing:-.025em; }
+  .source-table { width:100%; margin-top:8px; overflow:hidden; border:1px solid var(--line); border-radius:7px; }
+  .source-table table { table-layout:auto; }
+  .source-table th { height:22px; padding:0 7px; font-size:5.2px; }
+  .source-table td { height:25px; padding:0 7px; font-size:5.6px; }
+  .source-table td:not(:first-child),.source-table th:not(:first-child) { text-align:right; white-space:nowrap; }
+  .source-table td:first-child { max-width:120px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .read-focus { color:#6d28d9!important; font-weight:680; background:#faf8ff; }
+  .analytics-title-row { display:flex; align-items:flex-end; justify-content:space-between; margin-top:7px; }
+  .analytics-title-row b { font-size:7px; }
+  .analytics-title-row span { color:#777a7f; font-size:5.4px; }
+  .cursor {
+    position:absolute;
+    left:220px;
+    top:137px;
+    width:8px;
+    height:11px;
+    background:#222;
+    clip-path:polygon(0 0,100% 72%,56% 74%,42% 100%);
+    opacity:0;
+    will-change:transform,opacity;
+  }
+
+  /* Metric normalization and finding */
+  .normalize-head { display:flex; align-items:flex-end; justify-content:space-between; }
+  .source-count { color:#6d28d9; font-size:6px; }
+  .map-table { margin-top:11px; overflow:hidden; }
+  table { width:100%; border-collapse:collapse; table-layout:fixed; }
+  th {
+    height:26px;
+    padding:0 9px;
+    background:#fafafa;
+    color:#7b7e83;
+    font-size:5.8px;
+    font-weight:580;
+    text-align:left;
+  }
+  td {
+    height:30px;
+    padding:0 9px;
+    border-top:1px solid rgba(24,24,27,.06);
+    color:#686b70;
+    font-size:6.4px;
+  }
+  td:first-child { color:#33363a; font-weight:620; }
+  .mapped { color:#6d28d9; }
+  .finding {
+    margin-top:9px;
+    padding:10px 11px;
+    border:1px solid var(--violet-line);
+    border-radius:9px;
+    background:linear-gradient(135deg,#fff 0%,#faf8ff 100%);
+  }
+  .finding-label { color:#6d28d9; font-size:6px; letter-spacing:.1em; text-transform:uppercase; }
+  .finding strong { display:block; margin-top:5px; font-size:9px; line-height:1.35; letter-spacing:-.015em; }
+  .finding p { margin:4px 0 0; color:#6d6870; font-size:6.3px; line-height:1.45; }
+
+  /* Final report */
+  .report-head { display:flex; align-items:flex-start; justify-content:space-between; }
+  .done-chip {
+    display:flex;
+    align-items:center;
+    gap:4px;
+    padding:4px 7px;
+    border-radius:999px;
+    background:#effaf5;
+    color:var(--success);
+    font-size:6px;
+  }
+  .report-grid { display:grid; grid-template-columns:1.2fr .8fr; gap:8px; margin-top:10px; }
+  .insight-card { padding:12px; min-height:152px; }
+  .insight-kicker { color:#6d28d9; font-size:6px; text-transform:uppercase; letter-spacing:.11em; }
+  .insight-card h3 { margin:7px 0 0; font-size:12px; line-height:1.25; letter-spacing:-.025em; }
+  .insight-card p { margin:7px 0 0; color:#65686d; font-size:6.5px; line-height:1.5; }
+  .evidence-row { display:flex; gap:5px; margin-top:10px; flex-wrap:wrap; }
+  .evidence {
+    padding:4px 6px;
+    border:1px solid var(--line);
+    border-radius:6px;
+    color:#6f7277;
+    font-size:5.8px;
+    background:#fafafa;
+  }
+  .file-stack { display:grid; gap:7px; }
+  .file-card { padding:10px; min-height:72px; }
+  .file-type { color:#6d28d9; font-size:6px; font-weight:660; }
+  .file-name { margin-top:5px; font-size:7px; font-weight:630; overflow-wrap:anywhere; }
+  .file-meta { margin-top:4px; color:#85888d; font-size:5.8px; line-height:1.35; }
+
+  /* Actionbook side panel — shared component geometry with the other hero scenes. */
+  .panel { position:relative; background:#fbfbfb; overflow:hidden; }
+  .panel-brand {
+    height:35px; display:flex; align-items:center; gap:7px; padding:0 10px;
+    border-bottom:1px solid var(--line); background:#fff; font-size:9px; font-weight:660;
+  }
+  .brand-mark { width:14px; height:14px; object-fit:contain; }
+  .panel-actions { margin-left:auto; color:#8b8d92; font-size:11px; }
+  .taskbar {
+    height:35px; display:flex; align-items:center; gap:7px; padding:0 10px;
+    border-bottom:1px solid var(--line); background:#fff;
+  }
+  .task-dot { width:6px; height:6px; border-radius:50%; background:var(--violet); box-shadow:0 0 0 3px #ede9fe; }
+  .task-title { font-size:8px; font-weight:620; }
+  .safe-chip { margin-left:auto; padding:3px 5px; border:1px solid var(--line); border-radius:5px; color:#6f7277; font-size:6px; }
+  .transcript { position:absolute; inset:70px 0 76px; overflow:hidden; padding:9px 11px; }
+  .prompt {
+    margin-left:23px; padding:8px 9px; border:1px solid var(--line);
+    border-radius:10px 10px 3px 10px; background:#fff; color:#3e4246;
+    font-size:7.3px; line-height:1.4; opacity:0; transform:translateY(6px);
+  }
+  .timeline { position:relative; margin-top:9px; }
+  .step {
+    position:relative; display:grid; grid-template-columns:17px 1fr; gap:7px;
+    min-height:35px; opacity:0; transform:translateY(6px);
+  }
+  #step-one::after,#step-two::after {
+    content:""; position:absolute; left:8px; top:17px; bottom:0; width:1px; background:#dedee2;
+  }
+  .step-icon {
+    position:relative; z-index:1; width:17px; height:17px; display:grid; place-items:center;
+    border:1px solid #dadade; border-radius:50%; background:#fff; color:#6c7075; font-size:7px;
+  }
+  .step.is-active .step-icon { border-color:#c4b5fd; background:var(--violet-soft); color:#6d28d9; }
+  .step.is-done .step-icon { border-color:#b9e3d0; background:#ecfdf5; color:#13714f; }
+  .step-copy b { display:block; padding-top:1px; color:#292a2e; font-size:7.4px; font-weight:650; line-height:1.25; }
+  .step-copy span { display:block; margin-top:2px; color:#7a7d82; font-size:6.4px; line-height:1.28; }
+  .progress,.completion {
+    margin:1px 0 0 24px; padding:7px 8px; border-radius:8px; background:#fff;
+    font-size:6px; line-height:1.45; opacity:0; transform:translateY(6px);
+  }
+  .progress { border:1px solid var(--violet-line); color:#6a6076; }
+  .progress b { color:#493b59; font-size:6.6px; font-weight:630; }
+  .completion { border:1px solid rgba(22,132,91,.18); color:#5d6863; }
+  .completion b { display:block; color:#245f48; font-size:7px; margin-bottom:3px; }
+  .composer {
+    position:absolute; left:10px; right:10px; bottom:8px; height:59px; padding:8px 9px;
+    border:1px solid rgba(24,24,27,.12); border-radius:12px; background:#fff;
+    box-shadow:0 5px 17px rgba(15,23,42,.08);
+  }
+  .composer-text { color:#7d8085; font-size:7.5px; }
+  .composer-tools { display:flex; align-items:center; margin-top:9px; }
+  .page-chip {
+    max-width:155px; padding:4px 6px; border:1px solid var(--line); border-radius:6px;
+    color:#6d7075; font-size:6px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;
+  }
+  .run-state { margin-left:auto; color:#797c81; font-size:6px; }
+  .caption-strip {
+    position:absolute; left:0; right:0; bottom:0; height:44px; display:flex; align-items:center;
+    padding:0 20px; background:#18181b; color:#f4f4f5; overflow:hidden;
+  }
+  .caption {
+    position:absolute; left:20px; right:132px; font-size:12px; font-weight:520;
+    letter-spacing:-.01em; opacity:0; transform:translateY(5px);
+  }
+  .caption .num { margin-right:8px; color:#c4b5fd; font-variant-numeric:tabular-nums; }
+  .source-safety {
+    margin-left:auto; display:flex; align-items:center; gap:6px; padding:5px 8px;
+    border:1px solid rgba(255,255,255,.12); border-radius:999px; color:#d4d4d8;
+    font-size:7px; letter-spacing:.05em; text-transform:uppercase;
+  }
+  .source-safety::before { content:""; width:5px; height:5px; border-radius:50%; background:#a78bfa; }
+  @media (prefers-reduced-motion: reduce) {
+    .page,.caption,.cursor { transition:none!important; animation:none!important; }
+  }
+</style>
+</head>
+<body>
+<div class="viewport">
+  <main class="stage" id="stage" aria-label="Actionbook reads a creator's signed-in analytics, aligns metrics across platforms, and delivers a performance report">
+    <div class="work-area">
+      <section class="browser">
+        <div class="working-banner"><span class="working-mark">i</span><span><b>Actionbook</b> is working in this browser</span><button class="stop-run">Stop</button></div>
+        <div class="browser-chrome"><div class="nav-icons"><span>‹</span><span>›</span><span>↻</span></div><div class="address"><span class="lock"></span><span id="address-text">studio.local/analytics</span></div><div class="nav-icons">⋮</div></div>
+        <div class="page-stack">
+          <article class="page" id="dashboard-page">
+            <div class="dashboard-shell">
+              <nav class="dash-rail"><b>Video Studio</b><span>Dashboard</span><span>Content</span><span class="selected">Analytics</span><span>Comments</span><span>Subtitles</span></nav>
+              <div class="dash-main">
+                <div class="page-head"><div><div class="eyebrow">Channel analytics</div><div class="page-title">Overview</div></div><span class="private-chip mono">SIGNED IN · PRIVATE</span></div>
+                <div class="dash-tabs"><span class="selected">Overview</span><span>Content</span><span>Audience</span><span>Revenue</span></div>
+                <div class="metric-grid">
+                  <div class="metric"><div class="metric-label">Views</div><div class="metric-value">48.2K</div><div class="metric-note">↑ 18%</div></div>
+                  <div class="metric"><div class="metric-label">Watch time (hours)</div><div class="metric-value">1.8K</div><div class="metric-note">↑ 12%</div></div>
+                  <div class="metric"><div class="metric-label">Subscribers</div><div class="metric-value">+352</div><div class="metric-note">↑ 24%</div></div>
+                </div>
+                <div class="studio-lower">
+                  <div class="line-card surface">
+                    <div class="chart-head"><b>Views · last 28 days</b><span>48,204</span></div>
+                    <svg class="line-chart" viewBox="0 0 220 65" aria-hidden="true">
+                      <path class="grid" d="M0 16.5H220M0 33H220M0 49.5H220"></path>
+                      <path class="series" id="studio-series" d="M0 52 C18 50 26 42 42 44 S66 35 82 38 S105 16 121 24 S145 31 160 18 S185 28 220 8"></path>
+                    </svg>
+                  </div>
+                  <div class="top-content surface"><h4>Top content</h4><div class="content-row"><span>Setup tutorial</span><b>22.4K</b></div><div class="content-row"><span>Weekly short #4</span><b>13.8K</b></div><div class="content-row"><span>Workflow demo</span><b>9.1K</b></div></div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="page" id="reading-page">
+            <section class="source-view" id="video-view">
+              <div class="source-view-head"><div><div class="source-name">Video Studio · Analytics</div><h3>Content performance</h3></div><span class="source-state">Signed in</span></div>
+              <div class="mini-tabs"><span>Overview</span><span class="selected">Content</span><span>Audience</span><span>Revenue</span></div>
+              <div class="source-summary"><div class="summary-cell"><span>Views</span><b>48.2K</b></div><div class="summary-cell"><span>Watch time (hours)</span><b>1.8K</b></div><div class="summary-cell"><span>Subscribers</span><b>+352</b></div></div>
+              <div class="source-table"><table><thead><tr><th>Content</th><th>Views</th><th>Watch time</th><th>Subscribers</th></tr></thead><tbody><tr><td>Long-form tutorials</td><td>22.4K</td><td>1.3K hr</td><td class="read-focus">+268</td></tr><tr><td>Short updates</td><td>25.8K</td><td>0.5K hr</td><td class="read-focus">+84</td></tr></tbody></table></div>
+            </section>
+            <section class="source-view" id="newsletter-view">
+              <div class="source-view-head"><div><div class="source-name">Newsletter · Stats</div><h3>Publication overview</h3></div><span class="source-state">Signed in</span></div>
+              <div class="mini-tabs"><span>Home</span><span>Posts</span><span>Subscribers</span><span class="selected">Stats</span></div>
+              <div class="source-summary"><div class="summary-cell"><span>Total subscribers</span><b>5,420</b></div><div class="summary-cell"><span>Paid subscribers</span><b>318</b></div><div class="summary-cell"><span>Gross annualized revenue</span><b>$31.8K</b></div></div>
+              <div class="source-table"><table><thead><tr><th>Post</th><th>Deliveries</th><th>Open rate</th><th>Free subs</th><th>Paid</th></tr></thead><tbody><tr><td>Setup tutorial</td><td>4.9K</td><td>52%</td><td class="read-focus">+146</td><td>+12</td></tr><tr><td>Weekly links</td><td>4.8K</td><td>39%</td><td class="read-focus">+31</td><td>+2</td></tr></tbody></table></div>
+            </section>
+            <section class="source-view" id="analytics-view">
+              <div class="source-view-head"><div><div class="source-name">Web Analytics · Acquisition</div><h3>Traffic acquisition</h3></div><span class="source-state">Signed in</span></div>
+              <div class="analytics-title-row"><b>Session source / medium</b><span>Last 7 days · All users</span></div>
+              <div class="source-table"><table><thead><tr><th>Session source / medium</th><th>Sessions</th><th>Engaged sessions</th><th>Engagement rate</th><th>Key events</th></tr></thead><tbody><tr><td>youtube / video</td><td>1,240</td><td>843</td><td class="read-focus">68%</td><td class="read-focus">94</td></tr><tr><td>newsletter / email</td><td>684</td><td>506</td><td>74%</td><td>61</td></tr><tr><td>direct / (none)</td><td>522</td><td>251</td><td>48%</td><td>19</td></tr><tr><td>social / short</td><td>396</td><td>166</td><td>42%</td><td>12</td></tr></tbody></table></div>
+              <div class="analytics-title-row"><span>Primary dimension preserves the original attribution field.</span><span class="mono">4 ROWS READ</span></div>
+            </section>
+            <span class="cursor" id="cursor"></span>
+          </article>
+
+          <article class="page" id="normalize-page">
+            <div class="normalize-head"><div><div class="eyebrow">Metric map</div><div class="page-title">Keep each platform's definition intact</div></div><span class="source-count mono">3 SOURCES · ALIGNED</span></div>
+            <div class="map-table surface">
+              <table>
+                <thead><tr><th>Source</th><th>Dimension</th><th>Primary metric</th><th>Conversion signal</th></tr></thead>
+                <tbody>
+                  <tr class="map-row"><td>Video Studio</td><td>Content format</td><td class="mapped">Views · watch time</td><td class="mapped">Subscribers gained</td></tr>
+                  <tr class="map-row"><td>Newsletter</td><td>Post</td><td class="mapped">Deliveries · open rate</td><td class="mapped">Free / paid subs</td></tr>
+                  <tr class="map-row"><td>Web Analytics</td><td>Session source / medium</td><td class="mapped">Sessions · engagement</td><td class="mapped">Key events</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="finding" id="finding">
+              <div class="finding-label mono">Grounded finding</div>
+              <strong>Long-form tutorials gained 3.2× more video subscribers than short updates.</strong>
+              <p>+268 vs +84 subscribers; tutorial-led traffic also recorded 94 key events. Source fields stay attached.</p>
+            </div>
+          </article>
+
+          <article class="page" id="report-page">
+            <div class="report-head"><div><div class="eyebrow">Finished artifact</div><div class="page-title">Creator performance report</div></div><span class="done-chip">✓ Ready</span></div>
+            <div class="report-grid">
+              <div class="insight-card surface">
+                <div class="insight-kicker mono">What actually grew the audience</div>
+                <h3>Tutorials converted better than short updates.</h3>
+                <p>They generated fewer views, but 3.2× more video subscribers. Newsletter post stats and attributed key events point in the same direction.</p>
+                <div class="evidence-row"><span class="evidence">Video Studio · +268</span><span class="evidence">Newsletter · +158</span><span class="evidence">Web Analytics · 94</span></div>
+              </div>
+              <div class="file-stack">
+                <div class="file-card surface"><div class="file-type mono">REPORT</div><div class="file-name">creator-performance-report.md</div><div class="file-meta">Finding, evidence, and next focus</div></div>
+                <div class="file-card surface"><div class="file-type mono">RAW DATA</div><div class="file-name">raw-metrics.csv</div><div class="file-meta">3 signed-in sources · aligned fields</div></div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <aside class="panel">
+        <header class="panel-brand"><img class="brand-mark" src="actionbook-logo.svg" alt=""><span>Actionbook</span><span class="panel-actions">⌖ &nbsp; ×</span></header>
+        <div class="taskbar"><span class="task-dot"></span><span class="task-title" id="task-title">Understand this week's growth</span><span class="safe-chip mono">READ + WRITE</span></div>
+        <div class="transcript">
+          <div class="prompt" id="prompt">Which content actually grew my audience this week? Check my signed-in analytics and give me the report with the raw data.</div>
+          <div class="timeline">
+            <div class="step" id="step-one"><span class="step-icon">↗</span><div class="step-copy"><b>Read signed-in dashboards</b><span>Video, newsletter, and acquisition analytics.</span></div></div>
+            <div class="step" id="step-two"><span class="step-icon">≡</span><div class="step-copy"><b>Preserve metric definitions</b><span>Keep source dimensions beside every value.</span></div></div>
+            <div class="step" id="step-three"><span class="step-icon">✓</span><div class="step-copy"><b>Deliver the report</b><span>Finding, evidence, and raw metrics attached.</span></div></div>
+            <div class="progress" id="progress"><b id="progress-title">Opening channel analytics</b><br><span id="progress-note">Using the creator's current signed-in session</span></div>
+            <div class="completion" id="completion"><b>Creator performance report is ready</b><span>2 files · 3 signed-in sources · evidence kept</span></div>
+          </div>
+        </div>
+        <div class="composer"><div class="composer-text">Ask Actionbook to work in this page…</div><div class="composer-tools"><span class="page-chip" id="page-chip">Channel analytics</span><span class="run-state" id="run-state">Reading</span></div></div>
+      </aside>
+    </div>
+    <footer class="caption-strip">
+      <div class="caption"><span class="num mono">1</span>Start from the creator's signed-in dashboard</div>
+      <div class="caption"><span class="num mono">2</span>Read each platform in its native structure</div>
+      <div class="caption"><span class="num mono">3</span>Keep every finding tied to source metrics</div>
+      <div class="caption"><span class="num mono">4</span>Deliver the report and the raw data</div>
+      <span class="source-safety">3 signed-in sources</span>
+    </footer>
+  </main>
+</div>
+<script>
+(function(){
+  "use strict";
+  var DURATION=14;
+  var reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var stage=document.getElementById("stage");
+  var pages=[
+    document.getElementById("dashboard-page"),
+    document.getElementById("reading-page"),
+    document.getElementById("normalize-page"),
+    document.getElementById("report-page")
+  ];
+  var captions=Array.prototype.slice.call(document.querySelectorAll(".caption"));
+  var sourceViews=[
+    document.getElementById("video-view"),
+    document.getElementById("newsletter-view"),
+    document.getElementById("analytics-view")
+  ];
+  var mapRows=Array.prototype.slice.call(document.querySelectorAll(".map-row"));
+  var cursor=document.getElementById("cursor");
+  var addressText=document.getElementById("address-text");
+  var studioSeries=document.getElementById("studio-series");
+  var prompt=document.getElementById("prompt");
+  var steps=[document.getElementById("step-one"),document.getElementById("step-two"),document.getElementById("step-three")];
+  var taskTitle=document.getElementById("task-title");
+  var progress=document.getElementById("progress");
+  var progressTitle=document.getElementById("progress-title");
+  var progressNote=document.getElementById("progress-note");
+  var completion=document.getElementById("completion");
+  var pageChip=document.getElementById("page-chip");
+  var runState=document.getElementById("run-state");
+  var finding=document.getElementById("finding");
+
+  var sources=[
+    {url:"studio.local/analytics/content",progress:"Reading Video Studio",note:"Views, watch time, and subscribers by content",page:"Video Studio · Content"},
+    {url:"newsletter.local/publish/stats",progress:"Reading Newsletter Stats",note:"Posts, open rate, free and paid subscriptions",page:"Newsletter · Stats"},
+    {url:"analytics.local/reports/acquisition",progress:"Reading Traffic acquisition",note:"Session source / medium, engagement, and key events",page:"Web Analytics · Acquisition"}
+  ];
+
+  function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+  function range(t,a,b){return clamp((t-a)/(b-a),0,1);}
+  function expo(t){return t===1?1:1-Math.pow(2,-10*t);}
+  function show(el,p,y){
+    var e=expo(clamp(p,0,1));
+    el.style.opacity=e.toFixed(3);
+    el.style.transform="translateY("+((1-e)*y).toFixed(2)+"px)";
+  }
+  function pageState(el,p){
+    var e=expo(clamp(p,0,1));
+    el.style.opacity=e.toFixed(3);
+    el.style.transform="translateY("+((1-e)*7).toFixed(2)+"px)";
+    el.style.filter="blur("+((1-e)*1).toFixed(2)+"px)";
+    el.style.pointerEvents=e>.9?"auto":"none";
+  }
+  function visibility(t,index){
+    if(index===0) return t<3.34?1:1-range(t,3.08,3.46);
+    if(index===1){
+      if(t<3.04||t>7.66) return 0;
+      return Math.min(range(t,3.04,3.42),1-range(t,7.28,7.68));
+    }
+    if(index===2){
+      if(t<7.24||t>10.78) return 0;
+      return Math.min(range(t,7.24,7.62),1-range(t,10.4,10.8));
+    }
+    return t<10.36?0:range(t,10.36,10.82);
+  }
+  function setStep(stepIndex,t){
+    var icons=["↗","≡","✓"];
+    for(var i=0;i<steps.length;i++){
+      steps[i].classList.toggle("is-done",i<stepIndex);
+      steps[i].classList.toggle("is-active",i===stepIndex);
+      steps[i].querySelector(".step-icon").textContent=i<stepIndex?"✓":icons[i];
+      show(steps[i],range(t,.45+i*.18,.72+i*.18),6);
+    }
+    if(stepIndex>2){
+      for(var j=0;j<steps.length;j++){
+        steps[j].classList.add("is-done");
+        steps[j].classList.remove("is-active");
+        steps[j].querySelector(".step-icon").textContent="✓";
+      }
+    }
+    progress.style.display=stepIndex>2?"none":"block";
+    completion.style.display=stepIndex>2?"block":"none";
+    if(stepIndex<=2) show(progress,range(t,.98,1.28),6);
+    completion.style.opacity=stepIndex>2?expo(range(t,11.35,11.7)).toFixed(3):"0";
+    completion.style.transform="translateY("+((1-expo(range(t,11.35,11.7)))*7).toFixed(2)+"px)";
+  }
+  function render(t){
+    t=clamp(t,0,DURATION-.001);
+    for(var i=0;i<pages.length;i++) pageState(pages[i],visibility(t,i));
+
+    var captionStarts=[0,3.45,7.7,10.85];
+    var captionEnds=[3.35,7.55,10.7,14];
+    for(var c=0;c<captions.length;c++){
+      var cp=t>=captionStarts[c]&&t<captionEnds[c]?Math.min(range(t,captionStarts[c],captionStarts[c]+.22),1-range(t,captionEnds[c]-.22,captionEnds[c])):0;
+      show(captions[c],cp,5);
+    }
+
+    show(prompt,range(t,.08,.42),6);
+    studioSeries.style.strokeDashoffset=(220*(1-expo(range(t,.65,2.15)))).toFixed(1);
+
+    var readLocal=clamp(t-3.34,0,4.15);
+    var sourceIndex=Math.min(2,Math.floor(readLocal/1.3));
+    var source=sources[sourceIndex];
+    for(var view=0;view<sourceViews.length;view++){
+      var center=3.36+view*1.3;
+      var vp=Math.min(range(t,center,center+.24),1-range(t,center+1.08,center+1.3));
+      pageState(sourceViews[view],vp);
+    }
+    addressText.textContent=source.url;
+    progressTitle.textContent=source.progress;
+    progressNote.textContent=source.note;
+    pageChip.textContent=source.page;
+    cursor.style.opacity=t>=3.55&&t<7.22?".86":"0";
+    var cursorX=sourceIndex*12+Math.round((readLocal%1.3)*16);
+    var cursorY=Math.floor((readLocal*1.55)%3)*24;
+    cursor.style.transform="translate("+cursorX+"px,"+cursorY+"px)";
+
+    for(var r=0;r<mapRows.length;r++) show(mapRows[r],range(t,7.72+r*.32,8.08+r*.32),5);
+    show(finding,range(t,9.04,9.55),7);
+
+    var stepIndex=t<7.55?0:t<10.8?1:t<11.35?2:3;
+    setStep(stepIndex,t);
+    taskTitle.textContent=t<3.35?"Understand this week's growth":t<7.55?"Read creator analytics":t<10.8?"Connect the growth path":t<11.35?"Write the creator report":"Creator report ready";
+    runState.textContent=t<7.55?"Reading":t<10.8?"Analyzing":t<11.35?"Writing":"Done";
+    if(t<3.35){
+      progressTitle.textContent="Opening channel analytics";
+      progressNote.textContent="Using the creator's current signed-in session";
+      pageChip.textContent="Channel analytics";
+    } else if(t>=7.55&&t<10.8){
+      progressTitle.textContent="Aligning reach to subscriber growth";
+      progressNote.textContent="Matching definitions across three sources";
+      pageChip.textContent="3 signed-in sources";
+      addressText.textContent="workspace.local/creator/metric-map";
+    } else if(t>=10.8&&t<11.35){
+      progressTitle.textContent="Writing the report and raw data";
+      progressNote.textContent="Keeping the finding tied to all three sources";
+      pageChip.textContent="creator-performance-report.md";
+      addressText.textContent="workspace.local/files/creator-performance-report";
+    } else if(t>=11.35){
+      pageChip.textContent="creator-performance-report.md";
+      addressText.textContent="workspace.local/files/creator-performance-report";
+    }
+
+    document.body.dataset.beat=String(stepIndex+1);
+    document.body.dataset.playing=String(playing);
+  }
+  function fit(){
+    var scale=Math.min(window.innerWidth/760,window.innerHeight/440,1.7);
+    stage.style.position="absolute";
+    stage.style.left="50%";
+    stage.style.top="50%";
+    stage.style.transform="translate(-50%,-50%) scale("+scale+")";
+  }
+  window.addEventListener("resize",fit);
+  fit();
+
+  var time=reduced?DURATION-.35:0;
+  var playing=false;
+  var lastTick=null;
+  function tick(now){
+    if(lastTick===null){
+      lastTick=now;
+      window.__ready=true;
+      render(time);
+      requestAnimationFrame(tick);
+      return;
+    }
+    var dt=(now-lastTick)/1000;
+    lastTick=now;
+    if(playing){
+      time+=dt;
+      if(time>=DURATION) time=window.__recording?DURATION-.001:0;
+      render(time);
+    }
+    requestAnimationFrame(tick);
+  }
+  window.__seek=function(t){time=clamp(Number(t)||0,0,DURATION-.001);lastTick=performance.now();render(time);};
+  window.__pause=function(){playing=false;window.__playing=false;document.body.dataset.playing="false";};
+  window.__play=function(){
+    if(reduced){render(DURATION-.35);return;}
+    playing=true;
+    window.__playing=true;
+    document.body.dataset.playing="true";
+    lastTick=null;
+  };
+  window.__motionDuration=DURATION;
+  window.__reducedMotion=reduced;
+  window.addEventListener("message",function(event){
+    if(event.data==="actionbook:pause") window.__pause();
+    if(event.data==="actionbook:play") window.__play();
+  });
+  document.fonts.ready.then(function(){
+    render(time);
+    playing=!reduced;
+    window.__playing=playing;
+    document.body.dataset.playing=String(playing);
+    document.body.dataset.reducedMotion=String(reduced);
+    requestAnimationFrame(tick);
+  });
+})();
+</script>
+</body>
+</html>

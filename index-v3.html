@@ -1,0 +1,696 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="light" />
+  <title>Actionbook Homepage v3 — Hero + See it finish</title>
+  <link rel="stylesheet" href="homepage-v3.css" />
+</head>
+<body>
+  <div class="concept-flag mono" role="note">V3 · FULL HOMEPAGE · CONCEPT</div>
+
+  <header class="site-header">
+    <nav class="shell nav" aria-label="Main navigation">
+      <a class="logo-link" href="#top" aria-label="Actionbook home">
+        <img src="assets/actionbook-logo.svg" alt="Actionbook" />
+      </a>
+      <div class="nav-links mono">
+        <a href="#scenes">Product</a>
+        <a href="#trust">Solutions</a>
+        <a href="https://actionbook.dev/pricing">Pricing</a>
+      </div>
+      <div class="nav-actions">
+        <a class="button button-compact" href="#scenes">Add to Chrome</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <div class="hero-flow">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="shell hero-inner">
+          <div class="hero-copy">
+            <p class="eyebrow mono"><span></span> Meet your browser coworker</p>
+            <h1 id="hero-title">Open Actionbook.<br />Close out web work.</h1>
+            <p class="hero-lead">
+              Actionbook is an AI agent in your browser. It reads data behind your
+              logins, operates websites you already use, and delivers finished work,
+              not answers.
+            </p>
+            <div class="hero-actions">
+              <a class="button" href="#scenes">Add to Chrome</a>
+              <a class="button button-secondary" href="#scenes">Watch a real run <span aria-hidden="true">↓</span></a>
+            </div>
+            <p class="hero-receipt mono">Chrome extension · Your logins stay on this device</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="scenes" id="scenes" aria-labelledby="scenes-title">
+        <div class="scene-takeover" id="scene-takeover">
+          <div class="scene-grid" aria-hidden="true"></div>
+          <div class="shell scenes-inner">
+            <header class="scenes-heading">
+              <div>
+                <p class="section-index mono">01 · Product proof</p>
+                <h2 id="scenes-title">See it finish.</h2>
+              </div>
+              <p>
+                Three real runs. Each one starts on the open web and ends with work
+                you can use.
+              </p>
+            </header>
+
+            <div class="workbench" id="workbench" data-current="linkedin">
+              <div class="bench-axis bench-axis-x" aria-hidden="true"></div>
+              <div class="bench-axis bench-axis-y" aria-hidden="true"></div>
+
+              <div class="bench-shell">
+                <div class="bench-top mono">
+                  <span>ACTIONBOOK / LIVE RUN</span>
+                  <strong id="bench-title">LinkedIn prospecting</strong>
+                  <span class="bench-state"><i></i> Open → finished</span>
+                </div>
+
+                <div class="bench-screen" id="motion-frame">
+                  <iframe
+                    src="assets/linkedin-prospecting-motion.html?v=4"
+                    title="Actionbook researching LinkedIn prospects and delivering openers.csv"
+                    loading="eager"
+                  ></iframe>
+                </div>
+
+                <div class="bench-bottom">
+                  <div class="scene-switch" role="group" aria-label="Choose a real Actionbook run">
+                    <button class="scene-button active" type="button" data-scene="linkedin" aria-pressed="true">
+                      <span class="scene-number mono">01</span>
+                      <i></i>
+                      <span>LinkedIn prospecting</span>
+                    </button>
+                    <button class="scene-button" type="button" data-scene="monday" aria-pressed="false">
+                      <span class="scene-number mono">02</span>
+                      <i></i>
+                      <span>Monday report</span>
+                    </button>
+                    <button class="scene-button" type="button" data-scene="creator" aria-pressed="false">
+                      <span class="scene-number mono">03</span>
+                      <i></i>
+                      <span>Creator report</span>
+                    </button>
+                  </div>
+
+                  <div class="bench-tools">
+                    <span class="proof-label mono"><i></i> Live product run</span>
+                    <button class="pause-button" type="button" aria-label="Pause the Actionbook demo">
+                      <i aria-hidden="true"></i>
+                      <span class="mono">Pause</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              <aside class="result-slip" aria-live="polite">
+                <div class="result-slip-head">
+                  <span class="mono">RUN COMPLETE / 01</span>
+                  <i aria-hidden="true"></i>
+                </div>
+                <strong id="result-title">5 prospects researched</strong>
+                <small id="result-output">openers.csv · ready to use</small>
+                <div class="result-slip-foot mono"><span>Delivered</span><b aria-hidden="true">↗</b></div>
+              </aside>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <section class="trust" id="trust">
+      <div class="wrap">
+        <div class="trust-head">
+          <p class="section-index mono">02 · Trust &amp; control</p>
+          <h2>Off your plate. Not out of your hands.</h2>
+        </div>
+
+        <div class="principle-sequence" id="proof">
+          <article class="principle-row principle-cowork">
+            <div class="principle-copy">
+              <span class="principle-number mono">01</span>
+              <div><h3 class="mono">SIDE BY SIDE</h3><p>Works in your side panel, on the page you're looking at.</p></div>
+            </div>
+            <div class="principle-visual" tabindex="0" role="img" aria-label="Actionbook working in a side panel beside the current browser page" data-drawing="FIG 2.1">
+              <div class="product-illustration illo-beside" aria-hidden="true">
+                <span class="illo-label illo-label-page mono">OPEN PAGE</span>
+                <span class="illo-label illo-label-agent mono">ACTIONBOOK</span>
+                <div class="beside-page-sheet">
+                  <i class="beside-page-line"></i><i class="beside-page-line"></i><i class="beside-page-line"></i>
+                  <i class="beside-page-block"></i>
+                  <span class="beside-focus-row"></span>
+                </div>
+                <div class="beside-rail"><i></i><i></i><i></i></div>
+                <div class="beside-agent-sheet">
+                  <b class="beside-mark">◇</b>
+                  <span class="beside-agent-line"></span>
+                  <span class="beside-agent-line"></span>
+                  <span class="beside-agent-line"></span>
+                  <div class="beside-input"><span></span><i></i></div>
+                </div>
+                <span class="beside-beam"></span>
+              </div>
+            </div>
+          </article>
+
+          <article class="principle-row principle-yours">
+            <div class="principle-copy">
+              <span class="principle-number mono">02</span>
+              <div><h3 class="mono">YOURS</h3><p>Confirm the big moves. Stop it anytime.</p></div>
+            </div>
+            <div class="principle-visual" tabindex="0" role="img" aria-label="Actionbook work pausing at the user's confirmation gate, with pause and resume available while the run continues" data-drawing="FIG 2.2">
+              <div class="product-illustration control-line-illustration" aria-hidden="true">
+                <span class="illo-label control-line-label mono">YOUR CONTROL LINE</span>
+                <span class="control-line-rail"></span>
+                <div class="control-station control-station-plan">
+                  <small class="mono">01</small><i></i><b class="mono">PLAN READY</b>
+                </div>
+                <div class="control-confirm-gate">
+                  <small class="mono">02 · YOUR DECISION</small>
+                  <span class="control-gate-dial"><i></i></span>
+                  <b class="mono">CONFIRM</b>
+                </div>
+                <div class="control-station control-station-run">
+                  <small class="mono">03</small><i></i><b class="mono">RUNNING</b>
+                </div>
+                <div class="control-station control-station-done">
+                  <small class="mono">04</small><i></i><b class="mono">DONE</b>
+                </div>
+                <span class="control-line-runner"></span>
+                <div class="control-pause">
+                  <i></i><span class="mono">PAUSE / RESUME</span><b class="mono">ANYTIME</b>
+                </div>
+                <span class="control-measure control-measure-left"></span>
+                <span class="control-measure control-measure-right"></span>
+              </div>
+            </div>
+          </article>
+
+          <article class="principle-row principle-sourced">
+            <div class="principle-copy">
+              <span class="principle-number mono">03</span>
+              <div><h3 class="mono">SOURCED</h3><p>Every fact links to the page it came from, so the result holds up.</p></div>
+            </div>
+            <div class="principle-visual" tabindex="0" role="img" aria-label="Actionbook result with page-reading steps and linked source references" data-drawing="FIG 2.3">
+              <div class="product-illustration folio-illustration" aria-hidden="true">
+                <span class="illo-label folio-label mono">REAL SITE DATA</span>
+                <div class="folio-stage">
+                  <div class="folio-sheet folio-sheet-one folio-sheet-web">
+                    <small class="mono">01 · WEB</small>
+                    <span class="folio-web-chrome"><i></i><i></i><i></i></span>
+                    <span class="folio-web-hero"></span>
+                    <span class="folio-web-line"></span>
+                    <b></b>
+                  </div>
+                  <div class="folio-sheet folio-sheet-two folio-sheet-table">
+                    <small class="mono">02 · DATA</small>
+                    <span class="folio-table-grid"><i></i><i></i><i></i><i></i><i></i><i></i></span>
+                    <b></b>
+                  </div>
+                  <div class="folio-sheet folio-sheet-three folio-sheet-doc">
+                    <small class="mono">03 · DOC</small>
+                    <span class="folio-doc-glyph"></span>
+                    <span class="folio-doc-line folio-doc-line-one"></span>
+                    <span class="folio-doc-line folio-doc-line-two"></span>
+                    <span class="folio-doc-line folio-doc-line-three"></span>
+                    <b></b>
+                  </div>
+                </div>
+                <svg class="folio-links" viewBox="0 0 560 180" preserveAspectRatio="none">
+                  <path d="M212 61 C294 61 315 74 382 87"></path>
+                  <path d="M280 54 C326 54 345 70 382 87"></path>
+                  <path d="M348 61 C365 66 373 76 382 87"></path>
+                </svg>
+                <span class="join-mark join-mark-sourced"><i>⋈</i><b class="mono">SOURCES JOIN</b></span>
+                <div class="folio-register"><i></i><span>↗</span></div>
+                <span class="folio-axis folio-axis-x"></span>
+                <span class="folio-axis folio-axis-y"></span>
+                <span class="folio-caption mono">OPEN ORIGINAL / TRACE SOURCE</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="principle-row principle-faster">
+            <div class="principle-copy">
+              <span class="principle-number mono">04</span>
+              <div><h3 class="mono">FASTER NEXT TIME</h3><p>Finished runs become your Recipes. Run the same work again in one click.</p></div>
+            </div>
+            <div class="principle-visual principle-visual-faster" tabindex="0" role="img" aria-label="A completed Actionbook route being pressed into your reusable Recipe, then rapidly completing and stacking repeated runs" data-drawing="FIG 2.4">
+              <div class="product-illustration recipe-press-illustration" aria-hidden="true">
+                <span class="illo-label press-origin-label mono">FINISHED ROUTE</span>
+                <svg class="press-input" viewBox="0 0 174 88" preserveAspectRatio="none">
+                  <path d="M4 68 C18 22 34 76 49 33 C63 3 78 78 96 44 C114 12 126 68 142 54 C156 42 162 72 170 64"></path>
+                </svg>
+                <span class="press-intake"></span>
+                <div class="press-die">
+                  <span class="press-plunger"></span>
+                  <div class="press-plate"><i>◇</i><b class="mono">RECIPE</b></div>
+                  <span class="press-bed"></span>
+                </div>
+                <div class="press-output">
+                  <div class="press-copy press-copy-one">
+                    <ol class="press-bullets"><li><i></i><span></span></li><li><i></i><span></span></li><li><i></i><span></span></li><li><i></i><span></span></li></ol>
+                  </div>
+                  <div class="press-copy press-copy-two">
+                    <ol class="press-bullets"><li><i></i><span></span></li><li><i></i><span></span></li><li><i></i><span></span></li><li><i></i><span></span></li></ol>
+                  </div>
+                  <div class="press-copy press-copy-three">
+                    <ol class="press-bullets"><li><i></i><span></span></li><li><i></i><span></span></li><li><i></i><span></span></li><li><i></i><span></span></li></ol>
+                  </div>
+                </div>
+                <span class="illo-label press-output-label mono">YOUR RECIPE / NEXT RUNS</span>
+                <span class="press-transfer"></span>
+                <span class="press-imprint">◇</span>
+                <div class="press-stats">
+                  <div class="press-stat press-stat-speed"><b>10×</b><span class="mono">FASTER</span></div>
+                  <div class="press-stat press-stat-tokens"><b>−87%</b><span class="mono">TOKENS</span><i class="press-token-meter"><em></em></i></div>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="roles" id="roles">
+      <div class="wrap">
+        <div class="roles-head">
+          <div>
+            <p class="section-index mono">03 · For your work</p>
+            <h2>What can it close out for me?</h2>
+          </div>
+          <p>One real task. One finished artifact.</p>
+        </div>
+
+        <div class="role-board" data-active-role="sales">
+          <div class="role-list" role="tablist" aria-label="Choose your role">
+            <button class="role-item active" type="button" role="tab" id="role-tab-sales" aria-controls="role-scene-sales" aria-selected="true" data-role="sales">
+              <span class="role-number mono">01</span>
+              <span class="role-name"><b>Sales</b><small>Prospect research</small></span>
+              <span class="role-arrow" aria-hidden="true">↗</span>
+            </button>
+            <button class="role-item" type="button" role="tab" id="role-tab-marketing" aria-controls="role-scene-marketing" aria-selected="false" data-role="marketing" tabindex="-1">
+              <span class="role-number mono">02</span>
+              <span class="role-name"><b>Marketing</b><small>Buyer signals</small></span>
+              <span class="role-arrow" aria-hidden="true">↗</span>
+            </button>
+            <button class="role-item" type="button" role="tab" id="role-tab-product" aria-controls="role-scene-product" aria-selected="false" data-role="product" tabindex="-1">
+              <span class="role-number mono">03</span>
+              <span class="role-name"><b>Product</b><small>Idea validation</small></span>
+              <span class="role-arrow" aria-hidden="true">↗</span>
+            </button>
+            <button class="role-item" type="button" role="tab" id="role-tab-creator" aria-controls="role-scene-creator" aria-selected="false" data-role="creator" tabindex="-1">
+              <span class="role-number mono">04</span>
+              <span class="role-name"><b>Creator</b><small>Account audit</small></span>
+              <span class="role-arrow" aria-hidden="true">↗</span>
+            </button>
+          </div>
+
+          <div class="role-stage">
+            <article class="role-scene active" id="role-scene-sales" role="tabpanel" aria-labelledby="role-tab-sales" data-role-scene="sales">
+              <header class="role-scene-head">
+                <div>
+                  <p class="role-kicker mono">Sales · LinkedIn prospecting</p>
+                  <h3>Open with something real.</h3>
+                </div>
+                <a class="role-link mono" href="https://actionbook.dev/use-cases/linkedin-prospecting">View use case <span aria-hidden="true">↗</span></a>
+              </header>
+              <div class="role-proof role-proof-sales role-illo" role="img" aria-label="Actionbook reads a prospect’s real LinkedIn activity and delivers a grounded opener without sending it">
+                <span class="role-illo-label role-illo-label-left mono">LOGGED-IN LINKEDIN</span>
+                <div class="role-sales-profile">
+                  <div class="role-sales-profile-head">
+                    <span class="role-avatar">VP</span>
+                    <div><b>VP Engineering</b><small>Series B · Fintech</small></div>
+                    <em class="mono">PROFILE</em>
+                  </div>
+                  <div class="role-sales-activity">
+                    <span class="mono">RECENT ACTIVITY</span>
+                    <p>“Scaling Postgres is less about one heroic migration…”</p>
+                    <small>Posted last week</small>
+                  </div>
+                  <div class="role-sales-observation">
+                    <span class="mono">OBSERVATION → PROBLEM</span>
+                    <b>Operational bottlenecks</b>
+                  </div>
+                </div>
+                <div class="role-sales-panel">
+                  <header><span>◇</span><b class="mono">ACTIONBOOK</b></header>
+                  <ol>
+                    <li><i>✓</i><span>Open profile</span></li>
+                    <li><i>✓</i><span>Read activity</span></li>
+                    <li class="is-active"><i></i><span>Ground the opener</span></li>
+                  </ol>
+                  <div class="role-sales-draft"><span class="mono">DRAFT OPENER</span><i></i><i></i><i></i></div>
+                </div>
+                <span class="role-sales-route"></span>
+                <div class="role-sales-receipt">
+                  <span class="role-file-icon mono">CSV</span>
+                  <div><b>openers.csv</b><small class="mono">5 GROUNDED DRAFTS · NOT SENT</small></div>
+                  <em>↗</em>
+                </div>
+                <span class="role-fig mono">FIG 3.1 · READ → GROUND → HAND BACK</span>
+              </div>
+            </article>
+
+            <article class="role-scene" id="role-scene-marketing" role="tabpanel" aria-labelledby="role-tab-marketing" data-role-scene="marketing" hidden>
+              <header class="role-scene-head">
+                <div>
+                  <p class="role-kicker mono">Marketing · Community leads</p>
+                  <h3>Find buyers already asking.</h3>
+                </div>
+                <a class="role-link mono" href="https://actionbook.dev/use-cases/social-research">View use case <span aria-hidden="true">↗</span></a>
+              </header>
+              <div class="role-proof role-proof-marketing role-illo" role="img" aria-label="Actionbook searches Reddit and X for live buying intent and delivers a linked buyers CSV">
+                <span class="role-illo-label role-illo-label-left mono">LIVE COMMUNITY SIGNALS</span>
+                <div class="role-marketing-signals">
+                  <article class="role-signal-card role-signal-one"><i class="mono">r/</i><div><b>Choosing a CRM</b><span></span></div><em class="mono">BUYING NOW</em></article>
+                  <article class="role-signal-card role-signal-two"><i class="mono">𝕏</i><div><b>Replacing a workflow</b><span></span></div><em class="mono">SWITCHING</em></article>
+                  <article class="role-signal-card role-signal-three"><i class="mono">r/</i><div><b>Comparing options</b><span></span></div><em class="mono">RESEARCHING</em></article>
+                </div>
+                <div class="role-marketing-gate">
+                  <span class="mono">READ INTENT</span>
+                  <i><b>⋈</b></i>
+                </div>
+                <div class="role-marketing-output">
+                  <header>
+                    <span class="role-file-icon mono">CSV</span>
+                    <div><b>buyers.csv</b><small class="mono">SOURCES ATTACHED</small></div>
+                  </header>
+                  <div class="role-marketing-row"><b>Buyer signal</b><span>High</span><em>Open ↗</em></div>
+                  <div class="role-marketing-row"><b>Buyer signal</b><span>High</span><em>Open ↗</em></div>
+                  <div class="role-marketing-row"><b>Buyer signal</b><span>Medium</span><em>Open ↗</em></div>
+                </div>
+                <span class="role-fig mono">FIG 3.2 · FIND · RANK · LINK</span>
+              </div>
+            </article>
+
+            <article class="role-scene" id="role-scene-product" role="tabpanel" aria-labelledby="role-tab-product" data-role-scene="product" hidden>
+              <header class="role-scene-head">
+                <div>
+                  <p class="role-kicker mono">Product · Idea validation</p>
+                  <h3>Validate demand in users’ words.</h3>
+                </div>
+                <a class="role-link mono" href="https://actionbook.dev/use-cases/idea-validation">View use case <span aria-hidden="true">↗</span></a>
+              </header>
+              <div class="role-proof role-proof-product role-illo" role="img" aria-label="Actionbook collects verbatim user quotes, clusters them into evidence, and returns a linked demand verdict">
+                <span class="role-illo-label role-illo-label-left mono">VERBATIM · LINKED</span>
+                <div class="role-product-quotes">
+                  <article><i class="mono">r/</i><p>“I keep stitching this together by hand…”</p><em>↗</em></article>
+                  <article><i class="mono">Y</i><p>“The problem is real. The tools aren’t.”</p><em>↗</em></article>
+                  <article><i class="mono">𝕏</i><p>“Would pay if it worked behind login.”</p><em>↗</em></article>
+                </div>
+                <div class="role-product-clusters">
+                  <header class="mono"><span><i class="role-join-symbol">⋈</i> EVIDENCE MAP</span><b>12 VOICES</b></header>
+                  <div class="role-cluster-row"><i></i><span>Manual workflow</span><b>06</b></div>
+                  <div class="role-cluster-row"><i></i><span>Login wall</span><b>04</b></div>
+                  <div class="role-cluster-row"><i></i><span>Willingness to pay</span><b>02</b></div>
+                </div>
+                <div class="role-product-verdict">
+                  <span class="mono">VERDICT</span>
+                  <h4>Strong problem.<br />Crowded solution.</h4>
+                  <div>
+                    <span><i class="role-file-icon mono">MD</i><b>verdict.md</b></span>
+                    <span><i class="role-file-icon mono">CSV</i><b>quotes.csv</b></span>
+                  </div>
+                </div>
+                <span class="role-fig mono">FIG 3.3 · QUOTES → THEMES → VERDICT</span>
+              </div>
+            </article>
+
+            <article class="role-scene" id="role-scene-creator" role="tabpanel" aria-labelledby="role-tab-creator" data-role-scene="creator" hidden>
+              <header class="role-scene-head">
+                <div>
+                  <p class="role-kicker mono">Creator · Social media audit</p>
+                  <h3>Turn your account into a growth plan.</h3>
+                </div>
+                <a class="role-link mono" href="https://actionbook.dev/use-cases/social-media-audit">View use case <span aria-hidden="true">↗</span></a>
+              </header>
+              <div class="role-proof role-proof-creator role-illo" role="img" aria-label="Actionbook reads a creator’s visible account and private Insights, then returns a prioritized audit">
+                <span class="role-illo-label role-illo-label-left mono">SIGNED-IN ACCOUNT</span>
+                <div class="role-creator-account">
+                  <header>
+                    <span class="role-creator-avatar"></span>
+                    <div><b>@youraccount</b><small>POSTS · REELS · BIO</small></div>
+                  </header>
+                  <div class="role-creator-posts">
+                    <i></i><i class="is-reel"></i><i></i><i></i><i class="is-reel"></i><i></i>
+                  </div>
+                </div>
+                <div class="role-creator-insights">
+                  <header class="mono"><span>INSIGHTS</span><b>90 DAYS</b></header>
+                  <div class="role-creator-bars">
+                    <i style="--bar:32%"></i><i style="--bar:54%"></i><i style="--bar:41%"></i><i class="is-hot" style="--bar:84%"></i><i style="--bar:61%"></i>
+                  </div>
+                  <footer class="mono"><span>REACH BY FORMAT</span><b>REELS</b></footer>
+                </div>
+                <span class="role-creator-route"><i>⋈</i></span>
+                <div class="role-creator-audit">
+                  <header>
+                    <span class="role-file-icon mono">MD</span>
+                    <div><b>account-audit.md</b><small class="mono">FINDING → FIX</small></div>
+                  </header>
+                  <ol>
+                    <li><i>01</i><span>Format mix</span><b>HIGH</b></li>
+                    <li><i>02</i><span>Posting time</span><b>HIGH</b></li>
+                    <li><i>03</i><span>Profile gap</span><b>MED</b></li>
+                  </ol>
+                </div>
+                <span class="role-fig mono">FIG 3.4 · ACCOUNT + INSIGHTS → FIXES</span>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <div class="solo solo-crossflow" tabindex="0">
+          <div class="solo-copy">
+            <div class="solo-identity">
+              <strong>Solo Founder</strong>
+              <span class="mono">CROSS-FUNCTION WORK</span>
+            </div>
+            <h3>When every job is yours.</h3>
+            <p>Actionbook moves one job across research, product, and pricing—and hands back a sourced brief without waiting for a teammate you don’t have.</p>
+            <div class="solo-task mono">
+              <span>OPEN JOB / 01</span>
+              <b>Compare competitor pricing</b>
+            </div>
+          </div>
+
+          <div class="solo-stage" role="img" aria-label="Three competitor pricing pages are opened, read, and compared by Actionbook, producing a sourced competitor pricing brief">
+            <span class="solo-stage-label solo-stage-label-left mono">LIVE PRICING PAGES</span>
+            <span class="solo-stage-label solo-stage-label-right mono">FINISHED ARTIFACT</span>
+
+            <div class="solo-source-stack" aria-hidden="true">
+              <article class="solo-source solo-source-a">
+                <span class="mono">PRODUCT A</span>
+                <i></i><i></i><i></i>
+                <b>Pricing</b>
+              </article>
+              <article class="solo-source solo-source-b">
+                <span class="mono">PRODUCT B</span>
+                <i></i><i></i><i></i>
+                <b>Plans</b>
+              </article>
+              <article class="solo-source solo-source-c">
+                <span class="mono">PRODUCT C</span>
+                <i></i><i></i><i></i>
+                <b>Billing</b>
+              </article>
+            </div>
+
+            <div class="solo-route" aria-hidden="true">
+              <div class="solo-route-line"><i></i></div>
+              <div class="solo-join">
+                <span>⋈</span>
+                <b class="mono">JOIN</b>
+                <small class="mono">PLAN / PRICE / TERMS</small>
+              </div>
+              <ol class="mono">
+                <li><b>01</b><span>OPEN</span></li>
+                <li><b>02</b><span>EXTRACT</span></li>
+                <li><b>03</b><span>COMPARE</span></li>
+              </ol>
+            </div>
+
+            <div class="solo-brief" aria-hidden="true">
+              <header>
+                <span class="role-file-icon mono">MD</span>
+                <div>
+                  <b>competitor-pricing-brief.md</b>
+                  <small class="mono">5 FINDINGS · SOURCES LINKED</small>
+                </div>
+              </header>
+              <div class="solo-brief-row">
+                <span>Entry plans</span><b>$19–$24</b><i>↗</i>
+              </div>
+              <div class="solo-brief-row">
+                <span>Annual discount</span><b>18%</b><i>↗</i>
+              </div>
+              <div class="solo-brief-row">
+                <span>Enterprise</span><b>Custom</b><i>↗</i>
+              </div>
+              <footer class="mono"><i></i> PRICING BRIEF READY</footer>
+            </div>
+
+            <div class="solo-function-rail mono" aria-hidden="true">
+              <span>RESEARCH</span><i></i><span>PRODUCT</span><i></i><span>PRICING</span>
+            </div>
+            <span class="solo-fig mono">FIG 3.5 · ONE JOB / THREE FUNCTIONS / ONE FINISHED BRIEF</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="coda" id="last">
+      <div class="wrap">
+        <div class="coda-head">
+          <div class="coda-before"><h2>Got something open?</h2><p>Add Actionbook to Chrome and hand it the web work already sitting in your tabs. Stay with it when you want to — or come back for the finished work.</p></div>
+          <a class="btn" href="#last">Add to Chrome</a>
+          <div class="good mono">CHROME EXTENSION · LOGINS STAY ON THIS DEVICE · REVIEW THE PLAN · STOP ANY RUN</div>
+        </div>
+
+        <div class="tab-field brand-playground" id="brand-playground">
+          <canvas class="brand-trail" id="brand-trail" aria-hidden="true"></canvas>
+          <div class="brand-grid" aria-hidden="true"></div>
+          <div class="brand-orbit brand-orbit-one" aria-hidden="true"></div>
+          <div class="brand-orbit brand-orbit-two" aria-hidden="true"></div>
+          <div class="brand-wordmark brand-wordmark-outline" aria-hidden="true">actionbook</div>
+          <div class="brand-wordmark brand-wordmark-fill" aria-hidden="true">actionbook</div>
+          <div class="brand-followers" aria-hidden="true"><i></i><i></i><i></i></div>
+          <div class="brand-sheet-index mono" aria-hidden="true">ACTIONBOOK / BRAND STRUCTURE 01</div>
+          <div class="brand-coordinate mono" id="brand-coordinate" aria-hidden="true">X 000 · Y 000</div>
+          <div class="brand-approval mono" aria-hidden="true"><span>✓</span> READY TO RUN</div>
+
+          <button class="brand-particle brand-particle-wide" style="--x:15;--y:24;--r:-4deg" data-x="15" data-y="24" data-follow=".035" type="button">
+            <i>↗</i><span>SOURCED</span><small>facts kept</small>
+          </button>
+          <button class="brand-particle" style="--x:77;--y:21;--r:3deg" data-x="77" data-y="21" data-follow=".06" type="button">
+            <i>◇</i><span>RECIPE</span><small>ready</small>
+          </button>
+          <button class="brand-particle brand-particle-tall" style="--x:12;--y:69;--r:5deg" data-x="12" data-y="69" data-follow=".08" type="button">
+            <i>Ⅱ</i><span>SIDE BY SIDE</span><small>in your browser</small>
+          </button>
+          <button class="brand-particle brand-particle-stat" style="--x:84;--y:66;--r:-5deg" data-x="84" data-y="66" data-follow=".045" type="button">
+            <i>10×</i><span>FASTER</span><small>direct to source</small>
+          </button>
+          <button class="brand-particle brand-particle-dot" style="--x:31;--y:82;--r:-2deg" data-x="31" data-y="82" data-follow=".1" type="button">
+            <i>✓</i><span>YOURS</span><small>you approve</small>
+          </button>
+          <button class="brand-particle brand-particle-dot" style="--x:67;--y:81;--r:4deg" data-x="67" data-y="81" data-follow=".075" type="button">
+            <i>87%</i><span>LESS</span><small>only what matters</small>
+          </button>
+
+          <button class="brand-core" id="brand-core" type="button" aria-pressed="false">
+            <span>AB</span><small class="mono">ACTIONBOOK</small>
+          </button>
+          <p class="brand-play-hint mono"><span>TRACE</span><span>DRAG NOTES</span><span>STAMP TO BUILD</span></p>
+          <div class="brand-signoff mono" aria-hidden="true">OPEN ACTIONBOOK · CLOSE OUT WEB WORK</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap footer-grid">
+      <div><img src="assets/actionbook-logo.svg" alt="Actionbook" /><p style="margin-top:18px;max-width:280px">Open Actionbook. Close out web work.</p></div>
+      <div><h5>Product</h5><a href="#trust">How it works</a><a href="#proof">Why Actionbook</a><a href="#roles">For your work</a><a href="#last">Add to Chrome</a></div>
+      <div><h5>Resources</h5><a href="#">Pricing</a><a href="#">Support</a><a href="#">Privacy</a></div>
+      <div><h5>Good to know</h5><p>Credentials stay local.</p><p>You can stop any run.</p><p class="mono">© 2026 ACTIONBOOK</p></div>
+    </div>
+  </footer>
+
+  <script>
+    (() => {
+      const scenes = {
+        linkedin: {
+          title: "LinkedIn prospecting",
+          frameTitle: "Actionbook researching LinkedIn prospects and delivering openers.csv",
+          src: "assets/linkedin-prospecting-motion.html?v=4",
+          result: "5 prospects researched",
+          artifact: "openers.csv · ready to use",
+          receipt: "RUN COMPLETE / 01"
+        },
+        monday: {
+          title: "Monday report",
+          frameTitle: "Actionbook turning a Monday report into a reusable Recipe and running it again",
+          src: "assets/weekly-report-motion.html?v=4",
+          result: "Monday report prepared",
+          artifact: "report + Recipe · ready to use",
+          receipt: "RUN COMPLETE / 02"
+        },
+        creator: {
+          title: "Creator performance report",
+          frameTitle: "Actionbook reading creator analytics and delivering a sourced performance report",
+          src: "assets/creator-performance-motion.html?v=4",
+          result: "3 signed-in sources read",
+          artifact: "report + raw data · ready to use",
+          receipt: "RUN COMPLETE / 03"
+        }
+      };
+
+      const workbench = document.getElementById("workbench");
+      const motionFrame = document.getElementById("motion-frame");
+      const iframe = motionFrame.querySelector("iframe");
+      const buttons = [...document.querySelectorAll(".scene-button")];
+      const pauseButton = document.querySelector(".pause-button");
+      const pauseLabel = pauseButton.querySelector("span");
+      const benchTitle = document.getElementById("bench-title");
+      const resultSlip = document.querySelector(".result-slip");
+      const resultTitle = document.getElementById("result-title");
+      const resultOutput = document.getElementById("result-output");
+      let current = "linkedin";
+      let paused = false;
+
+      function setPaused(nextPaused) {
+        paused = nextPaused;
+        iframe.contentWindow?.postMessage(paused ? "actionbook:pause" : "actionbook:play", "*");
+        pauseButton.classList.toggle("is-paused", paused);
+        pauseButton.setAttribute("aria-label", paused ? "Play the Actionbook demo" : "Pause the Actionbook demo");
+        pauseLabel.textContent = paused ? "Play" : "Pause";
+      }
+
+      function selectScene(key) {
+        if (!scenes[key] || key === current) return;
+        const scene = scenes[key];
+        current = key;
+        workbench.dataset.current = key;
+        motionFrame.classList.add("is-switching");
+        resultSlip.classList.add("is-switching");
+
+        window.setTimeout(() => {
+          iframe.src = scene.src;
+          iframe.title = scene.frameTitle;
+          benchTitle.textContent = scene.title;
+          resultSlip.querySelector("span").textContent = scene.receipt;
+          resultTitle.textContent = scene.result;
+          resultOutput.textContent = scene.artifact;
+          buttons.forEach((button) => {
+            const active = button.dataset.scene === key;
+            button.classList.toggle("active", active);
+            button.setAttribute("aria-pressed", String(active));
+          });
+          setPaused(false);
+          motionFrame.classList.remove("is-switching");
+          resultSlip.classList.remove("is-switching");
+        }, 180);
+      }
+
+      buttons.forEach((button) => {
+        button.addEventListener("click", () => selectScene(button.dataset.scene));
+      });
+
+      pauseButton.addEventListener("click", () => setPaused(!paused));
+    })();
+  </script>
+  <script src="homepage-v3-takeover.js"></script>
+  <script src="homepage-v3-trust.js"></script>
+  <script src="homepage-v3-roles.js"></script>
+  <script src="homepage-v3-brand.js"></script>
+</body>
+</html>

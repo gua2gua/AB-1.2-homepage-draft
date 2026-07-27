@@ -3,79 +3,80 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Actionbook Beta — Weekly report motion</title>
+<title>Actionbook — Monday report Recipe rerun</title>
 <style>
   :root {
-    --canvas:#ebe9e3; --paper:#fbfbfa; --white:#fff; --ink:#171716;
-    --muted:#777873; --soft:#f3f3f0; --line:#deded9; --green:#16a467;
-    --navy:#072540; --cyan:#38bdf8; --blue:#4b70d6;
+    color-scheme:light;
+    --canvas:#fafafa; --paper:#ffffff; --white:#fff; --ink:#18181b;
+    --muted:#71717a; --soft:#f4f4f5; --line:rgba(24,24,27,.09); --green:#16845b;
+    --violet:#7c3aed; --violet-soft:#f5f3ff;
   }
   * { box-sizing:border-box; }
   html,body { width:100%; height:100%; margin:0; overflow:hidden; }
   body {
     display:grid; place-items:center; background:var(--canvas);
-    color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    color:var(--ink); font-family:Geist,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
     -webkit-font-smoothing:antialiased;
   }
   button { font:inherit; }
   .viewport { width:100vw; height:100vh; display:grid; place-items:center; overflow:hidden; }
   .stage {
     position:relative; width:760px; height:440px; overflow:hidden;
-    border:1px solid rgba(20,20,18,.12); border-radius:22px;
-    background:#d8d7d2; box-shadow:0 34px 90px rgba(42,41,36,.18),0 3px 12px rgba(42,41,36,.10);
+    border:1px solid rgba(24,24,27,.10); border-radius:22px;
+    background:#f5f5f4; box-shadow:0 32px 80px rgba(15,23,42,.15),0 4px 14px rgba(15,23,42,.07);
     transform-origin:center;
   }
   .work-area { position:absolute; inset:0 0 48px 0; display:grid; grid-template-columns:456px 304px; }
-  .browser { position:relative; min-width:0; overflow:hidden; background:#f6f6f3; border-right:1px solid #cfcfca; }
+  .browser { position:relative; min-width:0; overflow:hidden; background:#f7f7f5; border-right:1px solid rgba(24,24,27,.12); }
   .debug-banner {
     height:25px; display:flex; align-items:center; gap:7px; padding:0 10px;
-    background:#e9eef9; border-bottom:1px solid #d8deea; color:#303744; font-size:9px;
+    background:#f1edff; border-bottom:1px solid #e5defd; color:#504268; font-size:9px;
   }
   .debug-banner .info {
-    width:13px; height:13px; display:grid; place-items:center; border:1px solid #7e8796;
+    width:13px; height:13px; display:grid; place-items:center; border:1px solid #8b7ca5;
     border-radius:50%; font-size:8px; font-weight:700;
   }
   .debug-banner b { font-weight:650; }
   .debug-banner .cancel {
-    margin-left:auto; border:1px solid #aeb6c5; border-radius:4px; background:#fff;
-    padding:2px 8px; color:#354052; font-size:8px;
+    margin-left:auto; border:1px solid rgba(80,66,104,.24); border-radius:4px; background:#fff;
+    padding:2px 8px; color:#504268; font-size:8px;
   }
   .browser-chrome {
     height:39px; display:grid; grid-template-columns:58px 1fr 20px; align-items:center; gap:7px;
-    padding:0 9px; background:#f1f1ee; border-bottom:1px solid #d9d9d4;
+    padding:0 9px; background:#fff; border-bottom:1px solid var(--line);
   }
-  .nav-icons { display:flex; gap:8px; align-items:center; color:#858680; font-size:13px; }
+  .nav-icons { display:flex; gap:8px; align-items:center; color:#7a7d82; font-size:13px; }
   .address {
     height:24px; display:flex; align-items:center; padding:0 10px; border-radius:12px;
-    background:#fff; color:#858680; box-shadow:inset 0 0 0 1px #e2e2de; font-size:8.5px;
+    background:#f4f4f5; color:#7a7d82; box-shadow:inset 0 0 0 1px rgba(24,24,27,.07); font-size:8.5px;
   }
-  .browser-page { position:absolute; left:0; right:0; top:64px; bottom:0; overflow:hidden; background:#f8f8f5; }
+  .browser-page { position:absolute; left:0; right:0; top:64px; bottom:0; overflow:hidden; background:#fafafa; }
   .page {
     position:absolute; inset:0; padding:18px 22px 26px; opacity:0; transform:translateY(8px);
     will-change:opacity,transform,filter;
   }
   .page.is-visible { pointer-events:auto; }
   .page-head { display:flex; align-items:flex-end; justify-content:space-between; margin-bottom:15px; }
-  .eyebrow { color:#92938d; font-size:8px; letter-spacing:.08em; text-transform:uppercase; }
+  .eyebrow { color:#85888d; font-size:8px; letter-spacing:.08em; text-transform:uppercase; }
   .page-title { margin-top:3px; font-size:16px; font-weight:650; letter-spacing:-.025em; }
-  .date-chip { padding:5px 8px; border:1px solid var(--line); border-radius:7px; background:#fff; color:#6f706b; font-size:8px; }
+  .date-chip { padding:5px 8px; border:1px solid var(--line); border-radius:7px; background:#fff; color:#6f7277; font-size:8px; }
   .stat-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; }
-  .stat-card { padding:10px; border:1px solid #e2e2de; border-radius:10px; background:#fff; }
-  .stat-label { color:#8a8b85; font-size:7.5px; }
+  .stat-card { padding:10px; border:1px solid #e4e4e7; border-radius:10px; background:#fff; }
+  .stat-label { color:#777a7f; font-size:7.5px; }
   .stat-value { margin-top:6px; font-size:16px; font-weight:650; letter-spacing:-.03em; font-variant-numeric:tabular-nums; }
   .delta { margin-top:2px; color:#2e956d; font-size:7px; }
-  .chart-card { margin-top:10px; padding:11px; border:1px solid #e2e2de; border-radius:10px; background:#fff; }
+  .chart-card { margin-top:10px; padding:11px; border:1px solid #e4e4e7; border-radius:10px; background:#fff; }
   .chart-title { font-size:8.5px; font-weight:600; }
   .bars { height:95px; margin-top:8px; display:flex; align-items:flex-end; gap:8px; border-bottom:1px solid #e9e9e5; }
   .bar { flex:1; height:var(--h); border-radius:3px 3px 0 0; background:#222; transform-origin:bottom; }
-  .bar.muted { background:#b8c0cd; }
+  .bar.muted { background:#d4d4d8; }
   .ads-rows { margin-top:10px; display:grid; gap:7px; }
   .ad-row { display:grid; grid-template-columns:76px 1fr 28px; align-items:center; gap:8px; color:#64655f; font-size:7.5px; }
-  .track { height:7px; border-radius:4px; background:#eeeee9; overflow:hidden; }
+  .track { height:7px; border-radius:4px; background:#ececef; overflow:hidden; }
   .fill { width:var(--w); height:100%; border-radius:inherit; background:#242424; transform-origin:left; }
   .csv-shell { border:1px solid #deded9; border-radius:10px; overflow:hidden; background:#fff; }
   .csv-toolbar { height:34px; display:flex; align-items:center; gap:8px; padding:0 10px; border-bottom:1px solid #e1e1dd; }
-  .csv-icon { width:19px; height:22px; display:grid; place-items:center; border-radius:4px; background:#e8eefc; color:#4168c6; font-size:8px; font-weight:750; }
+  .csv-icon { width:19px; height:22px; display:grid; place-items:center; border-radius:4px; background:#f5f3ff; color:#6d28d9; font-size:8px; font-weight:750; }
   .csv-name { font-size:9px; font-weight:650; }
   .csv-meta { margin-left:auto; color:#8b8c86; font-size:7px; }
   table { width:100%; border-collapse:collapse; font-size:7.5px; }
@@ -86,10 +87,10 @@
   .control-pill {
     position:absolute; z-index:9; left:50%; bottom:15px; transform:translateX(-50%);
     display:flex; align-items:center; gap:7px; padding:7px 13px; border-radius:999px;
-    background:rgba(7,37,64,.94); color:#e0f2fe; font-size:8.5px; font-weight:650;
-    letter-spacing:.01em; white-space:nowrap; box-shadow:0 6px 20px rgba(2,132,199,.35),inset 0 0 0 1px rgba(125,211,252,.55);
+    background:rgba(23,23,23,.94); color:#f5f3ff; font-size:8.5px; font-weight:650;
+    letter-spacing:.01em; white-space:nowrap; box-shadow:0 6px 20px rgba(15,23,42,.24),inset 0 0 0 1px rgba(139,92,246,.42);
   }
-  .control-dot { width:6px; height:6px; border-radius:50%; background:var(--cyan); box-shadow:0 0 7px rgba(56,189,248,.95); }
+  .control-dot { width:6px; height:6px; border-radius:50%; background:#a78bfa; box-shadow:0 0 7px rgba(139,92,246,.78); }
 
   .panel { position:relative; overflow:hidden; background:var(--paper); }
   .panel-brand {
@@ -129,8 +130,8 @@
     min-height:49px; padding:6px 7px; border:1px solid #deded9; border-radius:10px; background:#fff;
     opacity:0; transform:translateY(9px); box-shadow:0 1px 2px rgba(0,0,0,.02);
   }
-  .doc-icon { position:relative; width:27px; height:31px; padding:7px 5px; border:1px solid #cfd8ee; border-radius:6px; background:#edf2ff; }
-  .doc-icon::before,.doc-icon::after { content:""; display:block; height:2px; margin-bottom:4px; border-radius:2px; background:#7f98d3; }
+  .doc-icon { position:relative; width:27px; height:31px; padding:7px 5px; border:1px solid #ddd6fe; border-radius:6px; background:#f5f3ff; }
+  .doc-icon::before,.doc-icon::after { content:""; display:block; height:2px; margin-bottom:4px; border-radius:2px; background:#8b5cf6; }
   .doc-icon::after { width:65%; }
   .file-title { font-size:8.5px; font-weight:700; }
   .file-type { margin-top:2px; color:#898a84; font-size:7.5px; }
@@ -174,24 +175,52 @@
     opacity:.32; transform:scale(.96);
   }
   .send-btn.active { opacity:1; }
+  .transcript .thread { height:100%; }
+  .recipe-flow-card {
+    position:absolute; left:0; right:0; top:0; padding:10px;
+    border:1px solid #dcdcd7; border-radius:11px; background:#fff;
+    box-shadow:0 1px 2px rgba(0,0,0,.02); opacity:0; transform:translateY(8px);
+  }
+  .recipe-label { color:#242424; font-size:8px; font-weight:650; }
+  .recipe-flow-card h3 { margin:8px 0 0; font-size:9.5px; line-height:1.35; }
+  .recipe-section { margin-top:9px; }
+  .recipe-section-title { margin-bottom:4px; color:#858680; font-size:7px; }
+  .recipe-copy { color:#494a46; font-size:7.5px; line-height:1.45; }
+  .recipe-option { padding:6px 7px; border:1px solid #e2e2de; border-radius:7px; color:#4e4f4a; font-size:7px; }
+  .recipe-check { display:flex; gap:5px; margin-top:4px; color:#4e4f4a; font-size:7px; }
+  .recipe-check i { color:var(--violet); font-style:normal; }
+  .recipe-actions { display:flex; gap:5px; margin-top:9px; }
+  .recipe-primary,.recipe-secondary { height:23px; padding:0 8px; border-radius:6px; font-size:7px; font-weight:650; }
+  .recipe-primary { border:1px solid #222; background:#222; color:#fff; }
+  .recipe-secondary { border:1px solid #d8d8d3; background:#fff; color:#555650; }
+  .recipe-badge {
+    margin-left:auto; padding:3px 6px; border:1px solid rgba(124,58,237,.2);
+    border-radius:999px; background:var(--violet-soft); color:var(--violet); font-size:6.5px;
+  }
+  .recipe-title-row { display:flex; align-items:center; }
+  .recipe-steps { display:grid; gap:5px; margin-top:8px; }
+  .recipe-step { display:grid; grid-template-columns:16px 1fr; gap:6px; align-items:center; color:#52534e; font-size:7px; }
+  .recipe-step span:first-child { width:16px; height:16px; display:grid; place-items:center; border:1px solid #deded9; border-radius:50%; color:#858680; }
+  #rerun-log { position:absolute; left:0; right:0; top:0; }
+  .run-flash { position:absolute; inset:0; z-index:8; pointer-events:none; background:#fff; opacity:0; }
   .caption-strip {
     position:absolute; left:0; right:0; bottom:0; height:48px; display:flex; align-items:center;
     padding:0 24px; background:#171817; color:#f4f3ee; overflow:hidden;
   }
   .caption { position:absolute; left:24px; right:24px; font-size:13px; font-weight:520; letter-spacing:-.01em; opacity:0; transform:translateY(5px); }
-  .caption .num { color:#8fd8b7; margin-right:8px; font-variant-numeric:tabular-nums; }
+  .caption .num { color:#a78bfa; margin-right:8px; font-variant-numeric:tabular-nums; }
   .motion { will-change:opacity,transform; }
   @media (prefers-reduced-motion:reduce) { .caret { display:none; } }
 </style>
 </head>
 <body>
 <div class="viewport">
-  <main class="stage" id="stage" aria-label="Actionbook Beta weekly report animation">
+  <main class="stage" id="stage" aria-label="Actionbook turns a Monday report into a reusable Recipe and runs it again">
     <section class="work-area">
       <div class="browser">
         <div class="debug-banner">
           <span class="info">i</span>
-          <span><b>"Actionbook Beta"</b> started debugging this browser</span>
+          <span><b>Actionbook</b> started debugging this browser</span>
           <button class="cancel">Cancel</button>
         </div>
         <div class="browser-chrome">
@@ -266,12 +295,13 @@
           </section>
           <div class="control-pill"><span class="control-dot"></span><span>Actionbook is controlling this page</span></div>
         </div>
+        <div class="run-flash" id="run-flash"></div>
       </div>
 
       <aside class="panel">
         <header class="panel-brand">
           <img class="brand-mark" alt="" src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMjU2IDI1NiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cGF0aCBmaWxsPSIjMEEwQTBBIiBkPSJNMjQwLjc1IDMxLjc1QzI0MC43NSA5NS4xOTI3IDI0MC43NSAxNTguNjM1IDI0MC43NSAyMjRDMjM5Ljc4MiAyMjMuNjEzIDIzOS4yODMgMjIzLjM4OCAyMzguNTE3IDIyMi43NzNDMjM4LjMzNiAyMjIuNjMgMjM4LjE1NSAyMjIuNDg3IDIzNy45NjkgMjIyLjMzOUMyMzcuNzc3IDIyMi4xODYgMjM3LjU4NyAyMjIuMDMyIDIzNy4zOTEgMjIxLjg3NUMyMzYuMDQxIDIyMC44MDcgMjM0LjY5IDIxOS43NTQgMjMzLjI4MSAyMTguNzY2QzIzMS44NiAyMTcuNzY2IDIzMC40NjYgMjE2LjczMyAyMjkuMDc4IDIxNS42ODdDMjI2Ljg0MyAyMTQuMDA1IDIyNC41OTQgMjEyLjM0IDIyMi4zNCAyMTAuNjgzQzIyMS4xNTMgMjA5LjgxMSAyMTkuOTY3IDIwOC45MzYgMjE4Ljc4IDIwOC4wNjJDMjE3Ljc5NSAyMDcuMzM1IDIxNi44MDggMjA2LjYwOSAyMTUuODIyIDIwNS44ODNDMjEzLjU3OSAyMDQuMjM1IDIxMS4zNDUgMjAyLjU3NSAyMDkuMTIxIDIwMC45MDJDMjA3LjEyIDE5OS4zOTkgMjA1LjEwNiAxOTcuOTE0IDIwMy4wODkgMTk2LjQzM0MyMDEuOTAzIDE5NS41NjEgMjAwLjcxNyAxOTQuNjg2IDE5OS41MzEgMTkzLjgxMkMxOTguNTQ0IDE5My4wODUgMTk3LjU1OCAxOTIuMzU5IDE5Ni41NzEgMTkxLjYzM0MxOTQuMzI5IDE4OS45ODUgMTkyLjA5NiAxODguMzI1IDE4OS44NzEgMTg2LjY1MkMxODcuNjc1IDE4NS4wMDMgMTg1LjQ2MyAxODMuMzc2IDE4My4yNSAxODEuNzVDMTgwLjgzIDE3OS45NzIgMTc4LjQxMyAxNzguMTg5IDE3Ni4wMTMgMTc2LjM4NEMxNzQuMTM3IDE3NC45NzQgMTcyLjI0NiAxNzMuNTg1IDE3MC4zNTYgMTcyLjE5NkMxNjkuMTY0IDE3MS4zMTkgMTY3Ljk3MyAxNzAuNDQgMTY2Ljc4MSAxNjkuNTYyQzE2NS43OTUgMTY4LjgzNiAxNjQuODA4IDE2OC4xMDkgMTYzLjgyMiAxNjcuMzg0QzE2MS41NzkgMTY1LjczNSAxNTkuMzQ1IDE2NC4wNzQgMTU3LjEyMSAxNjIuNDAyQzE1NS4xMiAxNjAuOSAxNTMuMTA2IDE1OS40MTUgMTUxLjA4OSAxNTcuOTM0QzE0OS45MDMgMTU3LjA2MSAxNDguNzE3IDE1Ni4xODYgMTQ3LjUzMSAxNTUuMzExQzE0Ni41NDQgMTU0LjU4NiAxNDUuNTU4IDE1My44NTkgMTQ0LjU3MSAxNTMuMTM0QzE0Mi4zMzEgMTUxLjQ4NiAxNDAuMDk5IDE0OS44MjcgMTM3Ljg3NSAxNDguMTU1QzEzNi4wMjkgMTQ2Ljc2OCAxMzQuMTc0IDE0NS4zOTQgMTMyLjMxIDE0NC4wMzJDMTMxLjY1OSAxNDMuNTU2IDEzMS4wMTcgMTQzLjA3MSAxMzAuMzg1IDE0Mi41NjlDMTMwLjE0NSAxNDIuMzgyIDEyOS45MDQgMTQyLjE5MyAxMjkuNjU3IDE0MS45OTlDMTI5LjQ1OCAxNDEuODQgMTI5LjI2MSAxNDEuNjggMTI5LjA1NyAxNDEuNTE2QzEyOC41MTUgMTQxLjE5IDEyOC41MTUgMTQxLjE5IDEyNy45MzQgMTQxLjM1MUMxMjYuOTI5IDE0MS45MzYgMTI2LjA0NiAxNDIuNjQ4IDEyNS4xNDEgMTQzLjM3NUMxMjMuNzcxIDE0NC40NTkgMTIyLjM5OCAxNDUuNTI3IDEyMC45NjkgMTQ2LjUzMkMxMTkuNzM5IDE0Ny4zOTcgMTE4LjUyOSAxNDguMjgyIDExNy4zMjggMTQ5LjE4OEMxMTUuODY2IDE1MC4yODkgMTE0LjM5NyAxNTEuMzgzIDExMi45MjIgMTUyLjQ2OUMxMTIuNzI0IDE1Mi42MTQgMTEyLjUyNiAxNTIuNzYxIDExMi4zMjEgMTUyLjkxMUMxMTEuNTExIDE1My41MDcgMTEwLjcwMSAxNTQuMTAyIDEwOS44OTEgMTU0LjY5OEMxMDcuODM4IDE1Ni4yMDcgMTA1Ljc4NyAxNTcuNzE4IDEwMy43NSAxNTkuMjVDMTAxLjcxMiAxNjAuNzgzIDk5LjY1OTkgMTYyLjI5NCA5Ny42MDU1IDE2My44MDRDOTYuNDEzMyAxNjQuNjgxIDk1LjIyMiAxNjUuNTYgOTQuMDMwNyAxNjYuNDM3QzkzLjA0NTEgMTY3LjE2NCA5Mi4wNTg1IDE2Ny44OTEgOTEuMDcxMyAxNjguNjE2Qzg5LjA0MDEgMTcwLjEwOSA4Ny4wMTUyIDE3MS42MSA4NS4wMDAxIDE3My4xMjVDODIuNTk1MSAxNzQuOTMzIDgwLjE3NDcgMTc2LjcxOSA3Ny43NTAxIDE3OC41Qzc1LjQ5MzcgMTgwLjE1OCA3My4yMzc4IDE4MS44MTcgNzEgMTgzLjVDNjguOTYyNiAxODUuMDMyIDY2LjkxIDE4Ni41NDQgNjQuODU1OSAxODguMDU1QzYzLjY2MzYgMTg4LjkzMiA2Mi40NzIzIDE4OS44MDkgNjEuMjgwOSAxOTAuNjg4QzYwLjI5NDkgMTkxLjQxNSA1OS4zMDg1IDE5Mi4xNDEgNTguMzIxMyAxOTIuODY2QzU2LjI5MDEgMTk0LjM2IDU0LjI2NTIgMTk1Ljg2IDUyLjI1IDE5Ny4zNzVDNTAuMDQwMiAxOTkuMDM2IDQ3LjgxNzcgMjAwLjY3OSA0NS41ODk4IDIwMi4zMTdDNDQuNjAwOCAyMDMuMDQ0IDQzLjYxMyAyMDMuNzcxIDQyLjYyNSAyMDQuNUM0MS40NDA5IDIwNS4zNzIgNDAuMjU2OCAyMDYuMjQ1IDM5LjA3MTMgMjA3LjExNkMzNy4wNDAxIDIwOC42MDkgMzUuMDE1MiAyMTAuMTEgMzMuMDAwMSAyMTEuNjI1QzMwLjU5NTEgMjEzLjQzMyAyOC4xNzQ3IDIxNS4yMTggMjUuNzUwMSAyMTdDMjMuMDkzMSAyMTguOTUzIDIwLjQ0MSAyMjAuOTExIDE3LjgwNTYgMjIyLjg5NEMxNy42NjQ5IDIyMi45OTkgMTcuNTI0MSAyMjMuMTA1IDE3LjM3OSAyMjMuMjEzQzE3LjA1NjUgMjIzLjQ1NyAxNi43MzgyIDIyMy43MDcgMTYuNDIxIDIyMy45NThDMTYgMjI0LjI1IDE2IDIyNC4yNSAxNS41IDIyNC4yNUMxNS41IDE2MC44MDcgMTUuNSA5Ny4zNjUgMTUuNSAzMkMxNi40Njc5IDMyLjM4NzEgMTYuOTY2OCAzMi42MTE2IDE3LjczMzQgMzMuMjI2NkMxNy45MTQ0IDMzLjM2OTkgMTguMDk1MiAzMy41MTMzIDE4LjI4MTYgMzMuNjYxQzE4LjU2NzYgMzMuODkwNyAxOC41Njc2IDMzLjg5MDcgMTguODU5NCAzNC4xMjQ5QzIwLjIwOSAzNS4xOTIyIDIxLjU2MDIgMzYuMjQ2IDIyLjk2ODggMzcuMjM0M0MyNC4zOTAyIDM4LjIzMzkgMjUuNzgzOCAzOS4yNjcxIDI3LjE3MTkgNDAuMzEyNUMyOS40MDcyIDQxLjk5NTQgMzEuNjU1NCA0My42NTk4IDMzLjkxMDMgNDUuMzE2NUMzNS4wOTc1IDQ2LjE4OTEgMzYuMjgzNCA0Ny4wNjM4IDM3LjQ2OTQgNDcuOTM4MUMzOC40NTUzIDQ4LjY2NDcgMzkuNDQxNyA0OS4zOTEgNDAuNDI4NyA1MC4xMTYyQzQyLjY3MTQgNTEuNzY0OCA0NC45MDQzIDUzLjQyNTUgNDcuMTI5MyA1NS4wOThDNDkuMTMwMSA1Ni42MDA2IDUxLjE0MzkgNTguMDg1IDUzLjE2MDMgNTkuNTY2NUM1NC4zNDc1IDYwLjQzOTIgNTUuNTMzMyA2MS4zMTM4IDU2LjcxOTQgNjIuMTg4QzU3LjcwNTQgNjIuOTE0NyA1OC42OTE3IDYzLjY0MDkgNTkuNjc4NyA2NC4zNjYxQzYxLjkyMTQgNjYuMDE0OCA2NC4xNTQ0IDY3LjY3NTUgNjYuMzc5MyA2OS4zNDhDNjguNTc1MSA3MC45OTcxIDcwLjc4NyA3Mi42MjQxIDczLjAwMDEgNzQuMjQ5OUM3NS40MjAxIDc2LjAyODcgNzcuODM3IDc3LjgxMSA4MC4yMzcyIDc5LjYxNjRDODIuMTEzIDgxLjAyNTcgODQuMDAzOSA4Mi40MTQ3IDg1Ljg5NDEgODMuODA0NEM4Ny4wODY2IDg0LjY4MTMgODguMjc3OCA4NS41NTk3IDg5LjQ2OTEgODYuNDM3OUM5MC40NTUyIDg3LjE2NDcgOTEuNDQxNCA4Ny44OTA5IDkyLjQyODggODguNjE2MkM5NC42NzE2IDkwLjI2NDcgOTYuOTA0MiA5MS45MjU5IDk5LjEyOTYgOTMuNTk4MUMxMDEuMTMgOTUuMTAwMyAxMDMuMTQ0IDk2LjU4NTEgMTA1LjE2IDk4LjA2NjJDMTA2LjM0OCA5OC45Mzk0IDEwNy41MzQgOTkuODEzNCAxMDguNzIgMTAwLjY4OEMxMDkuNzA1IDEwMS40MTQgMTEwLjY5MiAxMDIuMTQxIDExMS42NzkgMTAyLjg2NkMxMTMuOTIgMTA0LjUxNCAxMTYuMTUyIDEwNi4xNzMgMTE4LjM3NSAxMDcuODQ1QzEyMS40NzggMTEwLjE3NSAxMjQuNjA1IDExMi40NzQgMTI3Ljc1IDExNC43NUMxMjguNjY1IDExNC4zMzYgMTI5LjQ1NiAxMTMuNzc0IDEzMC4yNjYgMTEzLjE4OEMxMzAuNDE2IDExMy4wNzkgMTMwLjU2OCAxMTIuOTcgMTMwLjcyNCAxMTIuODU4QzEzMy44ODYgMTEwLjU3NiAxMzcuMDEyIDEwOC4yNDUgMTQwLjEyOSAxMDUuOTAzQzE0Mi4zMjUgMTA0LjI1MyAxNDQuNTM3IDEwMi42MjYgMTQ2Ljc1IDEwMUMxNDkuMDA3IDk5LjM0MTcgMTUxLjI2MiA5Ny42ODMyIDE1My41IDk2QzE1NS41MzcgOTQuNDY3NiAxNTcuNTkgOTIuOTU1NCAxNTkuNjQ0IDkxLjQ0NTlDMTYwLjgzNyA5MC41Njg2IDE2Mi4wMjggODkuNjkwMiAxNjMuMjE5IDg4LjgxMkMxNjQuMjA1IDg4LjA4NTMgMTY1LjE5MSA4Ny4zNTkgMTY2LjE3OSA4Ni42MzM3QzE2OC4yMSA4NS4xNDA2IDE3MC4yMzUgODMuNjM5NyAxNzIuMjUgODIuMTI0OUMxNzQuNDYgODAuNDYzOCAxNzYuNjgyIDc4LjgyMDQgMTc4LjkxIDc3LjE4MzRDMTc5Ljg5OSA3Ni40NTY2IDE4MC44ODcgNzUuNzI4MSAxODEuODc1IDc0Ljk5OTlDMTgzLjA1OSA3NC4xMjcxIDE4NC4yNDMgNzMuMjU0NyAxODUuNDI5IDcyLjM4MzhDMTg3LjQ2IDcwLjg5MDYgMTg5LjQ4NSA2OS4zODk4IDE5MS41IDY3Ljg3NUMxOTMuOTA1IDY2LjA2NzIgMTk2LjMyNiA2NC4yODEyIDE5OC43NSA2Mi41QzIwMS4wMDcgNjAuODQxNyAyMDMuMjYyIDU5LjE4MzIgMjA1LjUgNTcuNDk5OUMyMDcuNTM3IDU1Ljk2NzQgMjA5LjU5IDU0LjQ1NTYgMjExLjY0NCA1Mi45NDU1QzIxMi44MzcgNTIuMDY4NiAyMTQuMDI4IDUxLjE5MDIgMjE1LjIxOSA1MC4zMTJDMjE2LjIwNSA0OS41ODUzIDIxNy4xOTEgNDguODU5IDIxOC4xNzkgNDguMTMzN0MyMjAuMjEgNDYuNjQwNiAyMjIuMjM1IDQ1LjEzOTcgMjI0LjI1IDQzLjYyNDlDMjI2LjY1NSA0MS44MTcyIDIyOS4wNzUgNDAuMDMxMiAyMzEuNSAzOC4yNDk5QzIzMi4zMDcgMzcuNjU2NSAyMzMuMTE1IDM3LjA2MjcgMjMzLjkyMiAzNi40Njg3QzIzNC4xMTcgMzYuMzI1NSAyMzQuMzExIDM2LjE4MjUgMjM0LjUxMiAzNi4wMzVDMjM1LjQ4NiAzNS4zMTc3IDIzNi40NTcgMzQuNTk1NCAyMzcuNDIgMzMuODYzM0MyMzcuNjA1IDMzLjcyMzEgMjM3Ljc4OSAzMy41ODMgMjM3Ljk3OSAzMy40Mzg2QzIzOC4zMyAzMy4xNzI5IDIzOC42NzggMzIuOTA2MyAyMzkuMDI1IDMyLjYzODVDMjQwLjE5NSAzMS43NSAyNDAuMTk1IDMxLjc1IDI0MC43NSAzMS43NVpNNDQuNzUgODguMjQ5OUM0NC43NSAxMTMuNzQzIDQ0Ljc1IDEzOS4yMzUgNDQuNzUgMTY1LjVDNDUuNzIxNSAxNjUuMDE0IDQ2LjUwMzkgMTY0LjQ0IDQ3LjM0MzggMTYzLjc2NkM0Ny42NTk1IDE2My41MTQgNDcuOTc1MiAxNjMuMjY0IDQ4LjI5MSAxNjMuMDEzQzQ4LjQ1MTMgMTYyLjg4NiA0OC42MTE1IDE2Mi43NTggNDguNzc2NiAxNjIuNjI3QzQ5LjQ5NDUgMTYyLjA1NSA1MC4yMTU5IDE2MS40ODggNTAuOTM3NSAxNjAuOTIyQzUxLjA3OTIgMTYwLjgxMSA1MS4yMjA3IDE2MC42OTkgNTEuMzY2NiAxNjAuNTg0QzUyLjc2NjkgMTU5LjQ4NCA1NC4xNzM0IDE1OC4zOTMgNTUuNTc5NiAxNTcuM0M1Ny4xNjcgMTU2LjA2NiA1OC43NDkgMTU0LjgyNSA2MC4zMjg2IDE1My41ODJDNjEuMDUyIDE1My4wMTIgNjEuNzc2MSAxNTIuNDQzIDYyLjUgMTUxLjg3NUM2Mi43OTE3IDE1MS42NDYgNjMuMDgzNCAxNTEuNDE3IDYzLjM3NSAxNTEuMTg3QzcxLjI1IDE0NSA3MS4yNSAxNDUgNzkuMTI1IDEzOC44MTJDNzkuMjY5MyAxMzguNjk5IDc5LjQxMzYgMTM4LjU4NiA3OS41NjIzIDEzOC40NjlDNzkuODU0NyAxMzguMjM5IDgwLjE0NzIgMTM4LjAxIDgwLjQzOTcgMTM3Ljc3OUM4MS4xNTY3IDEzNy4yMTYgODEuODczNSAxMzYuNjUzIDgyLjU4OTggMTM2LjA4OUM4NC40MTI3IDEzNC42NTQgODYuMjQxNCAxMzMuMjI3IDg4LjA3MzUgMTMxLjgwNEM4OS40NDMzIDEzMC43NCA5MC44MDg2IDEyOS42NyA5Mi4xNjgyIDEyOC41OTNDOTIuNzY3MSAxMjguMTIxIDkzLjM2NSAxMjcuNjc0IDkzLjk5OTYgMTI3LjI1QzkzLjY4MDUgMTI2LjI5MiA5My4xMSAxMjUuOTQ5IDkyLjMyODMgMTI1LjM3NUM5Mi4wMzAyIDEyNS4xNTEgOTEuNzMxMiAxMjQuOTI2IDkxLjQzMzIgMTI0LjcwMkM5MS4yNzkxIDEyNC41ODYgOTEuMTI0NiAxMjQuNDcxIDkwLjk2NTMgMTI0LjM1MUM5MC4yMjM5IDEyMy43OTIgODkuNDk0OCAxMjMuMjE2IDg4Ljc2NTYgMTIyLjY0Qzg4LjQ3MTcgMTIyLjQwOSA4OC4xNzc4IDEyMi4xNzggODcuODgzOCAxMjEuOTQ2Qzg3LjczNzkgMTIxLjgzMSA4Ny41OTE5IDEyMS43MTYgODcuNDQxNiAxMjEuNTk4Qzg2LjcxMTYgMTIxLjAyMyA4NS45ODA3IDEyMC40NDkgODUuMjUgMTE5Ljg3NUM4NC45NTg0IDExOS42NDYgODQuNjY2NyAxMTkuNDE3IDg0LjM3NTEgMTE5LjE4N0M4NC4yMzA2IDExOS4wNzQgODQuMDg2MiAxMTguOTYgODMuOTM3NSAxMTguODQzQzc5LjEyNTEgMTE1LjA2MyA3OS4xMjUgMTE1LjA2MyA3OC42ODc3IDExNC43MTlDNzguMzk1MyAxMTQuNDg5IDc4LjEwMjggMTE0LjI1OSA3Ny44MTAzIDExNC4wM0M3Ny4wOTMzIDExMy40NjYgNzYuMzc2NSAxMTIuOTAzIDc1LjY2MDIgMTEyLjMzOUM3NC4wMjc1IDExMS4wNTQgNzIuMzkwNiAxMDkuNzc1IDcwLjc1IDEwOC41QzY4Ljk2OTIgMTA3LjExNyA2Ny4xOTMzIDEwNS43MjcgNjUuNDIxNCAxMDQuMzMyQzY0LjY5OCAxMDMuNzYyIDYzLjk3NCAxMDMuMTk0IDYzLjI1IDEwMi42MjVDNjIuOTU4NCAxMDIuMzk1IDYyLjY2NjcgMTAyLjE2NyA2Mi4zNzUxIDEwMS45MzdDNjIuMjMwNiAxMDEuODI0IDYyLjA4NjIgMTAxLjcxMSA2MS45Mzc1IDEwMS41OTRDNTkuMTY2NyA5OS40MTY2IDU2LjM5NTggOTcuMjM5NyA1My42MjUgOTUuMDYyOEM1My40ODA1IDk0Ljk0ODUgNTMuMzM2MSA5NC44MzUyIDUzLjE4NzMgOTQuNzE4MUM1Mi44OTY0IDk0LjQ4OTYgNTIuNjA1NiA5NC4yNjEgNTIuMzE0NyA5NC4wMzI0QzUxLjU3MzMgOTMuNDUgNTAuODMxOCA5Mi44Njc2IDUwLjA4OTkgOTIuMjg2MUM0OS43ODkxIDkyLjA1MDMgNDkuNDg4MyA5MS44MTQ0IDQ5LjE4NzUgOTEuNTc4NUM0OS4wNDMgOTEuNDY1MSA0OC44OTgzIDkxLjM1MTQgNDguNzQ5NCA5MS4yMzQ1QzQ3LjY0MDQgOTAuMzYzOCA0Ni41NDE3IDg5LjQ4MDkgNDUuNDQ4MiA4OC41OTA4QzQ1LjA2MDcgODguMjI0OCA0NS4wNjA3IDg4LjIyNDggNDQuNzUgODguMjQ5OVpNMjEwLjA3OCA5MC41NzgxQzIwOS45MzMgOTAuNjkwNCAyMDkuNzg4IDkwLjgwMjcgMjA5LjYzOCA5MC45MTg1QzIwOC4xNTEgOTIuMDczMSAyMDYuNjcxIDkzLjIzNyAyMDUuMTkxIDk0LjQwMThDMjA0LjQ2MiA5NC45NzY5IDIwMy43MzEgOTUuNTUxIDIwMyA5Ni4xMjUyQzIwMi4xMzcgOTYuODAzNiAyMDEuMjczIDk3LjQ4MiAyMDAuNDExIDk4LjE2MTNDMTk4LjU4NiA5OS41OTc3IDE5Ni43NTQgMTAxLjAyNiAxOTQuOTIgMTAyLjQ1QzE5My4zMzMgMTAzLjY4NSAxOTEuNzUxIDEwNC45MjQgMTkwLjE3MSAxMDYuMTY5QzE4OS40NDggMTA2LjczNyAxODguNzI0IDEwNy4zMDYgMTg4IDEwNy44NzVDMTg3LjcwOCAxMDguMTA0IDE4Ny40MTcgMTA4LjMzNCAxODcuMTI1IDEwOC41NjJDMTcxLjM3NSAxMjAuOTM3IDE3MS4zNzUgMTIwLjkzNyAxNzAuOTM4IDEyMS4yODJDMTcwLjY0NiAxMjEuNTEgMTcwLjM1NSAxMjEuNzM5IDE3MC4wNjQgMTIxLjk2N0MxNjkuMzIzIDEyMi41NSAxNjguNTgyIDEyMy4xMzIgMTY3Ljg0IDEyMy43MTRDMTY3LjExIDEyNC4yODYgMTY2LjM4MyAxMjQuODU4IDE2NS42NTUgMTI1LjQzMkMxNjUuMjY0IDEyNS43MzggMTY0Ljg3NCAxMjYuMDQ0IDE2NC40ODQgMTI2LjM1QzE2NC4xNDQgMTI2LjYxOCAxNjQuMTQ0IDEyNi42MTggMTYzLjc5NyAxMjYuODkxQzE2My42IDEyNy4wNDUgMTYzLjQwMiAxMjcuMjAxIDE2My4xOTggMTI3LjM2QzE2Mi43MjQgMTI3LjcyMyAxNjIuNzI0IDEyNy43MjMgMTYyLjUgMTI4LjI1QzE2Mi42OTQgMTI4LjM5OSAxNjIuODg4IDEyOC41NDcgMTYzLjA4OCAxMjguN0MxNjUuMDA2IDEzMC4xNyAxNjYuOTEgMTMxLjY1NiAxNjguODA4IDEzMy4xNTJDMTY5LjUzOSAxMzMuNzI3IDE3MC4yNjkgMTM0LjMwMSAxNzEgMTM0Ljg3NUMxNzEuMjkxIDEzNS4xMDQgMTcxLjU4MyAxMzUuMzMzIDE3MS44NzUgMTM1LjU2MkMxNzIuMDE5IDEzNS42NzYgMTcyLjE2NCAxMzUuNzkgMTcyLjMxMyAxMzUuOTA2QzE3Ny4xMjUgMTM5LjY4NyAxNzcuMTI1IDEzOS42ODcgMTc3LjU2MyAxNDAuMDMxQzE3Ny44NTUgMTQwLjI2MSAxNzguMTQ4IDE0MC40OTEgMTc4LjQzOSAxNDAuNzJDMTc5LjE1NyAxNDEuMjg0IDE3OS44NzQgMTQxLjg0NyAxODAuNTkgMTQyLjQxMUMxODIuMjIzIDE0My42OTYgMTgzLjg1OSAxNDQuOTc1IDE4NS41IDE0Ni4yNUMxODcuMjggMTQ3LjYzMyAxODkuMDU3IDE0OS4wMjMgMTkwLjgyOSAxNTAuNDE4QzE5MS41NTIgMTUwLjk4OCAxOTIuMjc2IDE1MS41NTcgMTkzIDE1Mi4xMjVDMTkzLjI5MiAxNTIuMzU0IDE5My41ODQgMTUyLjU4MyAxOTMuODc1IDE1Mi44MTNDMTk0LjAyIDE1Mi45MjYgMTk0LjE2NCAxNTMuMDM5IDE5NC4zMTIgMTUzLjE1N0MxOTcuMDgzIDE1NS4zMzMgMTk5Ljg1NCAxNTcuNTEgMjAyLjYyNSAxNTkuNjg3QzIwMi44NDIgMTU5Ljg1NyAyMDIuODQyIDE1OS44NTcgMjAzLjA2MyAxNjAuMDMxQzIwMy4zNTQgMTYwLjI2IDIwMy42NDQgMTYwLjQ4OCAyMDMuOTM1IDE2MC43MTdDMjA0LjY3NyAxNjEuMyAyMDUuNDE4IDE2MS44ODIgMjA2LjE2IDE2Mi40NjRDMjA2LjM4NCAxNjIuNjQgMjA2LjM4NCAxNjIuNjQgMjA2LjYxNCAxNjIuODJDMjA2LjkwOSAxNjMuMDUyIDIwNy4yMDYgMTYzLjI4NCAyMDcuNTAxIDE2My41MTVDMjA4LjYwNSAxNjQuMzgyIDIwOS42OTUgMTY1LjI2NSAyMTAuNzc4IDE2Ni4xNkMyMTEuMjIgMTY2LjU0OSAyMTEuMjIgMTY2LjU0OSAyMTEuNzUgMTY2LjVDMjExLjc1IDE0MS4wOSAyMTEuNzUgMTE1LjY4IDIxMS43NSA4OS40OTk5QzIxMS4xNyA4OS40OTk5IDIxMC41MzUgOTAuMjIyIDIxMC4wNzggOTAuNTc4MVoiLz48L3N2Zz4=">
-          <span>Actionbook Beta</span>
+          <span>Actionbook</span>
           <span class="actions"><button class="icon-btn" aria-label="Pin">⌖</button><button class="icon-btn" aria-label="Close">×</button></span>
         </header>
         <div class="taskbar">
@@ -282,22 +312,32 @@
         </div>
         <div class="transcript">
           <div class="thread">
-            <div class="log-entry motion" id="log1"><span class="log-icon">↗</span><div class="log-copy"><b>Navigated</b><br><span>Opened the analytics dashboard</span></div></div>
-            <div class="log-entry motion" id="log2"><span class="log-icon">⌁</span><div class="log-copy"><b>Clicked and extracted</b><br><span>Collected weekly metrics</span></div></div>
-            <div class="log-entry motion" id="log3"><span class="log-icon">▤</span><div class="log-copy"><b>Wrote file</b><br><span>weekly-report.csv</span></div></div>
-            <div class="assistant-message motion" id="assistant">Done — I collected the weekly numbers and prepared the report.</div>
-            <div class="artifact motion" id="artifact">
-              <div class="doc-icon"></div>
-              <div><div class="file-title">weekly-report</div><div class="file-type">CSV file</div></div>
-              <button class="preview-btn">Preview</button>
+            <div class="recipe-flow-card motion" id="plan-card">
+              <div class="recipe-label">Plan your Recipe</div>
+              <h3>Weekly analytics report</h3>
+              <div class="recipe-section"><div class="recipe-section-title">What it does</div><div class="recipe-copy">Collects weekly analytics and ads metrics, then prepares the Monday report.</div></div>
+              <div class="recipe-section"><div class="recipe-section-title">Run options</div><div class="recipe-option">This week → {reporting period}</div></div>
+              <div class="recipe-section"><div class="recipe-section-title">Learned from this task</div><div class="recipe-check"><i>✓</i><span>Use the same metrics and report format</span></div></div>
+              <div class="recipe-actions"><button class="recipe-primary">Confirm &amp; Create</button><button class="recipe-secondary">Adjust Plan</button></div>
             </div>
-            <div class="reply-actions motion" id="reply-actions"><span class="copy-icon"></span><span class="stars">☆ ☆ ☆ ☆ ☆</span></div>
+            <div class="recipe-flow-card motion" id="saved-card">
+              <div class="recipe-title-row"><div class="recipe-label">Recipe</div><div class="recipe-badge">Published</div></div>
+              <h3>Weekly analytics report</h3>
+              <div class="recipe-copy" style="margin-top:4px">Collect weekly metrics and prepare the Monday report.</div>
+              <div class="recipe-steps">
+                <div class="recipe-step"><span>1</span><span>Open analytics dashboard</span></div>
+                <div class="recipe-step"><span>2</span><span>Collect campaign metrics</span></div>
+                <div class="recipe-step"><span>3</span><span>Prepare weekly report</span></div>
+              </div>
+              <div class="recipe-actions"><button class="recipe-primary" id="use-recipe">↗&nbsp; Use this recipe</button></div>
+            </div>
+            <div class="log-entry motion" id="rerun-log"><span class="log-icon">↗</span><div class="log-copy"><b>Navigated</b><br><span>Opened this week's analytics</span></div></div>
           </div>
         </div>
         <div class="progress motion" id="progress">
           <div class="progress-check">✓</div><div class="progress-summary" id="progress-summary">Open analytics dashboard</div><div class="progress-count" id="progress-count">1 / 3</div><div class="progress-chevron">⌄</div>
         </div>
-        <div class="composer" id="composer">
+        <div class="composer motion" id="composer">
           <div class="composer-text" id="composer-text">Write a message…<span class="caret" id="caret"></span></div>
           <div class="composer-tools">
             <button class="plus-btn">+</button>
@@ -308,10 +348,10 @@
       </aside>
     </section>
     <footer class="caption-strip">
-      <div class="caption motion"><span class="num">1</span>Describe the task</div>
-      <div class="caption motion"><span class="num">2</span>It works your dashboards, in your browser</div>
-      <div class="caption motion"><span class="num">3</span>Raw data, collected</div>
-      <div class="caption motion"><span class="num">4</span>Finished report, delivered</div>
+      <div class="caption motion"><span class="num">1</span>Finished report, ready to reuse</div>
+      <div class="caption motion"><span class="num">2</span>Review what it learned</div>
+      <div class="caption motion"><span class="num">3</span>Confirm once, reuse the workflow</div>
+      <div class="caption motion"><span class="num">4</span>Run it again in one click</div>
     </footer>
   </main>
 </div>
@@ -319,10 +359,12 @@
 (function(){
   "use strict";
   var DURATION=12;
-  var prompt="Pull this week's GA4 and ads numbers into my Monday report.";
+  var prompt="Save this run as a Recipe.";
   var stage=document.getElementById("stage");
-  var pages=[document.getElementById("overview"),document.getElementById("analytics"),document.getElementById("ads"),document.getElementById("csv")];
-  var addresses=["workspace.local/overview","workspace.local/analytics","workspace.local/ads/campaigns","workspace.local/files/weekly-report.csv"];
+  var report=document.getElementById("csv");
+  var rerun=document.getElementById("analytics");
+  var overview=document.getElementById("overview");
+  var ads=document.getElementById("ads");
   var captions=Array.prototype.slice.call(document.querySelectorAll(".caption"));
   var rows=Array.prototype.slice.call(document.querySelectorAll(".csv-row"));
   var composerText=document.getElementById("composer-text");
@@ -333,47 +375,26 @@
   var progressSummary=document.getElementById("progress-summary");
   var progressCount=document.getElementById("progress-count");
   var address=document.getElementById("address");
-  var log1=document.getElementById("log1"),log2=document.getElementById("log2"),log3=document.getElementById("log3");
-  var assistant=document.getElementById("assistant"),artifact=document.getElementById("artifact"),replyActions=document.getElementById("reply-actions");
+  var plan=document.getElementById("plan-card");
+  var saved=document.getElementById("saved-card");
+  var useRecipe=document.getElementById("use-recipe");
+  var rerunLog=document.getElementById("rerun-log");
+  var runFlash=document.getElementById("run-flash");
   function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
   function range(t,a,b){return clamp((t-a)/(b-a),0,1);}
   function expo(t){return t===1?1:1-Math.pow(2,-10*t);}
   function show(el,p,y){el.style.opacity=p.toFixed(3);el.style.transform="translateY("+((1-p)*y).toFixed(2)+"px)";}
-  function pageState(el,p){
-    var e=expo(p);
-    el.style.opacity=e.toFixed(3);
-    el.style.transform="translateY("+((1-e)*8).toFixed(2)+"px)";
-    el.style.filter="blur("+((1-e)*1.5).toFixed(2)+"px)";
-  }
-  function pageVisibility(t,index){
-    if(index===0) return t<3 ? 1 : clamp(1-range(t,2.82,3.08),0,1);
-    if(index===1){
-      if(t<2.85||t>4.72) return 0;
-      return Math.min(range(t,2.85,3.12),1-range(t,4.46,4.72));
-    }
-    if(index===2){
-      if(t<4.42||t>6.18) return 0;
-      return Math.min(range(t,4.42,4.70),1-range(t,5.92,6.18));
-    }
-    if(index===3) return t<5.9?0:range(t,5.9,6.2);
-    return 0;
-  }
   function render(t){
     t=clamp(t,0,DURATION-.001);
-    var beat=Math.min(3,Math.floor(t/3));
-    for(var i=0;i<pages.length;i++){
-      var pv=pageVisibility(t,i);
-      pageState(pages[i],pv);
-      pages[i].classList.toggle("is-visible",pv>.5);
-    }
-    address.textContent=addresses[beat===0?0:(t<4.55?1:(t<6?2:3))];
+    overview.style.opacity=0;
+    ads.style.opacity=0;
     for(var c=0;c<captions.length;c++){
       var local=t-c*3;
       var cp=local>=0&&local<3?Math.min(range(local,0,.18),1-range(local,2.82,3)):0;
       show(captions[c],cp,5);
     }
-    var typed=range(t,.35,2.05);
-    if(t<2.22){
+    var typed=range(t,.35,1.72);
+    if(t<2.05){
       var count=Math.floor(prompt.length*typed);
       composerText.className="composer-text typing";
       composerText.firstChild.nodeValue=prompt.slice(0,count);
@@ -387,24 +408,31 @@
       sendBtn.classList.remove("active");
       sendBtn.style.transform="scale(.96)";
     }
-    taskTitle.textContent=t<2.18?"New task":"Prepare Monday analytics report";
-    var p1=t<3?0:(t<4.42?range(t,3.08,3.42):1);
-    var p2=t<4.25?0:(t<6?range(t,4.36,4.72):1);
-    var p3=t<6.15?0:range(t,6.18,6.55);
-    show(log1,p1,7);show(log2,p2,7);show(log3,p3,7);
-    var prog=t<3?0:range(t,3.04,3.28);
-    show(progress,prog,6);
-    if(t<4.45){progressSummary.textContent="Open analytics dashboard";progressCount.textContent="1 / 3";}
-    else if(t<6.2){progressSummary.textContent="Collect campaign metrics";progressCount.textContent="2 / 3";}
-    else {progressSummary.textContent="Monday report ready";progressCount.textContent="3 / 3";}
+    taskTitle.textContent=t<1.95?"Monday report ready":(t<9.55?"Create a weekly report Recipe":"Run Weekly analytics report");
+    var planIn=range(t,3.06,3.42);
+    var planOut=1-range(t,6.14,6.48);
+    show(plan,Math.min(planIn,planOut),8);
+    var savedIn=range(t,6.28,6.68);
+    var savedOut=1-range(t,9.35,9.62);
+    show(saved,Math.min(savedIn,savedOut),8);
+    useRecipe.style.boxShadow=t>8.15&&t<9.5?"0 0 0 3px rgba(124,58,237,.16)":"none";
+    var run=range(t,9.48,9.78);
+    report.style.opacity=(1-run).toFixed(3);
+    report.style.transform="translateY("+(-4*run).toFixed(2)+"px)";
+    report.style.filter="none";
+    rerun.style.opacity=run.toFixed(3);
+    rerun.style.transform="translateY("+((1-expo(run))*8).toFixed(2)+"px)";
+    rerun.style.filter="none";
+    address.textContent=t<9.55?"workspace.local/files/weekly-report.csv":"workspace.local/analytics/this-week";
+    runFlash.style.opacity=t>9.42&&t<9.68?(Math.sin(range(t,9.42,9.68)*Math.PI)*.42).toFixed(3):0;
+    show(rerunLog,range(t,9.72,10.08),7);
+    show(progress,t<9.62?0:range(t,9.66,9.94),6);
+    progressSummary.textContent="Running Weekly analytics report";
+    progressCount.textContent="1 / 3";
     for(var r=0;r<rows.length;r++){
-      var rp=range(t,6.28+r*.42,6.58+r*.42);
-      rows[r].style.opacity=rp.toFixed(3);
-      rows[r].style.transform="translateY("+((1-expo(rp))*6).toFixed(2)+"px)";
+      rows[r].style.opacity=1;
+      rows[r].style.transform="none";
     }
-    show(assistant,range(t,9.10,9.42),7);
-    show(artifact,range(t,9.45,9.82),9);
-    show(replyActions,range(t,9.76,10.06),5);
   }
   function fit(){
     var scale=Math.min(window.innerWidth/760,window.innerHeight/440,1.7);
@@ -414,7 +442,8 @@
     stage.style.transform="translate(-50%,-50%) scale("+scale+")";
   }
   window.addEventListener("resize",fit);fit();
-  var time=0,playing=false,lastTick=null;
+  var reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var time=reduced?DURATION-.35:0,playing=false,lastTick=null;
   function tick(now){
     if(lastTick===null){
       lastTick=now;window.__ready=true;render(0);requestAnimationFrame(tick);return;
@@ -432,12 +461,24 @@
   window.__seek=function(t){time=clamp(Number(t)||0,0,DURATION-.001);lastTick=performance.now();render(time);};
   window.__playing=false;
   window.__pause=function(){playing=false;window.__playing=false;document.body.dataset.playing="false";};
-  window.__play=function(){playing=true;window.__playing=true;document.body.dataset.playing="true";lastTick=null;};
+  window.__play=function(){
+    if(reduced){render(DURATION-.35);return;}
+    playing=true;window.__playing=true;document.body.dataset.playing="true";lastTick=null;
+  };
+  window.__motionDuration=DURATION;
+  window.__reducedMotion=reduced;
   window.addEventListener("message",function(event){
     if(event.data==="actionbook:pause") window.__pause();
     if(event.data==="actionbook:play") window.__play();
   });
-  document.fonts.ready.then(function(){render(0);playing=true;window.__playing=true;document.body.dataset.playing="true";requestAnimationFrame(tick);});
+  document.fonts.ready.then(function(){
+    render(time);
+    playing=!reduced;
+    window.__playing=playing;
+    document.body.dataset.playing=String(playing);
+    document.body.dataset.reducedMotion=String(reduced);
+    requestAnimationFrame(tick);
+  });
 })();
 </script>
 </body>

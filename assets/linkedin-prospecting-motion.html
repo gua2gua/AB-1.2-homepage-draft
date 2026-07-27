@@ -1,0 +1,857 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="data:,">
+<title>Actionbook — LinkedIn prospecting motion</title>
+<style>
+  :root {
+    color-scheme: light;
+    --canvas:#fafafa;
+    --surface:#fff;
+    --surface-muted:#f4f4f5;
+    --ink:#18181b;
+    --secondary:#52525b;
+    --muted:#71717a;
+    --line:rgba(24,24,27,.09);
+    --violet:#7c3aed;
+    --violet-soft:#f5f3ff;
+    --success:#16845b;
+    --warning:#a16207;
+  }
+  * { box-sizing:border-box; }
+  html,body { width:100%; height:100%; margin:0; overflow:hidden; }
+  body {
+    display:grid;
+    place-items:center;
+    background:var(--canvas);
+    color:var(--ink);
+    font-family:Geist,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  button { font:inherit; }
+  .mono { font-family:"Geist Mono","SFMono-Regular",Consolas,monospace; }
+  .viewport { width:100vw; height:100vh; display:grid; place-items:center; overflow:hidden; }
+  .stage {
+    position:relative;
+    width:760px;
+    height:440px;
+    overflow:hidden;
+    border:1px solid rgba(24,24,27,.1);
+    border-radius:22px;
+    background:var(--surface);
+    box-shadow:0 32px 80px rgba(15,23,42,.15),0 4px 14px rgba(15,23,42,.07);
+    transform-origin:center;
+  }
+  .work-area {
+    position:absolute;
+    inset:0 0 44px;
+    display:grid;
+    grid-template-columns:470px 290px;
+  }
+
+  /* Browser surface */
+  .browser {
+    position:relative;
+    min-width:0;
+    overflow:hidden;
+    background:#f4f2ee;
+    border-right:1px solid rgba(24,24,27,.12);
+  }
+  .debug-banner {
+    height:24px;
+    display:flex;
+    align-items:center;
+    gap:7px;
+    padding:0 10px;
+    background:#f1edff;
+    border-bottom:1px solid #e5defd;
+    color:#504268;
+    font-size:8px;
+  }
+  .debug-mark {
+    width:12px;
+    height:12px;
+    display:grid;
+    place-items:center;
+    border:1px solid #8b7ca5;
+    border-radius:50%;
+    font-size:7px;
+    font-weight:700;
+  }
+  .debug-banner b { color:#342943; font-weight:650; }
+  .stop-run {
+    margin-left:auto;
+    padding:2px 7px;
+    border:1px solid rgba(80,66,104,.24);
+    border-radius:5px;
+    background:#fff;
+    color:#504268;
+    font-size:7px;
+  }
+  .linkedin-nav {
+    height:40px;
+    display:grid;
+    grid-template-columns:1fr auto;
+    align-items:center;
+    gap:8px;
+    padding:0 11px;
+    background:#fff;
+    border-bottom:1px solid var(--line);
+  }
+  .search-box {
+    height:25px;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    padding:0 9px;
+    border-radius:5px;
+    background:#f4f4f5;
+    color:#59636e;
+    font-size:8px;
+  }
+  .nav-items { display:flex; gap:10px; color:#6b6f73; font-size:7px; }
+  .browser-page {
+    position:absolute;
+    inset:64px 0 0;
+    overflow:hidden;
+    background:#f4f2ee;
+  }
+  .page {
+    position:absolute;
+    inset:0;
+    padding:12px 15px;
+    opacity:0;
+    transform:translateY(7px);
+    will-change:opacity,transform,filter;
+  }
+  .page.is-visible { pointer-events:auto; }
+  .surface {
+    border:1px solid rgba(24,24,27,.08);
+    border-radius:10px;
+    background:#fff;
+    box-shadow:0 1px 2px rgba(15,23,42,.025);
+  }
+  .page-heading {
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    margin-bottom:9px;
+  }
+  .eyebrow {
+    color:#7c7f85;
+    font-size:7px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+  }
+  .page-title {
+    margin-top:2px;
+    font-size:13px;
+    font-weight:640;
+    letter-spacing:-.025em;
+  }
+  .result-count { color:#6f7277; font-size:7px; }
+  .filters {
+    display:flex;
+    align-items:center;
+    gap:5px;
+    margin-bottom:8px;
+  }
+  .filter {
+    padding:4px 7px;
+    border:1px solid rgba(24,24,27,.12);
+    border-radius:999px;
+    background:#fff;
+    color:#555a60;
+    font-size:7px;
+  }
+  .filter.active { border-color:#292d32; color:#26292d; font-weight:620; }
+  .prospects { display:grid; gap:6px; }
+  .prospect {
+    position:relative;
+    display:grid;
+    grid-template-columns:30px 1fr auto;
+    align-items:center;
+    gap:9px;
+    min-height:55px;
+    padding:7px 9px;
+    border:1px solid rgba(24,24,27,.07);
+    border-radius:9px;
+    background:#fff;
+    overflow:hidden;
+  }
+  .prospect::after {
+    content:"";
+    position:absolute;
+    inset:0;
+    border:1.5px solid var(--violet);
+    border-radius:inherit;
+    opacity:var(--scan,0);
+    box-shadow:inset 0 0 0 2px rgba(124,58,237,.06);
+  }
+  .avatar {
+    width:30px;
+    height:30px;
+    display:grid;
+    place-items:center;
+    border-radius:50%;
+    background:linear-gradient(145deg,#d4d4d8,#a1a1aa);
+    color:#fff;
+    font-size:8px;
+    font-weight:700;
+  }
+  .person-role { font-size:8.5px; font-weight:650; }
+  .person-meta { margin-top:2px; color:#74777c; font-size:7px; }
+  .match {
+    padding:4px 6px;
+    border-radius:6px;
+    background:var(--violet-soft);
+    color:#6d28d9;
+    font-size:6.5px;
+    font-weight:650;
+  }
+  .search-sweep {
+    position:absolute;
+    z-index:2;
+    left:15px;
+    right:15px;
+    height:1px;
+    top:84px;
+    background:linear-gradient(90deg,transparent,var(--violet),transparent);
+    opacity:0;
+    box-shadow:0 0 9px rgba(124,58,237,.42);
+  }
+
+  /* Anonymous profile and activity */
+  .profile-card { overflow:hidden; }
+  .profile-cover {
+    height:42px;
+    background:linear-gradient(120deg,#e4e4e7,#d4d4d8);
+  }
+  .profile-head {
+    position:relative;
+    min-height:72px;
+    padding:25px 12px 8px 59px;
+  }
+  .profile-head .avatar {
+    position:absolute;
+    left:12px;
+    top:-20px;
+    width:42px;
+    height:42px;
+    border:3px solid #fff;
+    font-size:10px;
+  }
+  .profile-title { font-size:10px; font-weight:680; }
+  .profile-sub { margin-top:2px; color:#666a70; font-size:7px; }
+  .activity {
+    margin-top:8px;
+    padding:10px 11px;
+  }
+  .activity-head {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin-bottom:7px;
+  }
+  .activity-head b { font-size:8px; }
+  .activity-head span { color:#777b80; font-size:6.5px; }
+  .activity-copy {
+    font-size:8.2px;
+    line-height:1.45;
+    color:#383c40;
+  }
+  .activity-meta {
+    display:flex;
+    gap:10px;
+    margin-top:7px;
+    color:#7a7d82;
+    font-size:6.5px;
+  }
+  .observation {
+    position:absolute;
+    left:205px;
+    right:15px;
+    bottom:13px;
+    padding:9px 10px;
+    border:1px solid rgba(124,58,237,.2);
+    border-radius:10px;
+    background:rgba(255,255,255,.97);
+    box-shadow:0 12px 28px rgba(57,37,89,.13);
+    opacity:0;
+    transform:translateY(8px);
+  }
+  .observation-label {
+    color:#6d28d9;
+    font-size:6.5px;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+  }
+  .observation b { display:block; margin-top:4px; font-size:8.5px; line-height:1.3; }
+  .observation p { margin:3px 0 0; color:#6a6d72; font-size:7px; line-height:1.3; }
+
+  /* CSV artifact */
+  .csv-shell { overflow:hidden; }
+  .csv-toolbar {
+    height:38px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:0 10px;
+    border-bottom:1px solid var(--line);
+  }
+  .csv-icon {
+    width:23px;
+    height:23px;
+    display:grid;
+    place-items:center;
+    border-radius:6px;
+    background:var(--violet-soft);
+    color:#6d28d9;
+    font-size:7px;
+    font-weight:750;
+  }
+  .csv-title { font-size:9px; font-weight:680; }
+  .csv-sub { margin-top:1px; color:#797c81; font-size:6.5px; }
+  .summary-chips { margin-left:auto; display:flex; gap:4px; }
+  .summary-chip {
+    padding:4px 6px;
+    border-radius:999px;
+    background:#f4f4f5;
+    color:#5f6368;
+    font-size:6px;
+    font-weight:650;
+  }
+  .summary-chip.good { background:#ecfdf5; color:#13714f; }
+  .summary-chip.warn { background:#fffbeb; color:#92620b; }
+  table { width:100%; border-collapse:collapse; font-size:6.7px; }
+  th,td {
+    height:32px;
+    padding:0 8px;
+    text-align:left;
+    border-bottom:1px solid rgba(24,24,27,.065);
+    vertical-align:middle;
+  }
+  th {
+    height:25px;
+    background:#fafafa;
+    color:#74777c;
+    font-weight:600;
+  }
+  .row { opacity:0; transform:translateY(5px); }
+  .role { color:#2f3337; font-weight:620; }
+  .evidence { color:#64686d; }
+  .status {
+    display:inline-block;
+    padding:3px 5px;
+    border-radius:5px;
+    background:#ecfdf5;
+    color:#13714f;
+    font-size:6px;
+    font-weight:650;
+    white-space:nowrap;
+  }
+  .status.thin { background:#fffbeb; color:#92620b; }
+
+  /* Actionbook side panel */
+  .panel { position:relative; overflow:hidden; background:#fbfbfb; }
+  .panel-brand {
+    height:35px;
+    display:flex;
+    align-items:center;
+    gap:7px;
+    padding:0 10px;
+    border-bottom:1px solid var(--line);
+    background:#fff;
+    font-size:9px;
+    font-weight:660;
+  }
+  .brand-mark { width:14px; height:14px; object-fit:contain; }
+  .panel-actions { margin-left:auto; color:#8b8d92; font-size:11px; }
+  .taskbar {
+    height:35px;
+    display:flex;
+    align-items:center;
+    gap:7px;
+    padding:0 10px;
+    border-bottom:1px solid var(--line);
+    background:#fff;
+  }
+  .task-dot { width:6px; height:6px; border-radius:50%; background:var(--violet); box-shadow:0 0 0 3px #ede9fe; }
+  .task-title { font-size:8px; font-weight:620; }
+  .safe-chip {
+    margin-left:auto;
+    padding:3px 5px;
+    border:1px solid var(--line);
+    border-radius:5px;
+    color:#6f7277;
+    font-size:6px;
+  }
+  .transcript {
+    position:absolute;
+    inset:70px 0 76px;
+    overflow:hidden;
+    padding:9px 11px;
+  }
+  .prompt {
+    margin-left:23px;
+    padding:8px 9px;
+    border:1px solid var(--line);
+    border-radius:10px 10px 3px 10px;
+    background:#fff;
+    color:#3e4246;
+    font-size:7.3px;
+    line-height:1.4;
+    opacity:0;
+    transform:translateY(6px);
+  }
+  .timeline { position:relative; margin-top:9px; }
+  .step {
+    position:relative;
+    display:grid;
+    grid-template-columns:17px 1fr;
+    gap:7px;
+    min-height:35px;
+    opacity:0;
+    transform:translateY(6px);
+  }
+  .step:not(:last-child)::after {
+    content:"";
+    position:absolute;
+    left:8px;
+    top:17px;
+    bottom:0;
+    width:1px;
+    background:#dedee2;
+  }
+  .step-icon {
+    position:relative;
+    z-index:1;
+    width:17px;
+    height:17px;
+    display:grid;
+    place-items:center;
+    border:1px solid #dadade;
+    border-radius:50%;
+    background:#fff;
+    color:#6c7075;
+    font-size:7px;
+  }
+  .step.is-active .step-icon {
+    border-color:#c4b5fd;
+    background:var(--violet-soft);
+    color:#6d28d9;
+  }
+  .step.is-done .step-icon {
+    border-color:#b9e3d0;
+    background:#ecfdf5;
+    color:#13714f;
+  }
+  .step-copy b { display:block; padding-top:1px; font-size:7.4px; font-weight:650; }
+  .step-copy span { display:block; margin-top:2px; color:#7a7d82; font-size:6.4px; line-height:1.28; }
+  .draft-card {
+    margin:2px 0 0 24px;
+    padding:7px 8px;
+    border:1px solid rgba(124,58,237,.15);
+    border-radius:8px;
+    background:#fff;
+    box-shadow:0 5px 14px rgba(57,37,89,.07);
+    opacity:0;
+    transform:translateY(6px);
+  }
+  .draft-label { color:#6d28d9; font-size:6px; letter-spacing:.08em; text-transform:uppercase; }
+  .draft-copy { margin-top:3px; color:#393d42; font-size:6.8px; line-height:1.35; }
+  .delivery {
+    margin:3px 0 0 24px;
+    display:grid;
+    grid-template-columns:27px 1fr auto;
+    align-items:center;
+    gap:7px;
+    padding:7px;
+    border:1px solid var(--line);
+    border-radius:9px;
+    background:#fff;
+    opacity:0;
+    transform:translateY(7px);
+  }
+  .file-icon {
+    width:27px;
+    height:30px;
+    display:grid;
+    place-items:center;
+    border-radius:6px;
+    background:var(--violet-soft);
+    color:#6d28d9;
+    font-size:6px;
+    font-weight:750;
+  }
+  .file-name { font-size:7.5px; font-weight:680; }
+  .file-meta { margin-top:2px; color:#7c7f84; font-size:6px; }
+  .review-btn {
+    padding:4px 6px;
+    border:1px solid var(--line);
+    border-radius:5px;
+    background:#fff;
+    color:#4c5055;
+    font-size:6px;
+  }
+  .composer {
+    position:absolute;
+    left:10px;
+    right:10px;
+    bottom:8px;
+    height:59px;
+    padding:8px 9px;
+    border:1px solid rgba(24,24,27,.12);
+    border-radius:12px;
+    background:#fff;
+    box-shadow:0 5px 17px rgba(15,23,42,.08);
+  }
+  .composer-text { color:#7d8085; font-size:7.5px; }
+  .composer-tools { display:flex; align-items:center; margin-top:9px; }
+  .page-chip {
+    padding:4px 6px;
+    border:1px solid var(--line);
+    border-radius:6px;
+    color:#6d7075;
+    font-size:6px;
+  }
+  .send-state {
+    margin-left:auto;
+    display:flex;
+    align-items:center;
+    gap:5px;
+    color:#797c81;
+    font-size:6px;
+  }
+  .send-state::before { content:""; width:5px; height:5px; border-radius:50%; background:#a1a1aa; }
+
+  .caption-strip {
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    height:44px;
+    display:flex;
+    align-items:center;
+    padding:0 20px;
+    background:#18181b;
+    color:#f4f4f5;
+    overflow:hidden;
+  }
+  .caption {
+    position:absolute;
+    left:20px;
+    right:132px;
+    font-size:12px;
+    font-weight:520;
+    letter-spacing:-.01em;
+    opacity:0;
+    transform:translateY(5px);
+  }
+  .caption .num { margin-right:8px; color:#c4b5fd; font-variant-numeric:tabular-nums; }
+  .never-sent {
+    margin-left:auto;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    padding:5px 8px;
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:999px;
+    color:#d4d4d8;
+    font-size:7px;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+  }
+  .never-sent::before { content:""; width:5px; height:5px; border-radius:50%; background:#a78bfa; }
+  .motion { will-change:opacity,transform; }
+  @media (prefers-reduced-motion:reduce) {
+    .motion { transition:none!important; animation:none!important; }
+  }
+</style>
+</head>
+<body>
+<div class="viewport">
+  <main class="stage" id="stage" aria-label="Actionbook researching LinkedIn prospects and delivering openers.csv without sending messages">
+    <section class="work-area">
+      <div class="browser">
+        <div class="debug-banner">
+          <span class="debug-mark">i</span>
+          <span><b>Actionbook</b> is working in this browser</span>
+          <button class="stop-run" type="button">Stop</button>
+        </div>
+        <div class="linkedin-nav">
+          <div class="search-box"><span>⌕</span><span id="search-query">Search LinkedIn</span></div>
+          <div class="nav-items"><span>Search</span><span>Profiles</span><span>Activity</span></div>
+        </div>
+        <div class="browser-page">
+          <section class="page motion" id="search-page">
+            <div class="page-heading">
+              <div><div class="eyebrow">People search</div><div class="page-title">ICP matches</div></div>
+              <div class="result-count">5 profiles opened individually</div>
+            </div>
+            <div class="filters">
+              <span class="filter active">VP Engineering</span>
+              <span class="filter">Series B</span>
+              <span class="filter">United States</span>
+            </div>
+            <div class="prospects">
+              <article class="prospect" id="prospect-1">
+                <span class="avatar">VP</span>
+                <div><div class="person-role">VP Engineering · Fintech</div><div class="person-meta">Series B · activity available</div></div>
+                <span class="match">ICP match</span>
+              </article>
+              <article class="prospect" id="prospect-2">
+                <span class="avatar">VP</span>
+                <div><div class="person-role">VP Engineering · Dev tools</div><div class="person-meta">Series B · activity available</div></div>
+                <span class="match">ICP match</span>
+              </article>
+              <article class="prospect" id="prospect-3">
+                <span class="avatar">HE</span>
+                <div><div class="person-role">Head of Engineering · Data</div><div class="person-meta">Series B · profile available</div></div>
+                <span class="match">ICP match</span>
+              </article>
+            </div>
+            <div class="search-sweep motion" id="search-sweep"></div>
+          </section>
+
+          <section class="page motion" id="activity-page">
+            <div class="profile-card surface">
+              <div class="profile-cover"></div>
+              <div class="profile-head">
+                <span class="avatar">VP</span>
+                <div class="profile-title">VP Engineering · Fintech</div>
+                <div class="profile-sub">Series B · 500+ connections · identity anonymized</div>
+              </div>
+            </div>
+            <article class="activity surface">
+              <div class="activity-head"><b>Recent activity</b><span>Posted last week</span></div>
+              <div class="activity-copy">“We learned that scaling Postgres is less about one heroic migration and more about removing the small operational bottlenecks…”</div>
+              <div class="activity-meta"><span>Relevant to role</span><span>Original activity opened</span></div>
+            </article>
+            <aside class="observation motion" id="observation">
+              <span class="observation-label mono">Observation → problem</span>
+              <b>Scaling Postgres → operational bottlenecks</b>
+              <p>Specific enough to ground an opener. No generic post flattery.</p>
+            </aside>
+          </section>
+
+          <section class="page motion" id="csv-page">
+            <div class="page-heading">
+              <div><div class="eyebrow">Finished artifact</div><div class="page-title">Openers ready for review</div></div>
+            </div>
+            <div class="csv-shell surface">
+              <div class="csv-toolbar">
+                <span class="csv-icon">CSV</span>
+                <div><div class="csv-title">openers.csv</div><div class="csv-sub">Drafted in your voice · nothing sent</div></div>
+                <div class="summary-chips">
+                  <span class="summary-chip">5 openers</span>
+                  <span class="summary-chip good">4 grounded</span>
+                  <span class="summary-chip warn">1 thin</span>
+                </div>
+              </div>
+              <table>
+                <thead><tr><th>Prospect</th><th>Observation → problem</th><th>Status</th></tr></thead>
+                <tbody>
+                  <tr class="row"><td class="role">VP Eng · fintech</td><td class="evidence">Postgres post → scaling pain</td><td><span class="status">Grounded</span></td></tr>
+                  <tr class="row"><td class="role">VP Eng · dev tools</td><td class="evidence">On-call revamp → response load</td><td><span class="status">Grounded</span></td></tr>
+                  <tr class="row"><td class="role">Head Eng · data</td><td class="evidence">Hiring activity → capacity crunch</td><td><span class="status">Grounded</span></td></tr>
+                  <tr class="row"><td class="role">VP Eng · infra</td><td class="evidence">Kafka teardown → complexity</td><td><span class="status">Grounded</span></td></tr>
+                  <tr class="row"><td class="role">VP Eng · security</td><td class="evidence">No recent activity</td><td><span class="status thin">Flagged: thin</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <aside class="panel">
+        <header class="panel-brand">
+          <img class="brand-mark" src="actionbook-logo.svg" alt="">
+          <span>Actionbook</span>
+          <span class="panel-actions">⌖ &nbsp; ×</span>
+        </header>
+        <div class="taskbar">
+          <span class="task-dot"></span>
+          <span class="task-title" id="task-title">LinkedIn prospecting</span>
+          <span class="safe-chip mono">READ + DRAFT</span>
+        </div>
+        <div class="transcript">
+          <div class="prompt motion" id="prompt">Find 5 VPs of Engineering at Series B startups. Read recent activity, tie each observation to a problem, and draft an opener in my voice. Don’t send or connect.</div>
+          <div class="timeline">
+            <div class="step motion" id="step-1"><span class="step-icon">⌕</span><div class="step-copy"><b>Search your LinkedIn session</b><span>Matching the role and stage — not building a lead list.</span></div></div>
+            <div class="step motion" id="step-2"><span class="step-icon">↗</span><div class="step-copy"><b>Read recent activity</b><span>Opening each profile and its original activity.</span></div></div>
+            <div class="step motion" id="step-3"><span class="step-icon">✎</span><div class="step-copy"><b>Ground the opener</b><span>Observation → problem → your voice.</span></div></div>
+            <div class="draft-card motion" id="draft-card">
+              <div class="draft-label mono">Draft excerpt</div>
+              <div class="draft-copy">Your note on removing the small Postgres bottlenecks got me thinking about…</div>
+            </div>
+            <div class="step motion" id="step-4"><span class="step-icon">✓</span><div class="step-copy"><b>Hand back the drafts</b><span>5 openers · 4 grounded · 1 flagged thin.</span></div></div>
+            <div class="delivery motion" id="delivery">
+              <span class="file-icon">CSV</span>
+              <div><div class="file-name">openers.csv</div><div class="file-meta">Yours to review and send</div></div>
+              <button class="review-btn" type="button">Preview</button>
+            </div>
+          </div>
+        </div>
+        <div class="composer">
+          <div class="composer-text">Ask Actionbook to work in this page…</div>
+          <div class="composer-tools">
+            <span class="page-chip">LinkedIn · this tab</span>
+            <span class="send-state">0 messages sent</span>
+          </div>
+        </div>
+      </aside>
+    </section>
+    <footer class="caption-strip">
+      <div class="caption motion"><span class="num mono">1</span>Search for the ICP in your logged-in LinkedIn</div>
+      <div class="caption motion"><span class="num mono">2</span>Open each profile and read recent activity</div>
+      <div class="caption motion"><span class="num mono">3</span>Tie a real observation to a problem, in your voice</div>
+      <div class="caption motion"><span class="num mono">4</span>Deliver openers.csv — review and send it yourself</div>
+      <div class="never-sent mono">0 sent · 0 connected</div>
+    </footer>
+  </main>
+</div>
+<script>
+(function(){
+  "use strict";
+  var DURATION=14;
+  var reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var stage=document.getElementById("stage");
+  var searchPage=document.getElementById("search-page");
+  var activityPage=document.getElementById("activity-page");
+  var csvPage=document.getElementById("csv-page");
+  var pages=[searchPage,activityPage,csvPage];
+  var captions=Array.prototype.slice.call(document.querySelectorAll(".caption"));
+  var rows=Array.prototype.slice.call(document.querySelectorAll(".row"));
+  var prospects=[document.getElementById("prospect-1"),document.getElementById("prospect-2"),document.getElementById("prospect-3")];
+  var prompt=document.getElementById("prompt");
+  var searchSweep=document.getElementById("search-sweep");
+  var observation=document.getElementById("observation");
+  var steps=[document.getElementById("step-1"),document.getElementById("step-2"),document.getElementById("step-3"),document.getElementById("step-4")];
+  var draftCard=document.getElementById("draft-card");
+  var delivery=document.getElementById("delivery");
+  var searchQuery=document.getElementById("search-query");
+
+  function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
+  function range(t,a,b){return clamp((t-a)/(b-a),0,1);}
+  function ease(t){return t<.5?2*t*t:1-Math.pow(-2*t+2,2)/2;}
+  function show(el,p,y){
+    var e=ease(clamp(p,0,1));
+    el.style.opacity=e.toFixed(3);
+    el.style.transform="translateY("+((1-e)*y).toFixed(2)+"px)";
+  }
+  function pageState(el,p){
+    var e=ease(clamp(p,0,1));
+    el.style.opacity=e.toFixed(3);
+    el.style.transform="translateY("+((1-e)*7).toFixed(2)+"px)";
+    el.style.filter="blur("+((1-e)*1.2).toFixed(2)+"px)";
+    el.classList.toggle("is-visible",e>.5);
+  }
+  function pageVisibility(t,index){
+    if(index===0) return t<4.55?1:1-range(t,4.55,4.9);
+    if(index===1){
+      if(t<4.55||t>8.65) return 0;
+      return Math.min(range(t,4.55,4.92),1-range(t,8.28,8.65));
+    }
+    return t<8.25?0:range(t,8.25,8.68);
+  }
+  function setStep(index,state){
+    steps[index].classList.toggle("is-active",state==="active");
+    steps[index].classList.toggle("is-done",state==="done");
+    steps[index].querySelector(".step-icon").textContent=state==="done"?"✓":["⌕","↗","✎","✓"][index];
+  }
+  function render(t){
+    t=clamp(t,0,DURATION-.001);
+    for(var i=0;i<pages.length;i++) pageState(pages[i],pageVisibility(t,i));
+
+    var capBeat=Math.min(3,Math.floor(t/3.5));
+    for(var c=0;c<captions.length;c++){
+      var local=t-c*3.5;
+      var cp=local>=0&&local<3.5?Math.min(range(local,0,.2),1-range(local,3.25,3.5)):0;
+      show(captions[c],cp,5);
+    }
+
+    show(prompt,range(t,.2,.65),6);
+    searchQuery.textContent=t<.65?"Search LinkedIn":"VP Engineering · Series B";
+    show(steps[0],range(t,.85,1.2),6);
+    show(steps[1],range(t,3.7,4.1),6);
+    show(steps[2],range(t,6.15,6.55),6);
+    show(steps[3],range(t,8.55,8.95),6);
+    setStep(0,t<1.2?"active":t<3.9?"active":"done");
+    setStep(1,t<4.1?"active":t<6.35?"active":"done");
+    setStep(2,t<6.55?"active":t<8.7?"active":"done");
+    setStep(3,t<8.95?"active":"done");
+
+    var sweepIn=range(t,1.15,1.45);
+    var sweepOut=1-range(t,3.85,4.1);
+    searchSweep.style.opacity=(Math.min(sweepIn,sweepOut)*.9).toFixed(3);
+    searchSweep.style.transform="translateY("+Math.round(range(t,1.15,3.9)*185)+"px)";
+    for(var p=0;p<prospects.length;p++){
+      var scan=range(t,1.55+p*.55,1.9+p*.55)*(1-range(t,3.55,3.95));
+      prospects[p].style.setProperty("--scan",scan.toFixed(3));
+    }
+
+    show(observation,range(t,5.45,5.9),8);
+    draftCard.style.display=t>=9.2?"none":"block";
+    delivery.style.display=t>=9.2?"grid":"none";
+    show(draftCard,range(t,6.6,7.0),6);
+    show(delivery,range(t,9.45,9.85),7);
+    for(var r=0;r<rows.length;r++) show(rows[r],range(t,8.7+r*.37,9.02+r*.37),5);
+    document.body.dataset.beat=String(capBeat+1);
+    document.body.dataset.playing=String(playing);
+  }
+  function fit(){
+    var scale=Math.min(window.innerWidth/760,window.innerHeight/440,1.7);
+    stage.style.position="absolute";
+    stage.style.left="50%";
+    stage.style.top="50%";
+    stage.style.transform="translate(-50%,-50%) scale("+scale+")";
+  }
+  window.addEventListener("resize",fit);
+  fit();
+
+  var time=reduced?DURATION-.35:0;
+  var playing=!reduced;
+  var lastTick=null;
+  function tick(now){
+    if(lastTick===null){
+      lastTick=now;
+      window.__ready=true;
+      render(time);
+      requestAnimationFrame(tick);
+      return;
+    }
+    var dt=(now-lastTick)/1000;
+    lastTick=now;
+    if(playing){
+      time+=dt;
+      if(time>=DURATION) time=window.__recording?DURATION-.001:0;
+      render(time);
+    }
+    requestAnimationFrame(tick);
+  }
+  window.__seek=function(t){time=clamp(Number(t)||0,0,DURATION-.001);lastTick=performance.now();render(time);};
+  window.__pause=function(){playing=false;window.__playing=false;document.body.dataset.playing="false";};
+  window.__play=function(){
+    if(reduced){render(DURATION-.35);return;}
+    playing=true;window.__playing=true;document.body.dataset.playing="true";lastTick=null;
+  };
+  window.__motionDuration=DURATION;
+  window.__reducedMotion=reduced;
+  window.addEventListener("message",function(event){
+    if(event.data==="actionbook:pause") window.__pause();
+    if(event.data==="actionbook:play") window.__play();
+  });
+  document.fonts.ready.then(function(){
+    render(time);
+    window.__playing=playing;
+    document.body.dataset.playing=String(playing);
+    document.body.dataset.reducedMotion=String(reduced);
+    requestAnimationFrame(tick);
+  });
+})();
+</script>
+</body>
+</html>
