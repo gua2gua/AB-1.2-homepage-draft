@@ -16,7 +16,7 @@
     --muted:#71717a;
     --line:rgba(24,24,27,.09);
     --violet:#7c3aed;
-    --violet-soft:#f5f3ff;
+    --violet-soft:#f7f7f6;
     --success:#16845b;
     --warning:#a16207;
   }
@@ -46,7 +46,7 @@
   }
   .work-area {
     position:absolute;
-    inset:0 0 44px;
+    inset:0;
     display:grid;
     grid-template-columns:470px 290px;
   }
@@ -65,9 +65,9 @@
     align-items:center;
     gap:7px;
     padding:0 10px;
-    background:#f1edff;
-    border-bottom:1px solid #e5defd;
-    color:#504268;
+    background:#f7f7f6;
+    border-bottom:1px solid #e6e6e3;
+    color:#64676c;
     font-size:8px;
   }
   .debug-mark {
@@ -75,19 +75,19 @@
     height:12px;
     display:grid;
     place-items:center;
-    border:1px solid #8b7ca5;
+    border:1px solid #a4a6a8;
     border-radius:50%;
     font-size:7px;
     font-weight:700;
   }
-  .debug-banner b { color:#342943; font-weight:650; }
+  .debug-banner b { color:#2f3236; font-weight:650; }
   .stop-run {
     margin-left:auto;
     padding:2px 7px;
-    border:1px solid rgba(80,66,104,.24);
+    border:1px solid rgba(24,24,27,.14);
     border-radius:5px;
     background:#fff;
-    color:#504268;
+    color:#5f6267;
     font-size:7px;
   }
   .linkedin-nav {
@@ -180,16 +180,20 @@
     border-radius:9px;
     background:#fff;
     overflow:hidden;
+    transition:border-color .18s ease, box-shadow .18s ease, transform .18s ease;
   }
   .prospect::after {
     content:"";
     position:absolute;
     inset:0;
-    border:1.5px solid var(--violet);
+    border:1px solid rgba(24,24,27,.28);
     border-radius:inherit;
-    opacity:var(--scan,0);
-    box-shadow:inset 0 0 0 2px rgba(124,58,237,.06);
+    opacity:0;
+    pointer-events:none;
   }
+  .prospect[data-state="reading"] { border-color:rgba(24,24,27,.2); box-shadow:0 7px 18px rgba(24,24,27,.07); transform:translateY(-1px); }
+  .prospect[data-state="reading"]::after { opacity:1; }
+  .prospect[data-state="done"] { border-color:rgba(24,24,27,.12); }
   .avatar {
     width:30px;
     height:30px;
@@ -206,21 +210,45 @@
   .match {
     padding:4px 6px;
     border-radius:6px;
-    background:var(--violet-soft);
-    color:#6d28d9;
+    background:#f4f4f2;
+    color:#60646a;
     font-size:6.5px;
     font-weight:650;
+    transition:background .16s ease, color .16s ease;
   }
-  .search-sweep {
+  .prospect[data-state="reading"] .match { background:#1d1d1b; color:#fff; }
+  .prospect[data-state="done"] .match { background:#eef6f1; color:#28604b; }
+  .read-pointer {
     position:absolute;
-    z-index:2;
-    left:15px;
-    right:15px;
-    height:1px;
-    top:84px;
-    background:linear-gradient(90deg,transparent,var(--violet),transparent);
+    z-index:4;
+    top:151px;
+    left:438px;
+    width:14px;
+    height:18px;
     opacity:0;
-    box-shadow:0 0 9px rgba(124,58,237,.42);
+    transition:transform .26s cubic-bezier(.2,.72,.2,1);
+    pointer-events:none;
+  }
+  .read-pointer span {
+    position:relative;
+    z-index:2;
+    display:block;
+    width:12px;
+    height:16px;
+    background:#25272a;
+    clip-path:polygon(0 0, 0 100%, 3.6px 11px, 6.4px 16px, 8.4px 15px, 5.5px 10px, 12px 10px);
+    filter:drop-shadow(0 1px 0 #fff);
+  }
+  .read-pointer i {
+    position:absolute;
+    top:4px;
+    left:4px;
+    width:8px;
+    height:8px;
+    border:1px solid rgba(24,24,27,.28);
+    border-radius:50%;
+    opacity:var(--tap,0);
+    transform:scale(calc(1 + var(--tap,0) * .65));
   }
 
   /* Anonymous profile and activity */
@@ -357,40 +385,28 @@
   /* Actionbook side panel */
   .panel { position:relative; overflow:hidden; background:#fbfbfb; }
   .panel-brand {
-    height:35px;
+    height:34px;
     display:flex;
     align-items:center;
     gap:7px;
     padding:0 10px;
     border-bottom:1px solid var(--line);
     background:#fff;
-    font-size:9px;
-    font-weight:660;
+    font-size:10px;
+    font-weight:650;
   }
   .brand-mark { width:14px; height:14px; object-fit:contain; }
-  .panel-actions { margin-left:auto; color:#8b8d92; font-size:11px; }
+  .panel-brand .actions { margin-left:auto; display:flex; align-items:center; gap:5px; color:#777873; }
+  .icon-btn { width:22px; height:22px; display:grid; place-items:center; border:0; border-radius:6px; background:transparent; color:inherit; font-size:12px; padding:0; }
   .taskbar {
-    height:35px;
-    display:flex;
-    align-items:center;
-    gap:7px;
-    padding:0 10px;
-    border-bottom:1px solid var(--line);
-    background:#fff;
+    height:33px; display:grid; grid-template-columns:22px minmax(0,1fr) 20px 20px;
+    align-items:center; gap:2px; padding:0 8px; border-bottom:1px solid var(--line);
+    background:#fff; font-size:9.5px;
   }
-  .task-dot { width:6px; height:6px; border-radius:50%; background:var(--violet); box-shadow:0 0 0 3px #ede9fe; }
-  .task-title { font-size:8px; font-weight:620; }
-  .safe-chip {
-    margin-left:auto;
-    padding:3px 5px;
-    border:1px solid var(--line);
-    border-radius:5px;
-    color:#6f7277;
-    font-size:6px;
-  }
+  .task-title { overflow:hidden; color:#2d2d2b; font-size:9.5px; text-overflow:ellipsis; white-space:nowrap; }
   .transcript {
     position:absolute;
-    inset:70px 0 76px;
+    inset:67px 0 88px;
     overflow:hidden;
     padding:9px 11px;
   }
@@ -501,44 +517,26 @@
     left:10px;
     right:10px;
     bottom:8px;
-    height:59px;
-    padding:8px 9px;
+    height:75px;
+    padding:10px 10px 8px;
     border:1px solid rgba(24,24,27,.12);
-    border-radius:12px;
+    border-radius:13px;
     background:#fff;
-    box-shadow:0 5px 17px rgba(15,23,42,.08);
+    box-shadow:0 4px 16px rgba(0,0,0,.10);
   }
-  .composer-text { color:#7d8085; font-size:7.5px; }
-  .composer-tools { display:flex; align-items:center; margin-top:9px; }
+  .composer-text { height:29px; color:#8b8c86; font-size:8.5px; line-height:1.35; }
+  .composer-tools { display:flex; align-items:center; height:27px; gap:6px; }
+  .plus-btn { width:24px; height:24px; display:grid; place-items:center; border:0; border-radius:50%; background:transparent; color:#777873; font-size:16px; }
   .page-chip {
-    padding:4px 6px;
-    border:1px solid var(--line);
-    border-radius:6px;
-    color:#6d7075;
-    font-size:6px;
+    display:flex; align-items:center; gap:5px; height:23px; padding:0 7px;
+    border:1px solid var(--line); border-radius:7px; color:#6f706b;
+    font-size:7.5px; white-space:nowrap;
   }
-  .send-state {
-    margin-left:auto;
-    display:flex;
-    align-items:center;
-    gap:5px;
-    color:#797c81;
-    font-size:6px;
-  }
-  .send-state::before { content:""; width:5px; height:5px; border-radius:50%; background:#a1a1aa; }
+  .page-chip img { width:11px; height:11px; }
+  .send-btn { margin-left:auto; width:26px; height:26px; display:grid; place-items:center; border:0; border-radius:50%; background:#1d1d1b; color:#fff; font-size:14px; line-height:1; opacity:.32; }
 
   .caption-strip {
-    position:absolute;
-    left:0;
-    right:0;
-    bottom:0;
-    height:44px;
-    display:flex;
-    align-items:center;
-    padding:0 20px;
-    background:#18181b;
-    color:#f4f4f5;
-    overflow:hidden;
+    display:none;
   }
   .caption {
     position:absolute;
@@ -613,7 +611,7 @@
                 <span class="match">ICP match</span>
               </article>
             </div>
-            <div class="search-sweep motion" id="search-sweep"></div>
+            <div class="read-pointer motion" id="read-pointer" aria-hidden="true"><span></span><i></i></div>
           </section>
 
           <section class="page motion" id="activity-page">
@@ -668,14 +666,15 @@
 
       <aside class="panel">
         <header class="panel-brand">
-          <img class="brand-mark" src="actionbook-logo.svg" alt="">
+          <img class="brand-mark" src="actionbook-mark.svg" alt="">
           <span>Actionbook</span>
-          <span class="panel-actions">⌖ &nbsp; ×</span>
+          <span class="actions"><button class="icon-btn" aria-label="Pin">⌖</button><button class="icon-btn" aria-label="Close">×</button></span>
         </header>
         <div class="taskbar">
-          <span class="task-dot"></span>
-          <span class="task-title" id="task-title">LinkedIn prospecting</span>
-          <span class="safe-chip mono">READ + DRAFT</span>
+          <button class="icon-btn" aria-label="Menu">☰</button>
+          <div class="task-title" id="task-title">LinkedIn prospecting</div>
+          <button class="icon-btn" aria-label="Rename">✎</button>
+          <button class="icon-btn" aria-label="More">•••</button>
         </div>
         <div class="transcript">
           <div class="prompt motion" id="prompt">Find 5 VPs of Engineering at Series B startups. Read recent activity, tie each observation to a problem, and draft an opener in my voice. Don’t send or connect.</div>
@@ -698,19 +697,13 @@
         <div class="composer">
           <div class="composer-text">Ask Actionbook to work in this page…</div>
           <div class="composer-tools">
-            <span class="page-chip">LinkedIn · this tab</span>
-            <span class="send-state">0 messages sent</span>
+            <button class="plus-btn" aria-label="Add">＋</button>
+            <span class="page-chip"><img src="actionbook-mark.svg" alt="">LinkedIn · this tab</span>
+            <button class="send-btn" aria-label="Send">↑</button>
           </div>
         </div>
       </aside>
     </section>
-    <footer class="caption-strip">
-      <div class="caption motion"><span class="num mono">1</span>Search for the ICP in your logged-in LinkedIn</div>
-      <div class="caption motion"><span class="num mono">2</span>Open each profile and read recent activity</div>
-      <div class="caption motion"><span class="num mono">3</span>Tie a real observation to a problem, in your voice</div>
-      <div class="caption motion"><span class="num mono">4</span>Deliver openers.csv — review and send it yourself</div>
-      <div class="never-sent mono">0 sent · 0 connected</div>
-    </footer>
   </main>
 </div>
 <script>
@@ -727,12 +720,13 @@
   var rows=Array.prototype.slice.call(document.querySelectorAll(".row"));
   var prospects=[document.getElementById("prospect-1"),document.getElementById("prospect-2"),document.getElementById("prospect-3")];
   var prompt=document.getElementById("prompt");
-  var searchSweep=document.getElementById("search-sweep");
+  var readPointer=document.getElementById("read-pointer");
   var observation=document.getElementById("observation");
   var steps=[document.getElementById("step-1"),document.getElementById("step-2"),document.getElementById("step-3"),document.getElementById("step-4")];
   var draftCard=document.getElementById("draft-card");
   var delivery=document.getElementById("delivery");
   var searchQuery=document.getElementById("search-query");
+  var lastPostedBeat=0;
 
   function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
   function range(t,a,b){return clamp((t-a)/(b-a),0,1);}
@@ -784,13 +778,17 @@
     setStep(2,t<6.55?"active":t<8.7?"active":"done");
     setStep(3,t<8.95?"active":"done");
 
-    var sweepIn=range(t,1.15,1.45);
-    var sweepOut=1-range(t,3.85,4.1);
-    searchSweep.style.opacity=(Math.min(sweepIn,sweepOut)*.9).toFixed(3);
-    searchSweep.style.transform="translateY("+Math.round(range(t,1.15,3.9)*185)+"px)";
+    var readIndex=Math.min(2,Math.max(0,Math.floor((t-1.35)/.68)));
+    var readVisible=t>=1.22&&t<3.72;
+    var readCycle=(t-1.35-readIndex*.68);
+    readPointer.style.opacity=readVisible?".9":"0";
+    readPointer.style.transform="translateY("+(readIndex*61)+"px)";
+    readPointer.style.setProperty("--tap",(readCycle>=0&&readCycle<.22?1-range(readCycle,.1,.22):0).toFixed(3));
     for(var p=0;p<prospects.length;p++){
-      var scan=range(t,1.55+p*.55,1.9+p*.55)*(1-range(t,3.55,3.95));
-      prospects[p].style.setProperty("--scan",scan.toFixed(3));
+      var itemStart=1.35+p*.68;
+      var state=t<itemStart?"idle":t<itemStart+.42?"reading":"done";
+      prospects[p].dataset.state=state;
+      prospects[p].querySelector(".match").textContent=state==="reading"?"Opening…":state==="done"?"Read ✓":"ICP match";
     }
 
     show(observation,range(t,5.45,5.9),8);
@@ -800,6 +798,10 @@
     show(delivery,range(t,9.45,9.85),7);
     for(var r=0;r<rows.length;r++) show(rows[r],range(t,8.7+r*.37,9.02+r*.37),5);
     document.body.dataset.beat=String(capBeat+1);
+    if(lastPostedBeat!==capBeat+1){
+      lastPostedBeat=capBeat+1;
+      parent.postMessage({type:"actionbook:beat",beat:lastPostedBeat},"*");
+    }
     document.body.dataset.playing=String(playing);
   }
   function fit(){
@@ -811,6 +813,8 @@
   }
   window.addEventListener("resize",fit);
   fit();
+  window.setTimeout(fit,80);
+  window.setTimeout(fit,420);
 
   var time=reduced?DURATION-.35:0;
   var playing=!reduced;

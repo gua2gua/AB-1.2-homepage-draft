@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="Mock portrait of Daniel Ortiz">
+  <rect width="96" height="96" fill="#e9e9e7"/>
+  <path d="M15 96c3-21 14-31 33-31 20 0 31 10 34 31" fill="#25282d"/>
+  <path d="M30 38c0-15 7-23 18-23 12 0 20 8 20 23v11c0 15-8 24-20 24-11 0-18-9-18-24z" fill="#bf8f6e"/>
+  <path d="M29 38c0-17 7-27 20-27 13 0 21 9 21 24-7-4-14-6-21-6-8 0-14 3-20 9z" fill="#1d2024"/>
+  <path d="M35 34c2-14 8-20 18-20" stroke="#44474d" stroke-width="5" stroke-linecap="round"/>
+  <path d="M38 48h3M56 48h3M43 60c4 3 8 3 12 0" stroke="#332b27" stroke-width="2" stroke-linecap="round"/>
+  <path d="M34 72l14 8 15-8 10 24H24z" fill="#33373d"/>
+  <path d="M48 80v16" stroke="#8b5cf6" stroke-width="2"/>
+</svg>

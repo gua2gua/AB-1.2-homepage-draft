@@ -9,7 +9,7 @@
     color-scheme:light;
     --canvas:#fafafa; --paper:#ffffff; --white:#fff; --ink:#18181b;
     --muted:#71717a; --soft:#f4f4f5; --line:rgba(24,24,27,.09); --green:#16845b;
-    --violet:#7c3aed; --violet-soft:#f5f3ff;
+    --violet:#7c3aed; --violet-soft:#f7f7f6;
   }
   * { box-sizing:border-box; }
   html,body { width:100%; height:100%; margin:0; overflow:hidden; }
@@ -26,20 +26,20 @@
     background:#f5f5f4; box-shadow:0 32px 80px rgba(15,23,42,.15),0 4px 14px rgba(15,23,42,.07);
     transform-origin:center;
   }
-  .work-area { position:absolute; inset:0 0 48px 0; display:grid; grid-template-columns:456px 304px; }
+  .work-area { position:absolute; inset:0; display:grid; grid-template-columns:456px 304px; }
   .browser { position:relative; min-width:0; overflow:hidden; background:#f7f7f5; border-right:1px solid rgba(24,24,27,.12); }
   .debug-banner {
     height:25px; display:flex; align-items:center; gap:7px; padding:0 10px;
-    background:#f1edff; border-bottom:1px solid #e5defd; color:#504268; font-size:9px;
+    background:#f7f7f6; border-bottom:1px solid #e6e6e3; color:#64676c; font-size:9px;
   }
   .debug-banner .info {
     width:13px; height:13px; display:grid; place-items:center; border:1px solid #8b7ca5;
-    border-radius:50%; font-size:8px; font-weight:700;
+    border-color:#a4a6a8; border-radius:50%; font-size:8px; font-weight:700;
   }
-  .debug-banner b { font-weight:650; }
+  .debug-banner b { color:#2f3236; font-weight:650; }
   .debug-banner .cancel {
-    margin-left:auto; border:1px solid rgba(80,66,104,.24); border-radius:4px; background:#fff;
-    padding:2px 8px; color:#504268; font-size:8px;
+    margin-left:auto; border:1px solid rgba(24,24,27,.14); border-radius:4px; background:#fff;
+    padding:2px 8px; color:#5f6267; font-size:8px;
   }
   .browser-chrome {
     height:39px; display:grid; grid-template-columns:58px 1fr 20px; align-items:center; gap:7px;
@@ -76,7 +76,7 @@
   .fill { width:var(--w); height:100%; border-radius:inherit; background:#242424; transform-origin:left; }
   .csv-shell { border:1px solid #deded9; border-radius:10px; overflow:hidden; background:#fff; }
   .csv-toolbar { height:34px; display:flex; align-items:center; gap:8px; padding:0 10px; border-bottom:1px solid #e1e1dd; }
-  .csv-icon { width:19px; height:22px; display:grid; place-items:center; border-radius:4px; background:#f5f3ff; color:#6d28d9; font-size:8px; font-weight:750; }
+  .csv-icon { width:19px; height:22px; display:grid; place-items:center; border-radius:4px; background:#f1f1ef; color:#33363a; font-size:8px; font-weight:750; }
   .csv-name { font-size:9px; font-weight:650; }
   .csv-meta { margin-left:auto; color:#8b8c86; font-size:7px; }
   table { width:100%; border-collapse:collapse; font-size:7.5px; }
@@ -130,8 +130,8 @@
     min-height:49px; padding:6px 7px; border:1px solid #deded9; border-radius:10px; background:#fff;
     opacity:0; transform:translateY(9px); box-shadow:0 1px 2px rgba(0,0,0,.02);
   }
-  .doc-icon { position:relative; width:27px; height:31px; padding:7px 5px; border:1px solid #ddd6fe; border-radius:6px; background:#f5f3ff; }
-  .doc-icon::before,.doc-icon::after { content:""; display:block; height:2px; margin-bottom:4px; border-radius:2px; background:#8b5cf6; }
+  .doc-icon { position:relative; width:27px; height:31px; padding:7px 5px; border:1px solid #d9d9d5; border-radius:6px; background:#f7f7f6; }
+  .doc-icon::before,.doc-icon::after { content:""; display:block; height:2px; margin-bottom:4px; border-radius:2px; background:#70737a; }
   .doc-icon::after { width:65%; }
   .file-title { font-size:8.5px; font-weight:700; }
   .file-type { margin-top:2px; color:#898a84; font-size:7.5px; }
@@ -204,8 +204,7 @@
   #rerun-log { position:absolute; left:0; right:0; top:0; }
   .run-flash { position:absolute; inset:0; z-index:8; pointer-events:none; background:#fff; opacity:0; }
   .caption-strip {
-    position:absolute; left:0; right:0; bottom:0; height:48px; display:flex; align-items:center;
-    padding:0 24px; background:#171817; color:#f4f3ee; overflow:hidden;
+    display:none;
   }
   .caption { position:absolute; left:24px; right:24px; font-size:13px; font-weight:520; letter-spacing:-.01em; opacity:0; transform:translateY(5px); }
   .caption .num { color:#a78bfa; margin-right:8px; font-variant-numeric:tabular-nums; }
@@ -347,12 +346,6 @@
         </div>
       </aside>
     </section>
-    <footer class="caption-strip">
-      <div class="caption motion"><span class="num">1</span>Finished report, ready to reuse</div>
-      <div class="caption motion"><span class="num">2</span>Review what it learned</div>
-      <div class="caption motion"><span class="num">3</span>Confirm once, reuse the workflow</div>
-      <div class="caption motion"><span class="num">4</span>Run it again in one click</div>
-    </footer>
   </main>
 </div>
 <script>
@@ -380,6 +373,7 @@
   var useRecipe=document.getElementById("use-recipe");
   var rerunLog=document.getElementById("rerun-log");
   var runFlash=document.getElementById("run-flash");
+  var lastPostedBeat=0;
   function clamp(v,a,b){return Math.max(a,Math.min(b,v));}
   function range(t,a,b){return clamp((t-a)/(b-a),0,1);}
   function expo(t){return t===1?1:1-Math.pow(2,-10*t);}
@@ -433,6 +427,12 @@
       rows[r].style.opacity=1;
       rows[r].style.transform="none";
     }
+    var beat=Math.min(4,Math.floor(t/3)+1);
+    document.body.dataset.beat=String(beat);
+    if(lastPostedBeat!==beat){
+      lastPostedBeat=beat;
+      parent.postMessage({type:"actionbook:beat",beat:beat},"*");
+    }
   }
   function fit(){
     var scale=Math.min(window.innerWidth/760,window.innerHeight/440,1.7);
@@ -442,6 +442,8 @@
     stage.style.transform="translate(-50%,-50%) scale("+scale+")";
   }
   window.addEventListener("resize",fit);fit();
+  window.setTimeout(fit,80);
+  window.setTimeout(fit,420);
   var reduced=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   var time=reduced?DURATION-.35:0,playing=false,lastTick=null;
   function tick(now){

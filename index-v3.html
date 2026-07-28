@@ -49,11 +49,9 @@
 
       <section class="scenes" id="scenes" aria-labelledby="scenes-title">
         <div class="scene-takeover" id="scene-takeover">
-          <div class="scene-grid" aria-hidden="true"></div>
           <div class="shell scenes-inner">
             <header class="scenes-heading">
               <div>
-                <p class="section-index mono">01 · Product proof</p>
                 <h2 id="scenes-title">See it finish.</h2>
               </div>
               <p>
@@ -63,9 +61,6 @@
             </header>
 
             <div class="workbench" id="workbench" data-current="linkedin">
-              <div class="bench-axis bench-axis-x" aria-hidden="true"></div>
-              <div class="bench-axis bench-axis-y" aria-hidden="true"></div>
-
               <div class="bench-shell">
                 <div class="bench-top mono">
                   <span>ACTIONBOOK / LIVE RUN</span>
@@ -75,7 +70,7 @@
 
                 <div class="bench-screen" id="motion-frame">
                   <iframe
-                    src="assets/linkedin-prospecting-motion.html?v=4"
+                    src="assets/linkedin-prospecting-motion.html?v=9"
                     title="Actionbook researching LinkedIn prospects and delivering openers.csv"
                     loading="eager"
                   ></iframe>
@@ -110,14 +105,49 @@
                 </div>
               </div>
 
-              <aside class="result-slip" aria-live="polite">
+              <aside class="result-slip" aria-label="Live run progress">
                 <div class="result-slip-head">
-                  <span class="mono">RUN COMPLETE / 01</span>
+                  <span class="mono" id="run-label">LIVE RUN / 01</span>
                   <i aria-hidden="true"></i>
                 </div>
-                <strong id="result-title">5 prospects researched</strong>
-                <small id="result-output">openers.csv · ready to use</small>
-                <div class="result-slip-foot mono"><span>Delivered</span><b aria-hidden="true">↗</b></div>
+
+                <div class="run-intro">
+                  <span class="mono">WORKING THROUGH</span>
+                  <strong id="run-scene-title">LinkedIn prospecting</strong>
+                </div>
+
+                <ol class="run-stream" id="run-stream" aria-live="polite">
+                  <li class="is-visible is-active" aria-current="step">
+                    <span class="mono">01</span>
+                    <div class="run-copy">
+                      <strong>Find five Series B engineering leaders</strong>
+                    </div>
+                  </li>
+                  <li aria-hidden="true">
+                    <span class="mono">02</span>
+                    <div class="run-copy">
+                      <strong>Open each profile and read recent activity</strong>
+                    </div>
+                  </li>
+                  <li aria-hidden="true">
+                    <span class="mono">03</span>
+                    <div class="run-copy">
+                      <strong>Turn one real observation into each opener</strong>
+                    </div>
+                  </li>
+                  <li aria-hidden="true">
+                    <span class="mono">04</span>
+                    <div class="run-copy">
+                      <strong>Return openers.csv — nothing sent</strong>
+                    </div>
+                  </li>
+                </ol>
+
+                <div class="run-delivery" id="run-delivery" aria-live="polite">
+                  <span class="mono">Finished work</span>
+                  <strong id="result-title">5 prospects researched</strong>
+                  <small id="result-output">openers.csv · ready to use</small>
+                </div>
               </aside>
             </div>
           </div>
@@ -128,7 +158,6 @@
     <section class="trust" id="trust">
       <div class="wrap">
         <div class="trust-head">
-          <p class="section-index mono">02 · Trust &amp; control</p>
           <h2>Off your plate. Not out of your hands.</h2>
         </div>
 
@@ -198,41 +227,66 @@
               <span class="principle-number mono">03</span>
               <div><h3 class="mono">SOURCED</h3><p>Every fact links to the page it came from, so the result holds up.</p></div>
             </div>
-            <div class="principle-visual" tabindex="0" role="img" aria-label="Actionbook result with page-reading steps and linked source references" data-drawing="FIG 2.3">
-              <div class="product-illustration folio-illustration" aria-hidden="true">
-                <span class="illo-label folio-label mono">REAL SITE DATA</span>
-                <div class="folio-stage">
-                  <div class="folio-sheet folio-sheet-one folio-sheet-web">
+            <div class="principle-visual" tabindex="0" role="img" aria-label="Three live web, data, and document sources joining into a traced analysis dashboard" data-drawing="FIG 2.3B">
+              <div class="product-illustration source-dashboard-illustration" aria-hidden="true">
+                <span class="illo-label source-dashboard-label mono">VERIFIABLE INPUTS</span>
+                <span class="source-dashboard-output-label mono">SOURCED ANALYSIS</span>
+
+                <div class="source-deck">
+                  <article class="source-card source-card-web">
                     <small class="mono">01 · WEB</small>
-                    <span class="folio-web-chrome"><i></i><i></i><i></i></span>
-                    <span class="folio-web-hero"></span>
-                    <span class="folio-web-line"></span>
-                    <b></b>
-                  </div>
-                  <div class="folio-sheet folio-sheet-two folio-sheet-table">
+                    <span class="source-web-bar"><i></i><i></i><i></i></span>
+                    <span class="source-web-chart"></span>
+                    <b class="mono">LIVE PAGE ↗</b>
+                  </article>
+                  <article class="source-card source-card-data">
                     <small class="mono">02 · DATA</small>
-                    <span class="folio-table-grid"><i></i><i></i><i></i><i></i><i></i><i></i></span>
-                    <b></b>
-                  </div>
-                  <div class="folio-sheet folio-sheet-three folio-sheet-doc">
+                    <span class="source-data-table"><i></i><i></i><i></i><i></i><i></i><i></i></span>
+                    <b class="mono">CSV ↗</b>
+                  </article>
+                  <article class="source-card source-card-doc">
                     <small class="mono">03 · DOC</small>
-                    <span class="folio-doc-glyph"></span>
-                    <span class="folio-doc-line folio-doc-line-one"></span>
-                    <span class="folio-doc-line folio-doc-line-two"></span>
-                    <span class="folio-doc-line folio-doc-line-three"></span>
-                    <b></b>
-                  </div>
+                    <span class="source-doc-file"></span>
+                    <span class="source-doc-copy"><i></i><i></i><i></i></span>
+                    <b class="mono">REPORT ↗</b>
+                  </article>
                 </div>
-                <svg class="folio-links" viewBox="0 0 560 180" preserveAspectRatio="none">
-                  <path d="M212 61 C294 61 315 74 382 87"></path>
-                  <path d="M280 54 C326 54 345 70 382 87"></path>
-                  <path d="M348 61 C365 66 373 76 382 87"></path>
+
+                <svg class="source-join-links" viewBox="0 0 560 180" preserveAspectRatio="none">
+                  <path d="M154 52 C198 52 205 68 232 86"></path>
+                  <path d="M166 89 C201 89 211 88 232 88"></path>
+                  <path d="M178 127 C205 127 213 106 232 91"></path>
+                  <path class="source-join-output" d="M258 89 C278 89 286 89 303 89"></path>
                 </svg>
-                <span class="join-mark join-mark-sourced"><i>⋈</i><b class="mono">SOURCES JOIN</b></span>
-                <div class="folio-register"><i></i><span>↗</span></div>
-                <span class="folio-axis folio-axis-x"></span>
-                <span class="folio-axis folio-axis-y"></span>
-                <span class="folio-caption mono">OPEN ORIGINAL / TRACE SOURCE</span>
+                <span class="source-join-mark"><i>⋈</i><b class="mono">JOIN</b></span>
+
+                <article class="source-dashboard">
+                  <header>
+                    <div><i></i><span class="mono">ANALYSIS / 03</span></div>
+                    <b class="mono">3 SOURCES LINKED</b>
+                  </header>
+                  <div class="source-dashboard-kpis">
+                    <span><b>12</b><small class="mono">FACTS</small></span>
+                    <span><b>03</b><small class="mono">SOURCES</small></span>
+                    <span><b>100%</b><small class="mono">TRACED</small></span>
+                  </div>
+                  <div class="source-dashboard-main">
+                    <div class="source-donut-panel">
+                      <span class="source-donut"><i>12</i></span>
+                      <div class="source-donut-key mono"><b>WEB</b><b>DATA</b><b>DOC</b></div>
+                    </div>
+                    <div class="source-bars" aria-hidden="true">
+                      <i style="--bar:74%"></i>
+                      <i style="--bar:48%"></i>
+                      <i style="--bar:88%"></i>
+                      <i style="--bar:62%"></i>
+                      <span class="source-bars-line"></span>
+                    </div>
+                  </div>
+                  <footer class="mono"><span>FACT</span><i></i><span>SOURCE</span><b>OPEN ↗</b></footer>
+                </article>
+
+                <span class="source-dashboard-caption mono">EVERY RESULT CELL OPENS ITS ORIGINAL SOURCE</span>
               </div>
             </div>
           </article>
@@ -283,7 +337,6 @@
       <div class="wrap">
         <div class="roles-head">
           <div>
-            <p class="section-index mono">03 · For your work</p>
             <h2>What can it close out for me?</h2>
           </div>
           <p>One real task. One finished artifact.</p>
@@ -376,7 +429,7 @@
                 </div>
                 <div class="role-marketing-gate">
                   <span class="mono">READ INTENT</span>
-                  <i><b>⋈</b></i>
+                  <i aria-hidden="true"></i>
                 </div>
                 <div class="role-marketing-output">
                   <header>
@@ -407,7 +460,7 @@
                   <article><i class="mono">𝕏</i><p>“Would pay if it worked behind login.”</p><em>↗</em></article>
                 </div>
                 <div class="role-product-clusters">
-                  <header class="mono"><span><i class="role-join-symbol">⋈</i> EVIDENCE MAP</span><b>12 VOICES</b></header>
+                  <header class="mono"><span>EVIDENCE MAP</span><b>12 VOICES</b></header>
                   <div class="role-cluster-row"><i></i><span>Manual workflow</span><b>06</b></div>
                   <div class="role-cluster-row"><i></i><span>Login wall</span><b>04</b></div>
                   <div class="role-cluster-row"><i></i><span>Willingness to pay</span><b>02</b></div>
@@ -450,7 +503,7 @@
                   </div>
                   <footer class="mono"><span>REACH BY FORMAT</span><b>REELS</b></footer>
                 </div>
-                <span class="role-creator-route"><i>⋈</i></span>
+                <span class="role-creator-route"><i aria-hidden="true">→</i></span>
                 <div class="role-creator-audit">
                   <header>
                     <span class="role-file-icon mono">MD</span>
@@ -468,80 +521,166 @@
           </div>
         </div>
 
-        <div class="solo solo-crossflow" tabindex="0">
-          <div class="solo-copy">
-            <div class="solo-identity">
-              <strong>Solo Founder</strong>
-              <span class="mono">CROSS-FUNCTION WORK</span>
-            </div>
-            <h3>When every job is yours.</h3>
-            <p>Actionbook moves one job across research, product, and pricing—and hands back a sourced brief without waiting for a teammate you don’t have.</p>
-            <div class="solo-task mono">
-              <span>OPEN JOB / 01</span>
-              <b>Compare competitor pricing</b>
+        <div class="solo solo-rail solo-takeover" id="solo-founder">
+          <div class="solo-cover-mask" aria-hidden="true"></div>
+
+          <a class="solo-role-item" href="https://actionbook.dev/use-cases">
+            <span class="role-number mono">05</span>
+            <span class="solo-role-copy">
+              <span class="solo-role-kicker mono">Solo Founder</span>
+              <strong class="solo-role-title">Every job is yours.</strong>
+              <span class="solo-role-summary">Actionbook handles the browser work that would otherwise wait for a teammate.</span>
+              <span class="solo-role-link mono">View use case <i aria-hidden="true">↗</i></span>
+            </span>
+          </a>
+
+          <div class="solo-rail-join" aria-hidden="true">⋈</div>
+
+          <div class="solo-rail-stage">
+            <header class="solo-rail-head">
+              <p class="mono">Work you can hand off</p>
+              <a class="solo-rail-all mono" href="https://actionbook.dev/use-cases">
+                View all use cases <span aria-hidden="true">↗</span>
+              </a>
+            </header>
+
+            <nav class="solo-rail-links" aria-label="Solo Founder use cases">
+              <a href="https://actionbook.dev/use-cases/linkedin-prospecting">Prospect research <span aria-hidden="true">↗</span></a>
+              <a href="https://actionbook.dev/use-cases/social-research">Buyer signals <span aria-hidden="true">↗</span></a>
+              <a href="https://actionbook.dev/use-cases/idea-validation">Idea validation <span aria-hidden="true">↗</span></a>
+              <a href="https://actionbook.dev/use-cases/social-media-audit">Account audit <span aria-hidden="true">↗</span></a>
+              <a href="https://actionbook.dev/use-cases">Saved Recipe <span aria-hidden="true">↗</span></a>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="voices" id="voices" aria-labelledby="voices-title">
+      <div class="wrap">
+        <header class="voices-head">
+          <h2 id="voices-title">Real work. In their words.</h2>
+          <p>One quote. One job. One finished result.</p>
+        </header>
+
+        <!-- Mock identities and copy. Replace with approved Pro C testimonials before publishing. -->
+        <div class="testimonial-flow" aria-label="Customer testimonials">
+          <div class="testimonial-row testimonial-row-forward">
+            <div class="testimonial-track">
+              <div class="testimonial-set">
+                <article class="testimonial-card">
+                  <blockquote>“The openers came back grounded in what each person had actually said—not a generic template.”</blockquote>
+                  <footer>
+                    <img src="assets/mock-avatar-01.svg" alt="" />
+                    <div><b>Maya Chen</b><small>Growth Lead · Atlas Labs</small></div>
+                    <span class="mono">OPENERS.CSV</span>
+                  </footer>
+                </article>
+                <article class="testimonial-card">
+                  <blockquote>“It worked inside the tools we already use and came back with the report instead of another answer.”</blockquote>
+                  <footer>
+                    <img src="assets/mock-avatar-02.svg" alt="" />
+                    <div><b>Daniel Ortiz</b><small>Solo Founder · Northstar</small></div>
+                    <span class="mono">REPORT.MD</span>
+                  </footer>
+                </article>
+                <article class="testimonial-card">
+                  <blockquote>“Every finding still opened its original source. That made the result easy to trust and share.”</blockquote>
+                  <footer>
+                    <img src="assets/mock-avatar-03.svg" alt="" />
+                    <div><b>Priya Shah</b><small>Product Manager · Fieldnote</small></div>
+                    <span class="mono">VERDICT.MD</span>
+                  </footer>
+                </article>
+              </div>
+              <div class="testimonial-set" aria-hidden="true">
+                <article class="testimonial-card">
+                  <blockquote>“The openers came back grounded in what each person had actually said—not a generic template.”</blockquote>
+                  <footer><img src="assets/mock-avatar-01.svg" alt="" /><div><b>Maya Chen</b><small>Growth Lead · Atlas Labs</small></div><span class="mono">OPENERS.CSV</span></footer>
+                </article>
+                <article class="testimonial-card">
+                  <blockquote>“It worked inside the tools we already use and came back with the report instead of another answer.”</blockquote>
+                  <footer><img src="assets/mock-avatar-02.svg" alt="" /><div><b>Daniel Ortiz</b><small>Solo Founder · Northstar</small></div><span class="mono">REPORT.MD</span></footer>
+                </article>
+                <article class="testimonial-card">
+                  <blockquote>“Every finding still opened its original source. That made the result easy to trust and share.”</blockquote>
+                  <footer><img src="assets/mock-avatar-03.svg" alt="" /><div><b>Priya Shah</b><small>Product Manager · Fieldnote</small></div><span class="mono">VERDICT.MD</span></footer>
+                </article>
+              </div>
+              <div class="testimonial-set" aria-hidden="true">
+                <article class="testimonial-card">
+                  <blockquote>“The openers came back grounded in what each person had actually said—not a generic template.”</blockquote>
+                  <footer><img src="assets/mock-avatar-01.svg" alt="" /><div><b>Maya Chen</b><small>Growth Lead · Atlas Labs</small></div><span class="mono">OPENERS.CSV</span></footer>
+                </article>
+                <article class="testimonial-card">
+                  <blockquote>“It worked inside the tools we already use and came back with the report instead of another answer.”</blockquote>
+                  <footer><img src="assets/mock-avatar-02.svg" alt="" /><div><b>Daniel Ortiz</b><small>Solo Founder · Northstar</small></div><span class="mono">REPORT.MD</span></footer>
+                </article>
+                <article class="testimonial-card">
+                  <blockquote>“Every finding still opened its original source. That made the result easy to trust and share.”</blockquote>
+                  <footer><img src="assets/mock-avatar-03.svg" alt="" /><div><b>Priya Shah</b><small>Product Manager · Fieldnote</small></div><span class="mono">VERDICT.MD</span></footer>
+                </article>
+              </div>
             </div>
           </div>
 
-          <div class="solo-stage" role="img" aria-label="Three competitor pricing pages are opened, read, and compared by Actionbook, producing a sourced competitor pricing brief">
-            <span class="solo-stage-label solo-stage-label-left mono">LIVE PRICING PAGES</span>
-            <span class="solo-stage-label solo-stage-label-right mono">FINISHED ARTIFACT</span>
-
-            <div class="solo-source-stack" aria-hidden="true">
-              <article class="solo-source solo-source-a">
-                <span class="mono">PRODUCT A</span>
-                <i></i><i></i><i></i>
-                <b>Pricing</b>
-              </article>
-              <article class="solo-source solo-source-b">
-                <span class="mono">PRODUCT B</span>
-                <i></i><i></i><i></i>
-                <b>Plans</b>
-              </article>
-              <article class="solo-source solo-source-c">
-                <span class="mono">PRODUCT C</span>
-                <i></i><i></i><i></i>
-                <b>Billing</b>
-              </article>
-            </div>
-
-            <div class="solo-route" aria-hidden="true">
-              <div class="solo-route-line"><i></i></div>
-              <div class="solo-join">
-                <span>⋈</span>
-                <b class="mono">JOIN</b>
-                <small class="mono">PLAN / PRICE / TERMS</small>
+          <div class="testimonial-row testimonial-row-reverse">
+            <div class="testimonial-track">
+              <div class="testimonial-set">
+                <article class="testimonial-card">
+                  <blockquote>“The account audit turned scattered analytics into a short list of changes I could act on.”</blockquote>
+                  <footer>
+                    <img src="assets/mock-avatar-04.svg" alt="" />
+                    <div><b>Lena Park</b><small>Creator · Independent</small></div>
+                    <span class="mono">AUDIT.MD</span>
+                  </footer>
+                </article>
+                <article class="testimonial-card">
+                  <blockquote>“I could see the plan, confirm the big move, and pause it. It felt like I was still driving.”</blockquote>
+                  <footer>
+                    <img src="assets/mock-avatar-05.svg" alt="" />
+                    <div><b>Marcus Reed</b><small>Sales Director · Chapter</small></div>
+                    <span class="mono">5 DRAFTS</span>
+                  </footer>
+                </article>
+                <article class="testimonial-card">
+                  <blockquote>“Once the first run matched how I work, I saved the Recipe. The next week was mostly review.”</blockquote>
+                  <footer>
+                    <img src="assets/mock-avatar-06.svg" alt="" />
+                    <div><b>Sofia Marin</b><small>Operations Lead · Orbit</small></div>
+                    <span class="mono">SAVED RECIPE</span>
+                  </footer>
+                </article>
               </div>
-              <ol class="mono">
-                <li><b>01</b><span>OPEN</span></li>
-                <li><b>02</b><span>EXTRACT</span></li>
-                <li><b>03</b><span>COMPARE</span></li>
-              </ol>
-            </div>
-
-            <div class="solo-brief" aria-hidden="true">
-              <header>
-                <span class="role-file-icon mono">MD</span>
-                <div>
-                  <b>competitor-pricing-brief.md</b>
-                  <small class="mono">5 FINDINGS · SOURCES LINKED</small>
-                </div>
-              </header>
-              <div class="solo-brief-row">
-                <span>Entry plans</span><b>$19–$24</b><i>↗</i>
+              <div class="testimonial-set" aria-hidden="true">
+                <article class="testimonial-card">
+                  <blockquote>“The account audit turned scattered analytics into a short list of changes I could act on.”</blockquote>
+                  <footer><img src="assets/mock-avatar-04.svg" alt="" /><div><b>Lena Park</b><small>Creator · Independent</small></div><span class="mono">AUDIT.MD</span></footer>
+                </article>
+                <article class="testimonial-card">
+                  <blockquote>“I could see the plan, confirm the big move, and pause it. It felt like I was still driving.”</blockquote>
+                  <footer><img src="assets/mock-avatar-05.svg" alt="" /><div><b>Marcus Reed</b><small>Sales Director · Chapter</small></div><span class="mono">5 DRAFTS</span></footer>
+                </article>
+                <article class="testimonial-card">
+                  <blockquote>“Once the first run matched how I work, I saved the Recipe. The next week was mostly review.”</blockquote>
+                  <footer><img src="assets/mock-avatar-06.svg" alt="" /><div><b>Sofia Marin</b><small>Operations Lead · Orbit</small></div><span class="mono">SAVED RECIPE</span></footer>
+                </article>
               </div>
-              <div class="solo-brief-row">
-                <span>Annual discount</span><b>18%</b><i>↗</i>
+              <div class="testimonial-set" aria-hidden="true">
+                <article class="testimonial-card">
+                  <blockquote>“The account audit turned scattered analytics into a short list of changes I could act on.”</blockquote>
+                  <footer><img src="assets/mock-avatar-04.svg" alt="" /><div><b>Lena Park</b><small>Creator · Independent</small></div><span class="mono">AUDIT.MD</span></footer>
+                </article>
+                <article class="testimonial-card">
+                  <blockquote>“I could see the plan, confirm the big move, and pause it. It felt like I was still driving.”</blockquote>
+                  <footer><img src="assets/mock-avatar-05.svg" alt="" /><div><b>Marcus Reed</b><small>Sales Director · Chapter</small></div><span class="mono">5 DRAFTS</span></footer>
+                </article>
+                <article class="testimonial-card">
+                  <blockquote>“Once the first run matched how I work, I saved the Recipe. The next week was mostly review.”</blockquote>
+                  <footer><img src="assets/mock-avatar-06.svg" alt="" /><div><b>Sofia Marin</b><small>Operations Lead · Orbit</small></div><span class="mono">SAVED RECIPE</span></footer>
+                </article>
               </div>
-              <div class="solo-brief-row">
-                <span>Enterprise</span><b>Custom</b><i>↗</i>
-              </div>
-              <footer class="mono"><i></i> PRICING BRIEF READY</footer>
             </div>
-
-            <div class="solo-function-rail mono" aria-hidden="true">
-              <span>RESEARCH</span><i></i><span>PRODUCT</span><i></i><span>PRICING</span>
-            </div>
-            <span class="solo-fig mono">FIG 3.5 · ONE JOB / THREE FUNCTIONS / ONE FINISHED BRIEF</span>
           </div>
         </div>
       </div>
@@ -555,42 +694,57 @@
           <div class="good mono">CHROME EXTENSION · LOGINS STAY ON THIS DEVICE · REVIEW THE PLAN · STOP ANY RUN</div>
         </div>
 
-        <div class="tab-field brand-playground" id="brand-playground">
+        <div class="tab-field brand-playground work-atlas-v2" id="brand-playground" data-version="work-atlas-v2">
           <canvas class="brand-trail" id="brand-trail" aria-hidden="true"></canvas>
           <div class="brand-grid" aria-hidden="true"></div>
           <div class="brand-orbit brand-orbit-one" aria-hidden="true"></div>
           <div class="brand-orbit brand-orbit-two" aria-hidden="true"></div>
-          <div class="brand-wordmark brand-wordmark-outline" aria-hidden="true">actionbook</div>
-          <div class="brand-wordmark brand-wordmark-fill" aria-hidden="true">actionbook</div>
+          <div class="brand-wordmark brand-wordmark-outline" aria-hidden="true">Actionbook</div>
+          <div class="brand-wordmark brand-wordmark-fill" aria-hidden="true">Actionbook</div>
           <div class="brand-followers" aria-hidden="true"><i></i><i></i><i></i></div>
-          <div class="brand-sheet-index mono" aria-hidden="true">ACTIONBOOK / BRAND STRUCTURE 01</div>
+          <div class="brand-sheet-index mono" aria-hidden="true">ACTIONBOOK / WORK ATLAS</div>
           <div class="brand-coordinate mono" id="brand-coordinate" aria-hidden="true">X 000 · Y 000</div>
-          <div class="brand-approval mono" aria-hidden="true"><span>✓</span> READY TO RUN</div>
+          <div class="brand-approval mono" aria-hidden="true"><span></span> 12 WORKSETS · MAGNETIC FIELD</div>
 
-          <button class="brand-particle brand-particle-wide" style="--x:15;--y:24;--r:-4deg" data-x="15" data-y="24" data-follow=".035" type="button">
-            <i>↗</i><span>SOURCED</span><small>facts kept</small>
+          <button class="work-card work-card-primary" style="--r:-3deg" data-x="15" data-y="23" data-follow=".052" data-tier="primary" type="button">
+            <i class="mono">01</i><span>Prospect Research</span><small>find · enrich · ground</small>
           </button>
-          <button class="brand-particle" style="--x:77;--y:21;--r:3deg" data-x="77" data-y="21" data-follow=".06" type="button">
-            <i>◇</i><span>RECIPE</span><small>ready</small>
+          <button class="work-card work-card-primary" style="--r:2deg" data-x="78" data-y="20" data-follow=".038" data-tier="primary" type="button">
+            <i class="mono">02</i><span>Competitor Watch</span><small>pricing · launches · changes</small>
           </button>
-          <button class="brand-particle brand-particle-tall" style="--x:12;--y:69;--r:5deg" data-x="12" data-y="69" data-follow=".08" type="button">
-            <i>Ⅱ</i><span>SIDE BY SIDE</span><small>in your browser</small>
+          <button class="work-card work-card-primary" style="--r:-2deg" data-x="85" data-y="48" data-follow=".061" data-tier="primary" type="button">
+            <i class="mono">03</i><span>Performance Report</span><small>signed-in data · weekly</small>
           </button>
-          <button class="brand-particle brand-particle-stat" style="--x:84;--y:66;--r:-5deg" data-x="84" data-y="66" data-follow=".045" type="button">
-            <i>10×</i><span>FASTER</span><small>direct to source</small>
+          <button class="work-card work-card-primary" style="--r:3deg" data-x="76" data-y="77" data-follow=".045" data-tier="primary" type="button">
+            <i class="mono">04</i><span>Feedback Synthesis</span><small>reviews · support · community</small>
           </button>
-          <button class="brand-particle brand-particle-dot" style="--x:31;--y:82;--r:-2deg" data-x="31" data-y="82" data-follow=".1" type="button">
-            <i>✓</i><span>YOURS</span><small>you approve</small>
+          <button class="work-card work-card-primary" style="--r:-2deg" data-x="18" data-y="76" data-follow=".057" data-tier="primary" type="button">
+            <i class="mono">05</i><span>Buyer Signals</span><small>jobs · funding · intent</small>
           </button>
-          <button class="brand-particle brand-particle-dot" style="--x:67;--y:81;--r:4deg" data-x="67" data-y="81" data-follow=".075" type="button">
-            <i>87%</i><span>LESS</span><small>only what matters</small>
+          <button class="work-card work-card-primary" style="--r:2deg" data-x="12" data-y="48" data-follow=".034" data-tier="primary" type="button">
+            <i class="mono">06</i><span>Price Monitor</span><small>price · stock · alert</small>
           </button>
 
-          <button class="brand-core" id="brand-core" type="button" aria-pressed="false">
-            <span>AB</span><small class="mono">ACTIONBOOK</small>
+          <button class="work-card work-card-placeholder" style="--r:1deg" data-x="36" data-y="16" data-follow=".022" data-tier="placeholder" type="button">
+            <i class="mono">07</i><span>Social Listening</span><small>Recipe slot</small>
           </button>
-          <p class="brand-play-hint mono"><span>TRACE</span><span>DRAG NOTES</span><span>STAMP TO BUILD</span></p>
-          <div class="brand-signoff mono" aria-hidden="true">OPEN ACTIONBOOK · CLOSE OUT WEB WORK</div>
+          <button class="work-card work-card-placeholder" style="--r:-1deg" data-x="62" data-y="16" data-follow=".029" data-tier="placeholder" type="button">
+            <i class="mono">08</i><span>Inbox Triage</span><small>Recipe slot</small>
+          </button>
+          <button class="work-card work-card-placeholder" style="--r:-2deg" data-x="31" data-y="46" data-follow=".018" data-tier="placeholder" type="button">
+            <i class="mono">09</i><span>CRM Sync</span><small>Recipe slot</small>
+          </button>
+          <button class="work-card work-card-placeholder" style="--r:2deg" data-x="69" data-y="45" data-follow=".026" data-tier="placeholder" type="button">
+            <i class="mono">10</i><span>Creator Audit</span><small>Recipe slot</small>
+          </button>
+          <button class="work-card work-card-placeholder" style="--r:1deg" data-x="36" data-y="83" data-follow=".031" data-tier="placeholder" type="button">
+            <i class="mono">11</i><span>Payment Tracking</span><small>Recipe slot</small>
+          </button>
+          <button class="work-card work-card-placeholder" style="--r:-1deg" data-x="62" data-y="83" data-follow=".020" data-tier="placeholder" type="button">
+            <i class="mono">12</i><span>Saved Recipe</span><small>rerun with new inputs</small>
+          </button>
+
+          <div class="brand-signoff mono" aria-hidden="true">RESEARCH · MONITOR · REPORT · OPERATE</div>
         </div>
       </div>
     </section>
@@ -611,26 +765,47 @@
         linkedin: {
           title: "LinkedIn prospecting",
           frameTitle: "Actionbook researching LinkedIn prospects and delivering openers.csv",
-          src: "assets/linkedin-prospecting-motion.html?v=4",
+          src: "assets/linkedin-prospecting-motion.html?v=9",
           result: "5 prospects researched",
           artifact: "openers.csv · ready to use",
-          receipt: "RUN COMPLETE / 01"
+          receipt: "LIVE RUN / 01",
+          typingDelay: 65,
+          steps: [
+            "Find five Series B engineering leaders",
+            "Open each profile and read recent activity",
+            "Turn one real observation into each opener",
+            "Return openers.csv — nothing sent"
+          ]
         },
         monday: {
           title: "Monday report",
           frameTitle: "Actionbook turning a Monday report into a reusable Recipe and running it again",
-          src: "assets/weekly-report-motion.html?v=4",
+          src: "assets/weekly-report-motion.html?v=8",
           result: "Monday report prepared",
           artifact: "report + Recipe · ready to use",
-          receipt: "RUN COMPLETE / 02"
+          receipt: "LIVE RUN / 02",
+          typingDelay: 62,
+          steps: [
+            "Open the finished weekly report",
+            "Learn the repeatable steps behind it",
+            "Save those steps as a reusable Recipe",
+            "Run the Recipe with this week’s data"
+          ]
         },
         creator: {
           title: "Creator performance report",
           frameTitle: "Actionbook reading creator analytics and delivering a sourced performance report",
-          src: "assets/creator-performance-motion.html?v=4",
+          src: "assets/creator-performance-motion.html?v=10",
           result: "3 signed-in sources read",
           artifact: "report + raw data · ready to use",
-          receipt: "RUN COMPLETE / 03"
+          receipt: "LIVE RUN / 03",
+          typingDelay: 64,
+          steps: [
+            "Open three signed-in analytics dashboards",
+            "Read each source in its native structure",
+            "Connect every finding to its source metric",
+            "Return the report with raw data attached"
+          ]
         }
       };
 
@@ -642,10 +817,83 @@
       const pauseLabel = pauseButton.querySelector("span");
       const benchTitle = document.getElementById("bench-title");
       const resultSlip = document.querySelector(".result-slip");
+      const runLabel = document.getElementById("run-label");
+      const runStream = document.getElementById("run-stream");
+      const runSceneTitle = document.getElementById("run-scene-title");
+      const runDelivery = document.getElementById("run-delivery");
       const resultTitle = document.getElementById("result-title");
       const resultOutput = document.getElementById("result-output");
       let current = "linkedin";
       let paused = false;
+      let hasCompletedRun = false;
+      let runTypingComplete = false;
+      let runTypingToken = 0;
+
+      function revealRunDelivery() {
+        runDelivery.classList.toggle("is-visible", hasCompletedRun && runTypingComplete);
+      }
+
+      function setRunBeat(beat) {
+        const activeBeat = Math.max(1, Math.min(4, Number(beat) || 1));
+        if (activeBeat !== 4 || hasCompletedRun) return;
+        hasCompletedRun = true;
+        revealRunDelivery();
+      }
+
+      function waitForTyping(ms) {
+        return new Promise((resolve) => window.setTimeout(resolve, ms));
+      }
+
+      async function populateRun(scene) {
+        const typingToken = ++runTypingToken;
+        const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        hasCompletedRun = false;
+        runTypingComplete = false;
+        runLabel.textContent = scene.receipt;
+        runSceneTitle.textContent = scene.title;
+        runDelivery.classList.remove("is-visible");
+        [...runStream.children].forEach((item, index) => {
+          item.classList.remove("is-visible", "is-done", "is-active");
+          item.setAttribute("aria-hidden", "true");
+          item.removeAttribute("aria-current");
+          item.querySelector("strong").textContent = reducedMotion ? scene.steps[index] : "";
+        });
+        resultTitle.textContent = scene.result;
+        resultOutput.textContent = scene.artifact;
+
+        if (reducedMotion) {
+          [...runStream.children].forEach((item) => {
+            item.classList.add("is-visible", "is-done");
+            item.removeAttribute("aria-hidden");
+          });
+          runTypingComplete = true;
+          revealRunDelivery();
+          return;
+        }
+
+        for (const [index, item] of [...runStream.children].entries()) {
+          if (typingToken !== runTypingToken) return;
+          const copy = item.querySelector("strong");
+          const line = scene.steps[index];
+          item.classList.add("is-visible", "is-active");
+          item.removeAttribute("aria-hidden");
+          item.setAttribute("aria-current", "step");
+
+          for (let character = 1; character <= line.length; character += 1) {
+            if (typingToken !== runTypingToken) return;
+            copy.textContent = line.slice(0, character);
+            await waitForTyping(scene.typingDelay);
+          }
+
+          item.classList.remove("is-active");
+          item.classList.add("is-done");
+          item.removeAttribute("aria-current");
+        }
+
+        if (typingToken !== runTypingToken) return;
+        runTypingComplete = true;
+        revealRunDelivery();
+      }
 
       function setPaused(nextPaused) {
         paused = nextPaused;
@@ -667,9 +915,7 @@
           iframe.src = scene.src;
           iframe.title = scene.frameTitle;
           benchTitle.textContent = scene.title;
-          resultSlip.querySelector("span").textContent = scene.receipt;
-          resultTitle.textContent = scene.result;
-          resultOutput.textContent = scene.artifact;
+          populateRun(scene);
           buttons.forEach((button) => {
             const active = button.dataset.scene === key;
             button.classList.toggle("active", active);
@@ -685,12 +931,19 @@
         button.addEventListener("click", () => selectScene(button.dataset.scene));
       });
 
+      window.addEventListener("message", (event) => {
+        if (event.source !== iframe.contentWindow) return;
+        if (event.data?.type !== "actionbook:beat") return;
+        setRunBeat(event.data.beat);
+      });
+
       pauseButton.addEventListener("click", () => setPaused(!paused));
+      populateRun(scenes[current]);
     })();
   </script>
   <script src="homepage-v3-takeover.js"></script>
   <script src="homepage-v3-trust.js"></script>
   <script src="homepage-v3-roles.js"></script>
-  <script src="homepage-v3-brand.js"></script>
+  <script src="homepage-v3-brand-v2.js"></script>
 </body>
 </html>

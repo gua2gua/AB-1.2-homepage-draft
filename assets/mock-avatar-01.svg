@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96" role="img" aria-label="Mock portrait of Maya Chen">
+  <rect width="96" height="96" fill="#ececea"/>
+  <path d="M17 96c2-20 13-31 31-31s29 11 31 31" fill="#dad7d2"/>
+  <path d="M31 37c0-14 7-22 18-22 12 0 19 8 19 22v11c0 14-8 24-19 24-10 0-18-10-18-24z" fill="#d9b9a2"/>
+  <path d="M29 40c-2-17 5-29 20-29 15 0 23 11 21 28-7-1-12-5-16-11-6 7-13 11-25 12z" fill="#26282c"/>
+  <path d="M39 48h3M56 48h3M46 59c2 1 4 1 6 0" stroke="#3b3330" stroke-width="2" stroke-linecap="round"/>
+  <path d="M34 73l14 9 15-9 9 23H25z" fill="#f7f7f5"/>
+  <path d="M48 82v14" stroke="#7c3aed" stroke-width="2"/>
+</svg>
