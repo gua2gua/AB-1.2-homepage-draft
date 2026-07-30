@@ -1,5 +1,18 @@
 # Homepage v3 — Team Handoff
 
+> Archived 2026-07-30. The review draft has been migrated to
+> `actionbook-cloud` PR #1687 and merged into `feat/sidebar_chat`.
+> This file describes the historical preview repository; do not use it as the
+> current product, copy, CTA, route, metadata, or release source of truth.
+
+## Final implementation
+
+- Current code: `actionbook-cloud/cloud/website/components/landing-v3/`
+- Entry: `actionbook-cloud/cloud/website/app/page.tsx`
+- PR: https://github.com/actionbook/actionbook-cloud/pull/1687
+- The preview is frozen as a design-process artifact. Future homepage work
+  belongs in `actionbook-cloud`, not this repository.
+
 ## Review link
 
 https://gua2gua.github.io/AB-1.2-homepage-draft/
@@ -21,7 +34,7 @@ The current narrative order is:
 3. Off your plate. Not out of your hands.
 4. Role use cases: Sales, Marketing, Product, Creator.
 5. Solo Founder as the cross-function use-case entry.
-6. User testimonials.
+6. Illustrative role scenarios, not customer testimonials.
 7. Final CTA and interactive Actionbook work atlas.
 
 ## Edit map
@@ -37,7 +50,7 @@ The current narrative order is:
 | LinkedIn product demo | `assets/linkedin-prospecting-motion.html` | Realistic browser + sidebar UI |
 | Weekly report demo | `assets/weekly-report-motion.html` | Recipe/repeat workflow |
 | Creator report demo | `assets/creator-performance-motion.html` | Dashboard and source-linked reporting |
-| Mock testimonial avatars | `assets/mock-avatar-*.svg` | Replace when approved Pro C references arrive |
+| Illustrative avatars | `assets/mock-avatar-*.svg` | Historical preview assets; final implementation keeps the section explicitly illustrative |
 | Previous interactive experiment | `_rollback/` | Kept only as a rollback reference |
 
 ## Locked direction
@@ -54,9 +67,11 @@ The current narrative order is:
 - Do not use the Actionbook bow-tie / natural-join mark as a generic icon. Use it
   only where the concept is explicitly joining sources, work, or roles.
 
-## Known placeholders
+## Historical preview limitations
 
-- Testimonial names, companies, roles, quotes, and avatars are mock data.
+- Testimonial-like names, companies, roles, quotes, and avatars were mock data.
+  The final implementation removed customer-endorsement framing and labels the
+  section `Illustrative scenarios`.
 - Some use-case and footer links are placeholders or route to broad use-case
   pages.
 - Demo datasets and dashboard values illustrate the interaction; they are not
@@ -64,6 +79,9 @@ The current narrative order is:
 - CTA links are visual review targets, not the production acquisition flow.
 
 ## How to propose a detail change
+
+The workflow below applied before the Next.js migration. Do not use it for new
+homepage work.
 
 1. Create a branch from `main`.
 2. Change the smallest relevant file from the edit map above.
