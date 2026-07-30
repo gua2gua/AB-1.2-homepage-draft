@@ -1,5 +1,10 @@
 # Actionbook Homepage v3 — Team Review
 
+> Archived 2026-07-30. The accepted design was migrated to
+> `actionbook-cloud` PR #1687 and merged into `feat/sidebar_chat`.
+> This repository is a historical review artifact, not the current homepage.
+> Future changes belong in `actionbook-cloud/cloud/website/components/landing-v3/`.
+
 Homepage redesign draft for internal review.
 
 **Preview:** https://gua2gua.github.io/AB-1.2-homepage-draft/

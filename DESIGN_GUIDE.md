@@ -1,5 +1,10 @@
 # Homepage v3 — Design Guide
 
+> Archived 2026-07-30. This is the static review checkpoint's historical
+> contract. The current engineering guide is
+> `actionbook-cloud/cloud/website/design/homepage-design-guide.md` in PR #1596,
+> grounded in the accepted `landing-v3` implementation from PR #1687.
+
 This file records the review checkpoint's working visual contract. It is not a
 replacement for the production design system.
 
