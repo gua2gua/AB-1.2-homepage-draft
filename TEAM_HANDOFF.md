@@ -31,7 +31,7 @@ The current narrative order is:
 
 1. Open Actionbook. Close out web work.
 2. See it finish.
-3. Off your plate. Not out of your hands.
+3. Hand off the work. Stay in control.
 4. Role use cases: Sales, Marketing, Product, Creator.
 5. Solo Founder as the cross-function use-case entry.
 6. Illustrative role scenarios, not customer testimonials.
